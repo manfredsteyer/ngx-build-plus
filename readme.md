@@ -4,7 +4,7 @@ Extend the Angular CLI's default build behavior without ejecting:
 
 - 📦 Build a single bundle (e. g. for Angular Elements)
 - 📄 Extend the default behavior by providing a **partial** config that just contains your additional settings
-- ☑️ Inhertis from the default builder, hence you have the same options
+- ☑️ Inherits from the default builder, hence you have the same options
 - 🍰 Simple to use 
 - ⏏️ No eject needed
 
