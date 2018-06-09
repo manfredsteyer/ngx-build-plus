@@ -1,0 +1,9 @@
+{
+  "builders": {
+    "build": {
+      "class": "./src/plus",
+      "schema": "./src/plus/schema.json",
+      "description": "Extensible Builder"
+    }
+  }
+}
