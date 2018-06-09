@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extensible Builder for the Angular CLI suitable not only for Angular Elements.",
   "license": "MIT",
   "repository": {
@@ -32,6 +32,6 @@
     "cpr": "^3.0.1",
     "typescript": "^2.9.1",
     "webpack": "^4.6.0",
-    "webpack-merge": "^4.1.2" 
+    "webpack-merge": "^4.1.2"
   }
 }

@@ -20,9 +20,13 @@ Using an partial webpack config, you could e. g. define packages as externals. T
 
 Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](https://twitter.com/davidh_23)!
 
+## Example
+
+https://github.com/manfredsteyer/ngx-build-plus
+
 ## Usage
 
-The next steps guides you trough getting started with ``ngx-build-plus`` by an example that uses Angular Elements. The result of this description can be found in the ``sample`` directory.
+The next steps guides you trough getting started with ``ngx-build-plus`` by an example that uses Angular Elements. The result of this description can be found in the [repository's](https://github.com/manfredsteyer/ngx-build-plus) ``sample`` directory.
 
 1. Create a new Angular CLI based project and install ``@angular/elements`` as well as ``@webcomponents/custom-elements`` which provides needed polyfills:
 
