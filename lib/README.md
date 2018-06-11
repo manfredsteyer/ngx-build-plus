@@ -10,7 +10,7 @@ Extend the Angular CLI's default build behavior without ejecting:
 
 ## Useful not only for Angular Elements
 
-The original use case for this was to create a bundles for Angular Elements by extending the CLI's default builder. Besides this,``ngx-build-plus`` is also usable when you want to enhance other build setups with a partial webpack config.
+The original use case for this was to create a bundle for Angular Elements by extending the CLI's default builder. Besides this,``ngx-build-plus`` is also usable when you want to enhance other build setups with a partial webpack config.
 
 It allows you to provide a single bundle that can be distributed easily.
 
@@ -19,6 +19,10 @@ Using an partial webpack config, you could e. g. define packages as externals. T
 ## Credits
 
 Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](https://twitter.com/davidh_23)!
+
+## Tested with CLI 6.0.0
+
+This package has been created and tested with Angular CLI 6.0.0. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
 
 ## Example
 
