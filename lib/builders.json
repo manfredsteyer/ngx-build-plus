@@ -4,6 +4,11 @@
       "class": "./src/plus",
       "schema": "./src/plus/schema.json",
       "description": "Extensible Builder"
+    },
+    "dev-server": {
+      "class": "./src/plus-dev-server",
+      "schema": "./src/plus-dev-server/schema.json",
+      "description": "Extensible Builder using dev-server"
     }
   }
 }
