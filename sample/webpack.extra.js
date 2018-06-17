@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
     "externals": {
         "rxjs": "rxjs",
@@ -5,5 +7,10 @@ module.exports = {
         "@angular/common": "ng.common",
         "@angular/platform-browser": "ng.platformBrowser",
         "@angular/elements": "ng.elements"
-    }
+    },
+    plugins: [ // Just an example for adding plugins
+        new webpack.DefinePlugin({
+            "VERSION": JSON.stringify("4711")
+        })
+    ]
 }

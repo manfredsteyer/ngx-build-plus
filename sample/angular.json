@@ -24,11 +24,6 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "scripts": [
-              {
-                "input": "node_modules/document-register-element/build/document-register-element.js"
-              }
             ]
           },
           "configurations": {
@@ -52,7 +47,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "elements-loading:build"
           },

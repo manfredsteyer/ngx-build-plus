@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+declare let VERSION: string;
+
 @Component({
 
   // templateUrl: './app.component.html',
@@ -8,4 +10,8 @@ import { Component } from '@angular/core';
   
 })
 export class AppComponent {
+  constructor() {
+    console.debug('started!');
+    console.debug('VERSION', VERSION);
+  }
 }
