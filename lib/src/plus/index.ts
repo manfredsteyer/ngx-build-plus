@@ -15,8 +15,6 @@ export class PlusBuilder extends BrowserBuilder  {
     options: PlusBuilderSchema,
   ) {
 
-    const elementsOptions = options as PlusBuilderSchema;
-
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
     if (options.singleBundle) {

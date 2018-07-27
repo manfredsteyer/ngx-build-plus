@@ -20,9 +20,14 @@ Using an partial webpack config, you could e. g. define packages as externals. T
 
 Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](https://twitter.com/davidh_23)!
 
-## Tested with CLI 6.0.x
+## Versions
 
-This package has been created and tested with Angular CLI 6.0.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
+- Use Version 1.1.0 for Angular CLI 6.0 + Angular 6.0
+- USe Version 6.1.0 for Angular CLI 6.1 + Angular 6.1
+
+## Tested with CLI 6.0.x and 6.1.x
+
+This package has been created and tested with Angular CLI 6.0.x and CLI 6.1.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
 
 ## Example
 
