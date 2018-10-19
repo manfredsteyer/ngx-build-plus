@@ -8,6 +8,7 @@ const webpackMerge = require('webpack-merge');
 export interface BrowserBuilderSchema extends BrowserBuilderSchemaBase {
   extraWebpackConfig: string;
   singleBundle: boolean;
+  bundleStyles: boolean;
 }
 
 export class DevServerBuilder extends DevServerBuilderBase {
@@ -20,6 +21,10 @@ export class DevServerBuilder extends DevServerBuilderBase {
       delete config.entry.polyfills;
       delete config.entry.styles;
       delete config.optimization;
+    }
+
+    if (browserOptions.singleBundle && browserOptions.bundleStyles !== false) {
+      delete config.entry.styles;
     }
     
     if (browserOptions.extraWebpackConfig) {

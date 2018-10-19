@@ -19,6 +19,11 @@
       "description": "Generate just one bundle",
       "default": true
     },
+    "bundleStyles": {
+      "type": "boolean",
+      "description": "Used conjunction with 'singleBundle' to explizitly not bundle styles",
+      "default": true
+    },
 
     "main": {
       "type": "string",
