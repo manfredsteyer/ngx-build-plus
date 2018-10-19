@@ -11,6 +11,8 @@ export interface PlusBuilderSchema extends NormalizedBrowserBuilderSchema {
   extraWebpackConfig: string;
 
   singleBundle: boolean;
+
+  bundleStyles: boolean;
 }
 
 export type AssetPattern = string | AssetPatternObject;
