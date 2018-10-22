@@ -20,8 +20,11 @@ export class PlusBuilder extends BrowserBuilder  {
 
     if (options.singleBundle) {
       delete config.entry.polyfills;
-      delete config.entry.styles;
       delete config.optimization;
+    }
+
+    if (options.singleBundle && options.bundleStyles !== false) {
+      delete config.entry.styles;
     }
     
     if (options.extraWebpackConfig) {
