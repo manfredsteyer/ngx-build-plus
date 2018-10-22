@@ -3,6 +3,7 @@ import { Path, virtualFs, getSystemPath } from '@angular-devkit/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import { PlusBuilderSchema } from './schema';
+import { ConfigHookFn } from '../ext/hook';
 
 const webpackMerge = require('webpack-merge');
 
@@ -27,6 +28,11 @@ export class PlusBuilder extends BrowserBuilder  {
       const filePath = path.resolve(getSystemPath(projectRoot), options.extraWebpackConfig);
       const additionalConfig = require(filePath);
       config = webpackMerge([config, additionalConfig]);
+    }
+
+    if (options.configHook) {
+      const hook = require(options.configHook).default as ConfigHookFn;
+      config = hook(config);
     }
 
     return config;

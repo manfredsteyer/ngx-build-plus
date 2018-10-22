@@ -30,7 +30,7 @@ https://github.com/manfredsteyer/ngx-build-plus
 
 ## Usage
 
-The next steps guides you trough getting started with ``ngx-build-plus`` by an example that uses Angular Elements. The result of this description can be found in the [repository's](https://github.com/manfredsteyer/ngx-build-plus) ``sample`` directory.
+The next steps guides you through getting started with ``ngx-build-plus`` by an example that uses Angular Elements. The result of this description can be found in the [repository's](https://github.com/manfredsteyer/ngx-build-plus) ``sample`` directory.
 
 1. Create a new Angular CLI based project and install ``@angular/elements`` as well as ``@webcomponents/custom-elements`` which provides needed polyfills:
 
@@ -77,7 +77,7 @@ The next steps guides you trough getting started with ``ngx-build-plus`` by an e
     npm install ngx-build-plus --save-dev
     ```
 
-3. Open your ``angular.json`` and tell the CLI to use ``ngx-builder-plus`` instead of the default one:
+3. Open your ``angular.json`` and tell the CLI to use ``ngx-build-plus`` instead of the default one:
 
     ```
       [...]
