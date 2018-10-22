@@ -13,6 +13,11 @@
       "description": "Generate just one bundle",
       "default": false
     },
+    "bundleStyles": {
+      "type": "boolean",
+      "description": "Used conjunction with 'singleBundle' to explizitly not bundle styles",
+      "default": true
+    },
 
 
     "browserTarget": {
