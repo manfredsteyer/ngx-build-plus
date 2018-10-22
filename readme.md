@@ -21,9 +21,13 @@ Using an partial webpack config, you could e. g. define packages as externals. T
 
 Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](https://twitter.com/davidh_23)!
 
-## Tested with CLI 6.0.x
+## Tested with CLI 6.x and CLI 7.0.x
 
-This package has been created and tested with Angular CLI 6.0.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
+This package has been created and tested with Angular CLI 6.x. and CLI 7.0.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
+
+## Breaking Change in Version 7
+
+- The switch ``single-bundle`` now defaults to false to align with the CLI's default behavior.
 
 ## Example
 
@@ -108,16 +112,14 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 4. Build your application:
 
     ```
-    ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none
+    ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none --single-bundle true
     ```
 
 1. You will see that just one bundle (besides the ``script.js`` that could also be shared) is built. The size of the ``main.js`` tells you, that the mentioned packages have been excluded.
 
     ![Result](result.png)
 
-    **Hint:** If you don't want to get just one bundle you can set the new flag ``single-bundle`` to ``false`` (``ng build ... --single-bundle false``)
-
-1. Copy the bundle into a project that references the UMD versions of all external libraries and your ``main.ts``. You can find such a project with all the necessary script files in the ``deploy`` folder of the sample.
+2. Copy the bundle into a project that references the UMD versions of all external libraries and your ``main.ts``. You can find such a project with all the necessary script files in the ``deploy`` folder of the sample.
 
     ```html
     <html>
@@ -164,7 +166,7 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
     </html>
     ```
 
-7. Test your solution.
+3. Test your solution.
 
 **Hint:** For production, consider using the minified versions of those bundles. They can be found in the ``node_modules`` folder after npm installing them.
 
