@@ -8,3 +8,4 @@
 
 export * from './plus';
 export * from './plus-dev-server';
+export * from './ext/hook';

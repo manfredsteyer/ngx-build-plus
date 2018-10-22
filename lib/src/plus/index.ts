@@ -34,7 +34,13 @@ export class PlusBuilder extends BrowserBuilder  {
     }
 
     if (options.configHook) {
-      const hook = require(options.configHook).default as ConfigHookFn;
+      let configHook = options.configHook;
+
+      if (configHook.startsWith('~')) {
+        configHook = process.cwd() + '/' + configHook.substr(1);
+      }
+
+      const hook = require(configHook).default as ConfigHookFn;
       config = hook(config);
     }
 

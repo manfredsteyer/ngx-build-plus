@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "description": "Extensible Builder for the Angular CLI suitable not only for Angular Elements.",
   "license": "MIT",
   "repository": {
@@ -21,9 +21,9 @@
     "webpack-merge": "^4.1.2"
   },
   "peerDependencies": {
-    "@angular-devkit/architect": "^0.7.1",
-    "@angular-devkit/build-angular": "^0.7.1",
-    "@angular-devkit/core": "^0.7.1",
+    "@angular-devkit/architect": "~0.10.0",
+    "@angular-devkit/build-angular": "~0.10.0",
+    "@angular-devkit/core": "~0.10.0",
     "rxjs": "^6.0.0"
   },
   "devDependencies": {

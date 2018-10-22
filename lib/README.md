@@ -4,6 +4,7 @@ Extend the Angular CLI's default build behavior without ejecting:
 
 - 📦 Build a single bundle (e. g. for Angular Elements)
 - 📄 Extend the default behavior by providing a **partial** config that just contains your additional settings
+- 📄 Alternative: Extend the default behavior by providing a custom function
 - ☑️ Inherits from the default builder, hence you have the same options
 - 🍰 Simple to use 
 - ⏏️ No eject needed
@@ -208,4 +209,28 @@ declare let VERSION: string;
 console.debug('VERSION', VERSION);
 ```
 
+## Using a custom function to modify the webpack config
 
+For more advanced modifications you can provide a function that gets the webpack config passed and returns the modified one.
+
+Follow the following steps to try it out:
+
+1. Add a file with a config hook to your project (``hook/hook.ts``):
+
+    ```typescript
+    export default (cfg) => {
+        console.debug('config', cfg);
+        // mess around with wepback config here ...
+        return cfg;
+    }
+    ```
+
+2. Compile your solution using ``tsc``.
+
+3. Use the ``configHook`` switch to point to the compiled version of your hook:
+
+    ```
+    ng build --configHook ~dist/out-tsc/hook/hook
+    ```
+
+The prefix ``~`` is replaced with your current directory. If you don't use it, it points to a installed ``node_module``.
