@@ -21,10 +21,10 @@
     "webpack-merge": "^4.1.2"
   },
   "peerDependencies": {
-    "@angular-devkit/architect": "~0.10.0",
-    "@angular-devkit/build-angular": "~0.10.0",
-    "@angular-devkit/core": "~0.10.0",
-    "rxjs": "^6.0.0"
+    "@angular-devkit/architect": ">= 0.10.0 > 0.11.0",
+    "@angular-devkit/build-angular": ">= 0.10.0 > 0.11.0",
+    "@angular-devkit/core": ">= 0.10.0 > 7.1.0",
+    "rxjs": ">= 6.0.0 > 7.0.0"
   },
   "devDependencies": {
     "@types/node": "^10.3.2",
