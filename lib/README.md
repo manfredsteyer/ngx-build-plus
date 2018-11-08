@@ -1,4 +1,7 @@
-# ngx-build-plus
+# ngx-build-plus-sistel
+
+The real work is in https://github.com/manfredsteyer/ngx-build-plus
+This repo is a copy from manfredsteyer plus a fix (https://github.com/manfredsteyer/ngx-build-plus/pull/28)
 
 Extend the Angular CLI's default build behavior without ejecting:
 
@@ -6,7 +9,7 @@ Extend the Angular CLI's default build behavior without ejecting:
 - 📄 Extend the default behavior by providing a **partial** config that just contains your additional settings
 - 📄 Alternative: Extend the default behavior by providing a custom function
 - ☑️ Inherits from the default builder, hence you have the same options
-- 🍰 Simple to use 
+- 🍰 Simple to use
 - ⏏️ No eject needed
 
 ## Useful not only for Angular Elements
@@ -40,7 +43,7 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 1. Create a new Angular CLI based project and install ``@angular/elements`` as well as ``@webcomponents/custom-elements`` which provides needed polyfills:
 
     ```
-    ng add @angular/elements 
+    ng add @angular/elements
     npm install @webcomponents/custom-elements --save
     ```
 
@@ -64,7 +67,7 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
         bootstrap: [],
         entryComponents:[AppComponent]
     })
-    export class AppModule { 
+    export class AppModule {
 
         constructor(private injector: Injector) {
         }
@@ -124,7 +127,7 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
     ```html
     <html>
     <body>
-        <!-- Polyfills for Browsers supporting 
+        <!-- Polyfills for Browsers supporting
             Custom Elements. Needed b/c we downlevel
             to ES5. See: @webcomponents/custom-elements
         -->
@@ -134,14 +137,14 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
             Custom Elements. See: @webcomponents/custom-elements
         -->
         <script src="./custom-elements.min.js"></script>
-        
+
         <!-- Zone.js -->
-        <!-- 
+        <!--
         Consider excluding zone.js when creating
         Custom Elements by using the noop zone.
         -->
         <script src="./zone.js"></script>
-        
+
         <!-- Rx -->
         <script src="./rxjs.umd.js"></script>
 
@@ -157,7 +160,7 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
         <!-- Calling Custom Element -->
         <custom-element></custom-element>
 
-        <!-- 
+        <!--
         Here we could call additional custom elements
         reusing the loaded packages above.
         -->

@@ -1,4 +1,4 @@
-import { BrowserBuilder, NormalizedBrowserBuilderSchema } from '@angular-devkit/build-angular';
+import { BrowserBuilder } from '@angular-devkit/build-angular';
 import { Path, virtualFs, getSystemPath } from '@angular-devkit/core';
 import * as fs from 'fs';
 import * as path from 'path';
