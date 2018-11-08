@@ -17,22 +17,25 @@
     "build": "npm run tsc && npm run copy:sample && npm run copy:readme"
   },
   "dependencies": {
-    "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.2"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   },
   "peerDependencies": {
     "@angular-devkit/architect": "~0.10.0",
     "@angular-devkit/build-angular": "~0.10.0",
-    "@angular-devkit/core": "~0.10.0",
+    "@angular-devkit/core": "~7.0.0",
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
-    "@types/node": "^10.3.2",
-    "@types/webpack": "^4.4.0",
-    "@types/webpack-dev-server": "^2.9.4",
+    "@angular-devkit/architect": "~0.10.0",
+    "@angular-devkit/build-angular": "~0.10.0",
+    "@angular-devkit/core": "~7.0.0",
+    "@types/node": "^10.12.3",
+    "@types/webpack": "^4.4.18",
+    "@types/webpack-dev-server": "^3.1.1",
     "cpr": "^3.0.1",
-    "typescript": "^2.9.1",
-    "webpack": "^4.12.0",
-    "webpack-merge": "^4.1.2"
+    "typescript": "^3.1.6",
+    "webpack": "^4.25.1",
+    "webpack-merge": "^4.1.4"
   }
 }

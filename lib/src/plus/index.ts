@@ -7,45 +7,51 @@ import { ConfigHookFn } from '../ext/hook';
 
 const webpackMerge = require('webpack-merge');
 
-export class PlusBuilder extends BrowserBuilder  {
+export class PlusBuilder extends BrowserBuilder {
+    localOptions: any;
 
-  buildWebpackConfig(
-    root: Path,
-    projectRoot: Path,
-    host: virtualFs.Host<fs.Stats>,
-    options: PlusBuilderSchema,
-  ) {
-
-    let config = super.buildWebpackConfig(root, projectRoot, host, options);
-
-    if (options.singleBundle) {
-      delete config.entry.polyfills;
-      delete config.optimization;
+    run(builderConfig: any): any {
+        this.localOptions = builderConfig.options;
+        return super.run(builderConfig);
     }
 
-    if (options.singleBundle && options.bundleStyles !== false) {
-      delete config.entry.styles;
+    buildWebpackConfig(
+        root: Path,
+        projectRoot: Path,
+        host: virtualFs.Host<fs.Stats>,
+        options: PlusBuilderSchema,
+    ) {
+
+        let config = super.buildWebpackConfig(root, projectRoot, host, options);
+
+        if (this.localOptions.singleBundle) {
+            delete config.entry.polyfills;
+            delete config.optimization;
+        }
+
+        if (this.localOptions.singleBundle && this.localOptions.bundleStyles !== false) {
+            delete config.entry.styles;
+        }
+
+        if (this.localOptions.extraWebpackConfig) {
+            const filePath = path.resolve(getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
+            const additionalConfig = require(filePath);
+            config = webpackMerge([config, additionalConfig]);
+        }
+
+        if (this.localOptions.configHook) {
+            let configHook = this.localOptions.configHook;
+
+            if (configHook.startsWith('~')) {
+                configHook = process.cwd() + '/' + configHook.substr(1);
+            }
+
+            const hook = require(configHook).default as ConfigHookFn;
+            config = hook(config);
+        }
+
+        return config;
     }
-    
-    if (options.extraWebpackConfig) {
-      const filePath = path.resolve(getSystemPath(projectRoot), options.extraWebpackConfig);
-      const additionalConfig = require(filePath);
-      config = webpackMerge([config, additionalConfig]);
-    }
-
-    if (options.configHook) {
-      let configHook = options.configHook;
-
-      if (configHook.startsWith('~')) {
-        configHook = process.cwd() + '/' + configHook.substr(1);
-      }
-
-      const hook = require(configHook).default as ConfigHookFn;
-      config = hook(config);
-    }
-
-    return config;
-  }
 }
 
 export default PlusBuilder;
