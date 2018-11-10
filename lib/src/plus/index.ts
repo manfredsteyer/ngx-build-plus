@@ -1,9 +1,13 @@
-import { BrowserBuilder, NormalizedBrowserBuilderSchema } from '@angular-devkit/build-angular';
+import { BrowserBuilder, NormalizedBrowserBuilderSchema, BrowserBuilderSchema } from '@angular-devkit/build-angular';
 import { Path, virtualFs, getSystemPath } from '@angular-devkit/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import { PlusBuilderSchema } from './schema';
-import { ConfigHookFn } from '../ext/hook';
+import { ConfigHookFn, Plugin } from '../ext/hook';
+import { BuilderConfiguration, BuildEvent } from '@angular-devkit/architect';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { loadHook } from '../ext/load-hook';
 
 const webpackMerge = require('webpack-merge');
 
@@ -33,18 +37,42 @@ export class PlusBuilder extends BrowserBuilder  {
       config = webpackMerge([config, additionalConfig]);
     }
 
+    let plugin: Plugin | null = null;
+    if (options.plugin) {
+      plugin = loadHook<Plugin>(options.plugin);
+    }
+
+    if (plugin && plugin.config) {
+      config = plugin.config(config);
+    }
+
     if (options.configHook) {
-      let configHook = options.configHook;
-
-      if (configHook.startsWith('~')) {
-        configHook = process.cwd() + '/' + configHook.substr(1);
-      }
-
-      const hook = require(configHook).default as ConfigHookFn;
+      const hook = loadHook<ConfigHookFn>(options.configHook);
       config = hook(config);
     }
 
     return config;
+  }
+
+  run(builderConfig: BuilderConfiguration<PlusBuilderSchema>): Observable<BuildEvent> {
+
+    let plugin: Plugin | null = null;
+    if (builderConfig.options.plugin) {
+      plugin = loadHook<Plugin>(builderConfig.options.plugin);
+    }
+
+    if (plugin && plugin.pre) {
+      plugin.pre(builderConfig);
+    }
+
+    return super.run(builderConfig).pipe(
+      tap(_ => {
+        if (plugin && plugin.post) {
+          plugin.post(builderConfig);
+        }
+      })
+    );
+
   }
 }
 
