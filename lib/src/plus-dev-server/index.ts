@@ -11,24 +11,31 @@ export interface BrowserBuilderSchema extends BrowserBuilderSchemaBase {
   bundleStyles: boolean;
 }
 
-export class DevServerBuilder extends DevServerBuilderBase {
+export class PlusDevServerBuilder extends DevServerBuilderBase {
+
+  private localOptions: any;
+
+  run(builderConfig: any): any {
+        this.localOptions = builderConfig.options;
+    return super.run(builderConfig);
+  }
 
   buildWebpackConfig(root: Path, projectRoot: Path, host: virtualFs.Host<fs.Stats>, browserOptions: BrowserBuilderSchema): any {
-    
+
     let config = super.buildWebpackConfig(root, projectRoot, host, browserOptions);
 
-    if (browserOptions.singleBundle) {
+    if (this.localOptions.singleBundle) {
       delete config.entry.polyfills;
       delete config.entry.styles;
       delete config.optimization;
     }
 
-    if (browserOptions.singleBundle && browserOptions.bundleStyles !== false) {
+    if (this.localOptions.singleBundle && this.localOptions.bundleStyles !== false) {
       delete config.entry.styles;
     }
-    
-    if (browserOptions.extraWebpackConfig) {
-      const filePath = path.resolve(getSystemPath(projectRoot), browserOptions.extraWebpackConfig);
+
+    if (this.localOptions.extraWebpackConfig) {
+      const filePath = path.resolve(getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
       const additionalConfig = require(filePath);
       config = webpackMerge([config, additionalConfig]);
     }
@@ -37,4 +44,4 @@ export class DevServerBuilder extends DevServerBuilderBase {
   }
 }
 
-export default DevServerBuilder;
+export default PlusDevServerBuilder;

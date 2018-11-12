@@ -9,6 +9,13 @@ const webpackMerge = require('webpack-merge');
 
 export class PlusBuilder extends BrowserBuilder  {
 
+  private localOptions: any;
+
+  run(builderConfig: any): any {
+    this.localOptions = builderConfig.options;
+    return super.run(builderConfig);
+  }
+
   buildWebpackConfig(
     root: Path,
     projectRoot: Path,
@@ -18,23 +25,23 @@ export class PlusBuilder extends BrowserBuilder  {
 
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
-    if (options.singleBundle) {
+    if (this.localOptions.singleBundle) {
       delete config.entry.polyfills;
       delete config.optimization;
     }
 
-    if (options.singleBundle && options.bundleStyles !== false) {
+    if (this.localOptions.singleBundle && this.localOptions.bundleStyles !== false) {
       delete config.entry.styles;
     }
-    
-    if (options.extraWebpackConfig) {
-      const filePath = path.resolve(getSystemPath(projectRoot), options.extraWebpackConfig);
+
+    if (this.localOptions.extraWebpackConfig) {
+      const filePath = path.resolve(getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
       const additionalConfig = require(filePath);
       config = webpackMerge([config, additionalConfig]);
     }
 
-    if (options.configHook) {
-      let configHook = options.configHook;
+    if (this.localOptions.configHook) {
+      let configHook = this.localOptions.configHook;
 
       if (configHook.startsWith('~')) {
         configHook = process.cwd() + '/' + configHook.substr(1);
