@@ -4,7 +4,6 @@ import * as path from 'path';
 const domino = require('domino');
 
 // TODO: PR that allows skipping options.verbose = true; 
-// TODO: Schematics
 
 export default {
     pre(builderConfig) {

@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Adds ngx-modern",
+      "factory": "./add-ngx-build-modern/index#addNgxBuildModern",
+      "schema": "./add-ngx-build-modern/schema.json"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "ngx-build-modern",
+  "version": "1.0.0",
+  "description": "A blank schematics",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && npm run copy",
+    "test": "npm run build && jasmine src/**/*_spec.js",
+    "copy": "npx cpr . ../sample/node_modules/ngx-build-modern -d"
+  },
+  "main": "src/modern-plugin.js",
+  "keywords": [
+    "schematics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "schematics": "./schematics/collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "^7.0.3",
+    "@angular-devkit/schematics": "^7.0.3",
+    "@schematics/angular": "^7.0.5",
+    "@types/jasmine": "^2.6.0",
+    "@types/node": "^8.0.31",
+    "domino": "^2.1.0",
+    "jasmine": "^2.8.0",
+    "typescript": "^2.5.2"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "cpr": "^3.0.1"
+  }
+}
