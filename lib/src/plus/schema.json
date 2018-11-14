@@ -19,11 +19,19 @@
       "description": "Generate just one bundle",
       "default": false
     },
+    
     "configHook": {
       "type": "string",
       "description": "es module exporting a configHook function (default export). Just used for ng build; not for ng serve",
       "default": ""
     },
+
+    "plugin": {
+      "type": "string",
+      "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
+      "default": ""
+    },
+
 
     "bundleStyles": {
       "type": "boolean",

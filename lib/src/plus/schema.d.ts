@@ -1,3 +1,4 @@
+import { BuildHook } from './../ext/hook';
 import { BrowserBuilder, NormalizedBrowserBuilderSchema } from '@angular-devkit/build-angular';
 /**
  * @license
@@ -14,6 +15,7 @@ export interface PlusBuilderSchema extends NormalizedBrowserBuilderSchema {
   bundleStyles: boolean;
 
   configHook: string;
+  plugin: string;
 }
 
 export type AssetPattern = string | AssetPatternObject;

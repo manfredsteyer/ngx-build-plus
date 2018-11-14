@@ -236,3 +236,32 @@ Follow the following steps to try it out:
     ```
 
 The prefix ``~`` is replaced with your current directory. If you don't use it, it points to a installed ``node_module``.
+
+## Using Plugins
+
+Plugins work similar to custom functions for configuring webpack (see above). However, they also provide a pre- and a post-hook for tasks that need to take happen before and after bundling. This is an example for an plugin:
+
+```typescript
+export default {
+    pre() {
+        console.debug('pre');
+    },
+    config(cfg) {
+        console.debug('config');
+        return cfg;
+    },
+    post() {
+        console.debug('post');
+    }
+}
+```
+
+The ``config`` method works like a ``configHook`` (see above).
+
+To use a plugin, point to it using the ``--plugin`` switch:
+
+```
+ng build --plugin ~dist\out-tsc\hook\plugin
+```
+
+The prefix ``~`` points to the current directory. Without this prefix, ngx-build-plus assumes that the plugin is an installed ``node_module``.

@@ -12,6 +12,6 @@ declare let VERSION: string;
 export class AppComponent {
   constructor() {
     console.debug('started!');
-    console.debug('VERSION', VERSION);
+    // console.debug('VERSION', VERSION);
   }
 }
