@@ -21,12 +21,6 @@ Using an partial webpack config, you could e. g. define packages as externals. T
 
 Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](https://twitter.com/davidh_23)!
 
-## Plugins
-
-ngx-build-plus is extensible using plugins (see end of this file). One plugin I want point to is ngx-build-modern for differential serving, which means you provide more optimized bundles for modern browsers and the classical ones for legacy browsers:
-
-- [ngx-build-modern](https://www.npmjs.com/package/ngx-build-modern)
-
 ## Tested with CLI 6.x and CLI 7.0.x
 
 This package has been created and tested with Angular CLI 6.x. and CLI 7.0.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
@@ -84,6 +78,8 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
     ```
 3. Install ``ngx-build-plus``:
 
+    When using Angular >= 7 and CLI >= 7, you can simply use ``ng add`` for installing ``ngx-build-plus``:
+
     ```
     ng add ngx-build-plus 
     ```
@@ -92,6 +88,25 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 
     ```
     ng add ngx-build-plus --project myProject
+    ```
+
+4. **Alternative**: *If, and only if,* this does not work for you, e. g. because you use an earlier Angular version, you can install the library manually:
+
+    ```
+    npm install ngx-build-plus --save-dev
+    ```
+
+    After this, update your angular.json:
+
+    ```json
+    [...]
+    "architect": {
+        "build": {
+            "builder": "ngx-build-plus:build",
+            [...]
+        }
+    }
+    [...]
     ```
 
 4. Create a file ``webpack.extra.js`` with a partial webpack config that tells webpack to exclude packages like ``@angular/core``:
@@ -172,16 +187,18 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 
 ## Builder for ng serve
 
-This package provides also an builder that allows to specify an additional webpack configuration for ``ng serve``.
+This package provides also an builder that allows to specify an additional webpack configuration for ``ng serve``. 
 
-To use it, just register the ``ngx-build-plus:dev-server`` builder in your ``angular.json`` for the ``serve`` target:
+It is registered automatically when installing the library with ``ng add``. **Otherwise**, you have to register it manually:
 
-```json
- "serve": {
-          "builder": "ngx-build-plus:dev-server",
-          [...]
- }
-```
+    To register it manually, just register the ``ngx-build-plus:dev-server`` builder in your ``angular.json`` for the ``serve`` target:
+
+    ```json
+    "serve": {
+            "builder": "ngx-build-plus:dev-server",
+            [...]
+    }
+    ```
 
 After that, you can call ``ng serve`` with an ``extraWebpackConfig`` switch:
 

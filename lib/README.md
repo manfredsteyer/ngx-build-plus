@@ -27,7 +27,7 @@ This package has been created and tested with Angular CLI 6.x. and CLI 7.0.x. If
 
 ## Breaking Change in Version 7
 
-- The switch ``single-bundle`` now defaults to false to align with the CLI's default behavior.
+- The switch ``single-bundle`` now defaults to ``false`` to align with the CLI's default behavior.
 
 ## Example
 
@@ -76,26 +76,40 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 
     }
     ```
-1. Install ``ngx-build-plus``:
+3. Install ``ngx-build-plus``:
+
+    When using Angular >= 7 and CLI >= 7, you can simply use ``ng add`` for installing ``ngx-build-plus``:
+
+    ```
+    ng add ngx-build-plus 
+    ```
+
+    If you are using a monorepo, mention the project you want to install ngx-build-plus for:
+
+    ```
+    ng add ngx-build-plus --project myProject
+    ```
+
+4. **Alternative**: *If, and only if,* this does not work for you, e. g. because you use an earlier Angular version, you can install the library manually:
 
     ```
     npm install ngx-build-plus --save-dev
     ```
 
-3. Open your ``angular.json`` and tell the CLI to use ``ngx-build-plus`` instead of the default one:
+    After this, update your angular.json:
 
-    ```
-      [...]
-      "architect": {
+    ```json
+    [...]
+    "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
-          [...]
+            "builder": "ngx-build-plus:build",
+            [...]
         }
-      }
-      [...]
+    }
+    [...]
     ```
 
-1. Create a file ``webpack.extra.js`` with a partial webpack config that tells webpack to exclude packages like ``@angular/core``:
+4. Create a file ``webpack.extra.js`` with a partial webpack config that tells webpack to exclude packages like ``@angular/core``:
 
     ```JavaScript
     module.exports = {
@@ -109,17 +123,17 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
     }
     ```
 
-4. Build your application:
+5. Build your application:
 
     ```
     ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none --single-bundle true
     ```
 
-1. You will see that just one bundle (besides the ``script.js`` that could also be shared) is built. The size of the ``main.js`` tells you, that the mentioned packages have been excluded.
+6. You will see that just one bundle (besides the ``script.js`` that could also be shared) is built. The size of the ``main.js`` tells you, that the mentioned packages have been excluded.
 
     ![Result](result.png)
 
-2. Copy the bundle into a project that references the UMD versions of all external libraries and your ``main.ts``. You can find such a project with all the necessary script files in the ``deploy`` folder of the sample.
+7. Copy the bundle into a project that references the UMD versions of all external libraries and your ``main.ts``. You can find such a project with all the necessary script files in the ``deploy`` folder of the sample.
 
     ```html
     <html>
@@ -166,23 +180,25 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
     </html>
     ```
 
-3. Test your solution.
+8. Test your solution.
 
 **Hint:** For production, consider using the minified versions of those bundles. They can be found in the ``node_modules`` folder after npm installing them.
 
 
 ## Builder for ng serve
 
-This package provides also an builder that allows to specify an additional webpack configuration for ``ng serve``.
+This package provides also an builder that allows to specify an additional webpack configuration for ``ng serve``. 
 
-To use it, just register the ``ngx-build-plus:dev-server`` builder in your ``angular.json`` for the ``serve`` target:
+It is registered automatically when installing the library with ``ng add``. **Otherwise**, you have to register it manually:
 
-```json
- "serve": {
-          "builder": "ngx-build-plus:dev-server",
-          [...]
- }
-```
+    To register it manually, just register the ``ngx-build-plus:dev-server`` builder in your ``angular.json`` for the ``serve`` target:
+
+    ```json
+    "serve": {
+            "builder": "ngx-build-plus:dev-server",
+            [...]
+    }
+    ```
 
 After that, you can call ``ng serve`` with an ``extraWebpackConfig`` switch:
 
