@@ -11,5 +11,10 @@
 <body>
   <custom-element></custom-element>
   <script src="assets/load-custom-elements-polyfill.js"></script>
+
+  <!-- Just needed for ng serve -->
+  <!-- when performing ng build with modern plugin we don't need this b/c here we have es6+ -->
+  <script src="assets/native-shim.js"></script>
+
 </body>
 </html>
