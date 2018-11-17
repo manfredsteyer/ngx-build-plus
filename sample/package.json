@@ -4,7 +4,7 @@
   "scripts": {
     "start": "live-server deploy",
     "build:webpack": "webpack-cli",
-    "build:ng": "ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none",
+    "build:ng": "ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none --single-bundle true",
     "serve": "ng serve --extraWebpackConfig webpack.serve.extra.js -o",
     "copy:bundle": "cpr dist/elements-loading/main.js deploy/custom-element.bundle.js -o",
     "build": "npm run build:ng && npm run copy:bundle",
