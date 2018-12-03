@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -86,6 +86,7 @@
      * Take care not to evaluate this in non-browser contexts.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var BrowserXhr = /** @class */ (function () {
         function BrowserXhr() {
@@ -185,6 +186,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var Headers = /** @class */ (function () {
         // TODO(vicb): any -> string|string[]
@@ -352,6 +354,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var ResponseOptions = /** @class */ (function () {
         function ResponseOptions(opts) {
@@ -448,6 +451,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var BaseResponseOptions = /** @class */ (function (_super) {
         __extends(BaseResponseOptions, _super);
@@ -475,6 +479,7 @@
      * {@link Request}.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var ConnectionBackend = /** @class */ (function () {
         function ConnectionBackend() {
@@ -485,6 +490,7 @@
      * Abstract class from which real connections are derived.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var Connection = /** @class */ (function () {
         function Connection() {
@@ -495,6 +501,7 @@
      * An XSRFStrategy configures XSRF protection (e.g. via headers) on an HTTP request.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var XSRFStrategy = /** @class */ (function () {
         function XSRFStrategy() {
@@ -572,6 +579,7 @@
     }
     /**
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      **/
     var QueryEncoder = /** @class */ (function () {
         function QueryEncoder() {
@@ -626,6 +634,7 @@
      * let params = new URLSearchParams('', new MyQueryEncoder());
      * ```
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var URLSearchParams = /** @class */ (function () {
         function URLSearchParams(rawParams, queryEncoder) {
@@ -839,6 +848,7 @@
      * most significant.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var Response = /** @class */ (function (_super) {
         __extends(Response, _super);
@@ -923,6 +933,7 @@
      * Base class for an in-flight JSONP request.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var JSONPConnection = /** @class */ (function () {
         /** @internal */
@@ -1010,6 +1021,7 @@
      * A {@link ConnectionBackend} that uses the JSONP strategy of making requests.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var JSONPBackend = /** @class */ (function (_super) {
         __extends(JSONPBackend, _super);
@@ -1047,6 +1059,7 @@
      * the {@link MockConnection} may be interacted with in tests.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var XHRConnection = /** @class */ (function () {
         function XHRConnection(req, browserXHR, baseResponseOptions) {
@@ -1186,6 +1199,7 @@
      * details.
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var CookieXSRFStrategy = /** @class */ (function () {
         function CookieXSRFStrategy(_cookieName, _headerName) {
@@ -1228,6 +1242,7 @@
      * }
      * ```
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var XHRBackend = /** @class */ (function () {
         function XHRBackend(_browserXHR, _baseResponseOptions, _xsrfStrategy) {
@@ -1277,6 +1292,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var RequestOptions = /** @class */ (function () {
         // TODO(Dzmitry): remove search when this.search is removed
@@ -1411,6 +1427,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var BaseRequestOptions = /** @class */ (function (_super) {
         __extends(BaseRequestOptions, _super);
@@ -1470,6 +1487,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var Request = /** @class */ (function (_super) {
         __extends(Request, _super);
@@ -1683,6 +1701,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var Http = /** @class */ (function () {
         function Http(_backend, _defaultOptions) {
@@ -1758,6 +1777,7 @@
     }());
     /**
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var Jsonp = /** @class */ (function (_super) {
         __extends(Jsonp, _super);
@@ -1822,6 +1842,7 @@
      * The module that includes http's providers
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var HttpModule = /** @class */ (function () {
         function HttpModule() {
@@ -1846,6 +1867,7 @@
      * The module that includes jsonp's providers
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var JsonpModule = /** @class */ (function () {
         function JsonpModule() {
@@ -1875,8 +1897,9 @@
      */
     /**
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
-    var VERSION = new core.Version('7.0.0');
+    var VERSION = new core.Version('7.1.1');
 
     /**
      * @license

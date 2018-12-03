@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -171,14 +171,14 @@
     /**
      * Platform for testing
      *
-     *
+     * @publicApi
      */
     var platformBrowserTesting = core.createPlatformFactory(core.platformCore, 'browserTesting', _TEST_BROWSER_PLATFORM_PROVIDERS);
     var ɵ0 = createNgZone;
     /**
      * NgModule for testing.
      *
-     *
+     * @publicApi
      */
     var BrowserTestingModule = /** @class */ (function () {
         function BrowserTestingModule() {

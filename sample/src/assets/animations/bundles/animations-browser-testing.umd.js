@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -40,7 +40,7 @@
     }
 
     /**
-     * @experimental Animation support is experimental.
+     * @publicApi
      */
     var MockAnimationDriver = /** @class */ (function () {
         function MockAnimationDriver() {
@@ -66,7 +66,7 @@
         return MockAnimationDriver;
     }());
     /**
-     * @experimental Animation support is experimental.
+     * @publicApi
      */
     var MockAnimationPlayer = /** @class */ (function (_super) {
         __extends(MockAnimationPlayer, _super);

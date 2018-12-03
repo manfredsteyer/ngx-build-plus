@@ -136,45 +136,55 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 7. Copy the bundle into a project that references the UMD versions of all external libraries and your ``main.ts``. You can find such a project with all the necessary script files in the ``deploy`` folder of the sample.
 
     ```html
-    <html>
+    <!doctype html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>ElementsLoading</title>
+    <base href="/">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </head>
     <body>
-        <!-- Polyfills for Browsers supporting 
+
+    <!-- Consider putting the following UMD (!) bundles -->
+    <!-- into a big one -->
+
+    <!-- core-js for legacy browsers -->
+    <script src="./assets/core-js/core.js"></script>
+
+    <!-- Zone.js -->
+    <!-- 
+        Consider excluding zone.js when creating
+        custom Elements by using the noop zone.
+    -->
+    <script src="./assets/zone.js/zone.js"></script>
+
+
+    <!-- Polyfills for Browsers supporting 
             Custom Elements. Needed b/c we downlevel
             to ES5. See: @webcomponents/custom-elements
-        -->
-        <script src="./native-shim.js"></script>
+    -->
+    <script src="./assets/custom-elements/src/native-shim.js"></script>
 
-        <!-- Polyfills for Browsers not supporting
+    <!-- Polyfills for Browsers not supporting
             Custom Elements. See: @webcomponents/custom-elements
-        -->
-        <script src="./custom-elements.min.js"></script>
-        
-        <!-- Zone.js -->
-        <!-- 
-        Consider excluding zone.js when creating
-        Custom Elements by using the noop zone.
-        -->
-        <script src="./zone.js"></script>
-        
-        <!-- Rx -->
-        <script src="./rxjs.umd.js"></script>
+    -->
+    <script src="./assets/custom-elements/custom-elements.min.js"></script>
 
-        <!-- Angular Packages -->
-        <script src="./core.umd.js"></script>
-        <script src="./common.umd.js"></script>
-        <script src="./platform-browser.umd.js"></script>
-        <script src="./elements.umd.js"></script>
 
-        <!-- Custom Element -->
-        <script src="./custom-element.bundle.js"></script>
+    <!-- Rx -->
+    <script src="./assets/rxjs/rxjs.umd.js"></script>
 
-        <!-- Calling Custom Element -->
-        <custom-element></custom-element>
+    <!-- Angular Packages -->
+    <script src="./assets/core/bundles/core.umd.js"></script>
+    <script src="./assets/common/bundles/common.umd.js"></script>
+    <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
+    <script src="./assets/elements/bundles/elements.umd.js"></script>
 
-        <!-- 
-        Here we could call additional custom elements
-        reusing the loaded packages above.
-        -->
+    <!-- Calling Custom Element -->
+    <custom-element></custom-element>
 
     </body>
     </html>
@@ -184,6 +194,7 @@ The next steps guides you through getting started with ``ngx-build-plus`` by an 
 
 **Hint:** For production, consider using the minified versions of those bundles. They can be found in the ``node_modules`` folder after npm installing them.
 
+**Hint:** The sample project contains a node script ``copy-bundles.js`` that copies the needed UMD bundles from the ``node_modules`` folder into the assets folder.
 
 ## Builder for ng serve
 

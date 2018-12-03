@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -133,7 +133,7 @@
      * });
      * ```
      *
-     *
+     * @publicApi
      */
     function async(fn) {
         var _Zone = typeof Zone !== 'undefined' ? Zone : null;
@@ -163,7 +163,7 @@
     /**
      * Fixture for debugging and testing a component.
      *
-     *
+     * @publicApi
      */
     var ComponentFixture = /** @class */ (function () {
         function ComponentFixture(componentRef, ngZone, _autoDetect) {
@@ -355,7 +355,7 @@
      * Clears out the shared fake async zone for a test.
      * To be called in a global `beforeEach`.
      *
-     * @experimental
+     * @publicApi
      */
     function resetFakeAsyncZoneFallback() {
         _fakeAsyncTestZoneSpec = null;
@@ -380,7 +380,7 @@
      * @param fn
      * @returns The function wrapped to be executed in the fakeAsync zone
      *
-     * @experimental
+     * @publicApi
      */
     function fakeAsyncFallback(fn) {
         // Not using an arrow function to preserve context passed from call site
@@ -443,7 +443,7 @@
      *
      * {@example core/testing/ts/fake_async.ts region='basic'}
      *
-     * @experimental
+     * @publicApi
      */
     function tickFallback(millis) {
         if (millis === void 0) { millis = 0; }
@@ -457,7 +457,7 @@
      * @param maxTurns
      * @returns The simulated time elapsed, in millis.
      *
-     * @experimental
+     * @publicApi
      */
     function flushFallback(maxTurns) {
         return _getFakeAsyncZoneSpec().flush(maxTurns);
@@ -465,7 +465,7 @@
     /**
      * Discard all remaining periodic tasks.
      *
-     * @experimental
+     * @publicApi
      */
     function discardPeriodicTasksFallback() {
         var zoneSpec = _getFakeAsyncZoneSpec();
@@ -474,7 +474,7 @@
     /**
      * Flush any pending microtasks.
      *
-     * @experimental
+     * @publicApi
      */
     function flushMicrotasksFallback() {
         _getFakeAsyncZoneSpec().flushMicrotasks();
@@ -493,7 +493,7 @@
      * Clears out the shared fake async zone for a test.
      * To be called in a global `beforeEach`.
      *
-     * @experimental
+     * @publicApi
      */
     function resetFakeAsyncZone() {
         if (fakeAsyncTestModule) {
@@ -520,7 +520,7 @@
      * @param fn
      * @returns The function wrapped to be executed in the fakeAsync zone
      *
-     * @experimental
+     * @publicApi
      */
     function fakeAsync(fn) {
         if (fakeAsyncTestModule) {
@@ -541,7 +541,7 @@
      *
      * {@example core/testing/ts/fake_async.ts region='basic'}
      *
-     * @experimental
+     * @publicApi
      */
     function tick(millis) {
         if (millis === void 0) { millis = 0; }
@@ -560,7 +560,7 @@
      * @param maxTurns
      * @returns The simulated time elapsed, in millis.
      *
-     * @experimental
+     * @publicApi
      */
     function flush(maxTurns) {
         if (fakeAsyncTestModule) {
@@ -573,7 +573,7 @@
     /**
      * Discard all remaining periodic tasks.
      *
-     * @experimental
+     * @publicApi
      */
     function discardPeriodicTasks() {
         if (fakeAsyncTestModule) {
@@ -586,7 +586,7 @@
     /**
      * Flush any pending microtasks.
      *
-     * @experimental
+     * @publicApi
      */
     function flushMicrotasks() {
         if (fakeAsyncTestModule) {
@@ -920,7 +920,7 @@
     /**
      * An abstract class for inserting the root test component element in a platform independent way.
      *
-     * @experimental
+     * @publicApi
      */
     var TestComponentRenderer = /** @class */ (function () {
         function TestComponentRenderer() {
@@ -929,11 +929,11 @@
         return TestComponentRenderer;
     }());
     /**
-     * @experimental
+     * @publicApi
      */
     var ComponentFixtureAutoDetect = new core.InjectionToken('ComponentFixtureAutoDetect');
     /**
-     * @experimental
+     * @publicApi
      */
     var ComponentFixtureNoNgZone = new core.InjectionToken('ComponentFixtureNoNgZone');
 
@@ -987,7 +987,7 @@
          * Test modules and platforms for individual platforms are available from
          * '@angular/<platform_name>/testing'.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedRender3.initTestEnvironment = function (ngModule, platform, aotSummaries) {
             var testBed = _getTestBedRender3();
@@ -997,7 +997,7 @@
         /**
          * Reset the providers for the test injector.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedRender3.resetTestEnvironment = function () { _getTestBedRender3().resetTestEnvironment(); };
         TestBedRender3.configureCompiler = function (config) {
@@ -1080,7 +1080,7 @@
          * Test modules and platforms for individual platforms are available from
          * '@angular/<platform_name>/testing'.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedRender3.prototype.initTestEnvironment = function (ngModule, platform, aotSummaries) {
             if (this.platform || this.ngModule) {
@@ -1092,7 +1092,7 @@
         /**
          * Reset the providers for the test injector.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedRender3.prototype.resetTestEnvironment = function () {
             this.resetTestingModule();
@@ -1128,7 +1128,13 @@
             this._activeFixtures = [];
         };
         TestBedRender3.prototype.configureCompiler = function (config) {
-            throw new Error('the Render3 compiler is not configurable !');
+            var _a;
+            if (config.useJit != null) {
+                throw new Error('the Render3 compiler JiT mode is not configurable !');
+            }
+            if (config.providers) {
+                (_a = this._providerOverrides).push.apply(_a, __spread(config.providers));
+            }
         };
         TestBedRender3.prototype.configureTestingModule = function (moduleDef) {
             var _a, _b, _c, _d;
@@ -1146,9 +1152,10 @@
                 (_d = this._schemas).push.apply(_d, __spread(moduleDef.schemas));
             }
         };
-        // TODO(vicb): implement
         TestBedRender3.prototype.compileComponents = function () {
-            throw new Error('Render3TestBed.compileComponents is not implemented yet');
+            // assume for now that components don't use templateUrl / stylesUrl to unblock further testing
+            // TODO(pk): plug into the ivy's resource fetching pipeline
+            return Promise.resolve();
         };
         TestBedRender3.prototype.get = function (token, notFoundValue) {
             if (notFoundValue === void 0) { notFoundValue = core.Injector.THROW_IF_NOT_FOUND; }
@@ -1199,6 +1206,7 @@
             throw new Error('No implemented in IVY');
         };
         TestBedRender3.prototype.createComponent = function (type) {
+            var _this = this;
             this._initIfNeeded();
             var testComponentRenderer = this.get(TestComponentRenderer);
             var rootElId = "root" + _nextRootElementId++;
@@ -1207,10 +1215,15 @@
             if (!componentDef) {
                 throw new Error("It looks like '" + core.ɵstringify(type) + "' has not been IVY compiled - it has no 'ngComponentDef' field");
             }
-            var componentFactory = new core.ɵRender3ComponentFactory(componentDef);
-            var componentRef = componentFactory.create(core.Injector.NULL, [], "#" + rootElId, this._moduleRef);
+            var noNgZone = this.get(ComponentFixtureNoNgZone, false);
             var autoDetect = this.get(ComponentFixtureAutoDetect, false);
-            var fixture = new ComponentFixture(componentRef, null, autoDetect);
+            var ngZone = noNgZone ? null : this.get(core.NgZone, null);
+            var componentFactory = new core.ɵRender3ComponentFactory(componentDef);
+            var initComponent = function () {
+                var componentRef = componentFactory.create(core.Injector.NULL, [], "#" + rootElId, _this._moduleRef);
+                return new ComponentFixture(componentRef, ngZone, autoDetect);
+            };
+            var fixture = ngZone ? ngZone.run(initComponent) : initComponent();
             this._activeFixtures.push(fixture);
             return fixture;
         };
@@ -1261,7 +1274,8 @@
                 ], RootScopeModule);
                 return RootScopeModule;
             }());
-            var providers = __spread(this._providers, this._providerOverrides);
+            var ngZone = new core.NgZone({ enableLongStackTrace: true });
+            var providers = __spread([{ provide: core.NgZone, useValue: ngZone }], this._providers, this._providerOverrides);
             var declarations = this._declarations;
             var imports = [RootScopeModule, this.ngModule, this._imports];
             var schemas = this._schemas;
@@ -1418,7 +1432,7 @@
     /**
      * Special interface to the compiler only used by testing
      *
-     * @experimental
+     * @publicApi
      */
     var TestingCompiler = /** @class */ (function (_super) {
         __extends(TestingCompiler, _super);
@@ -1466,7 +1480,7 @@
     /**
      * A factory for creating a Compiler
      *
-     * @experimental
+     * @publicApi
      */
     var TestingCompilerFactory = /** @class */ (function () {
         function TestingCompilerFactory() {
@@ -1528,7 +1542,7 @@
          * Test modules and platforms for individual platforms are available from
          * '@angular/<platform_name>/testing'.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedViewEngine.initTestEnvironment = function (ngModule, platform, aotSummaries) {
             var testBed = _getTestBedViewEngine();
@@ -1538,7 +1552,7 @@
         /**
          * Reset the providers for the test injector.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedViewEngine.resetTestEnvironment = function () { _getTestBedViewEngine().resetTestEnvironment(); };
         TestBedViewEngine.resetTestingModule = function () {
@@ -1623,7 +1637,7 @@
          * Test modules and platforms for individual platforms are available from
          * '@angular/<platform_name>/testing'.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedViewEngine.prototype.initTestEnvironment = function (ngModule, platform, aotSummaries) {
             if (this.platform || this.ngModule) {
@@ -1638,7 +1652,7 @@
         /**
          * Reset the providers for the test injector.
          *
-         * @experimental
+         * @publicApi
          */
         TestBedViewEngine.prototype.resetTestEnvironment = function () {
             this.resetTestingModule();
@@ -1947,6 +1961,8 @@
      *
      * Note: Use `TestBed` in tests. It will be set to either `TestBedViewEngine` or `TestBedRender3`
      * according to the compiler used.
+     *
+     * @publicApi
      */
     var TestBed = core.ɵivyEnabled ? TestBedRender3 : TestBedViewEngine;
     /**
@@ -1954,7 +1970,7 @@
      *
      * It will be either an instance of `TestBedViewEngine` or `TestBedRender3`.
      *
-     * @experimental
+     * @publicApi
      */
     var getTestBed = core.ɵivyEnabled ? _getTestBedRender3 : _getTestBedViewEngine;
     var testBed$1;
@@ -1983,7 +1999,7 @@
      * eventually
      *   becomes `it('...', @Inject (object: AClass, async: AsyncTestCompleter) => { ... });`
      *
-     *
+     * @publicApi
      */
     function inject(tokens, fn) {
         var testBed = getTestBed();
@@ -2006,7 +2022,7 @@
         }
     }
     /**
-     * @experimental
+     * @publicApi
      */
     var InjectSetupWrapper = /** @class */ (function () {
         function InjectSetupWrapper(_moduleDef) {

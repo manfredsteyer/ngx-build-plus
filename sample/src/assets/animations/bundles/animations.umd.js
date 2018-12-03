@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -54,6 +54,7 @@
      * }
      * ```
      *
+     * @publicApi
      */
     var AnimationBuilder = /** @class */ (function () {
         function AnimationBuilder() {
@@ -63,6 +64,7 @@
     /**
      * A factory object returned from the `AnimationBuilder`.`build()` method.
      *
+     * @publicApi
      */
     var AnimationFactory = /** @class */ (function () {
         function AnimationFactory() {
@@ -79,6 +81,8 @@
      */
     /**
      * Specifies automatic styling.
+     *
+     * @publicApi
      */
     var AUTO_STYLE = '*';
     /**
@@ -227,7 +231,7 @@
      * an instance of an `AnimationEvent`. If animations are disabled,
      * the `.disabled` flag on the event is true.
      *
-     * @experimental Animation support is experimental.
+     * @publicApi
      */
     function trigger(name, definitions) {
         return { type: 7 /* Trigger */, name: name, definitions: definitions, options: {} };
@@ -287,6 +291,8 @@
      *   style({ background: "red" }))
      *  ])
      * ```
+     *
+     * @publicApi
      */
     function animate(timings, styles) {
         if (styles === void 0) { styles = null; }
@@ -322,6 +328,8 @@
      * When called within a `sequence()` or a
      * `transition()` call, does not continue to the next
      * instruction until all of the inner animation steps have completed.
+     *
+     * @publicApi
      */
     function group(steps, options) {
         if (options === void 0) { options = null; }
@@ -357,6 +365,7 @@
      * execution continues to the next instruction only after each of the inner animation
      * steps have completed.
      *
+     * @publicApi
      **/
     function sequence(steps, options) {
         if (options === void 0) { options = null; }
@@ -399,6 +408,7 @@
      * animate("1s", style({ height: "*" }))
      * ```
      *
+     * @publicApi
      **/
     function style(tokens) {
         return { type: 6 /* Style */, styles: tokens, offset: null };
@@ -429,6 +439,8 @@
      * Use the `transition()` function to animate between states.
      * When a state is active within a component, its associated styles persist on the element,
      * even when the animation ends.
+     *
+     * @publicApi
      **/
     function state(name, styles, options) {
         return { type: 0 /* State */, name: name, styles: styles, options: options };
@@ -475,6 +487,8 @@
      *   style({ backgroundColor: "black" }) // offset = 1
      * ]))
      *```
+
+     * @publicApi
      */
     function keyframes(steps) {
         return { type: 5 /* Keyframes */, steps: steps };
@@ -644,6 +658,8 @@
      *   transition('false <=> true', animate(500))
      * ])
      * ```
+     *
+     * @publicApi
      **/
     function transition(stateChangeExpr, steps, options) {
         if (options === void 0) { options = null; }
@@ -691,6 +707,8 @@
      * If any of the passed-in parameter values are missing from this call,
      * the default values are used. If one or more parameter values are missing before a step is
      * animated, `useAnimation()` throws an error.
+     *
+     * @publicApi
      */
     function animation(steps, options) {
         if (options === void 0) { options = null; }
@@ -712,6 +730,8 @@
      * Note that this feature designed to be used with `query()` and it will only work
      * with animations that are assigned using the Angular animation library. CSS keyframes
      * and transitions are not handled by this API.
+     *
+     * @publicApi
      */
     function animateChild(options) {
         if (options === void 0) { options = null; }
@@ -724,6 +744,8 @@
      * @param options An options object that can contain a delay value for the start of
      * the animation, and additional override values for developer-defined parameters.
      * @return An object that contains the animation parameters.
+     *
+     * @publicApi
      */
     function useAnimation(animation, options) {
         if (options === void 0) { options = null; }
@@ -813,6 +835,8 @@
      *   }
      * }
      * ```
+     *
+     * @publicApi
      */
     function query(selector, animation, options) {
         if (options === void 0) { options = null; }
@@ -895,6 +919,8 @@
      *   ])
      * ])
      * ```
+     *
+     * @publicApi
      */
     function stagger(timings, animation) {
         return { type: 12 /* Stagger */, timings: timings, animation: animation };
@@ -927,6 +953,7 @@
      * @see `AnimationPlayer`
      * @see `GroupPlayer`
      *
+     * @publicApi
      */
     var NoopAnimationPlayer = /** @class */ (function () {
         function NoopAnimationPlayer(duration, delay) {

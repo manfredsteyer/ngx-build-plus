@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -279,7 +279,7 @@
     }
 
     /**
-     * @experimental
+     * @publicApi
      */
     var NoopAnimationDriver = /** @class */ (function () {
         function NoopAnimationDriver() {
@@ -305,7 +305,7 @@
         return NoopAnimationDriver;
     }());
     /**
-     * @experimental
+     * @publicApi
      */
     var AnimationDriver = /** @class */ (function () {
         function AnimationDriver() {
@@ -2022,7 +2022,7 @@
      * found in the LICENSE file at https://angular.io/license
      */
     /**
-     * @experimental Animation support is experimental.
+     * @publicApi
      */
     var AnimationStyleNormalizer = /** @class */ (function () {
         function AnimationStyleNormalizer() {
@@ -2030,7 +2030,7 @@
         return AnimationStyleNormalizer;
     }());
     /**
-     * @experimental Animation support is experimental.
+     * @publicApi
      */
     var NoopAnimationStyleNormalizer = /** @class */ (function () {
         function NoopAnimationStyleNormalizer() {
@@ -2179,13 +2179,13 @@
     }());
 
     /**
-     * @experimental Animation support is experimental.
+     * @publicApi
      */
     function buildTrigger(name, ast) {
         return new AnimationTrigger(name, ast);
     }
     /**
-    * @experimental Animation support is experimental.
+    * @publicApi
     */
     var AnimationTrigger = /** @class */ (function () {
         function AnimationTrigger(name, ast) {

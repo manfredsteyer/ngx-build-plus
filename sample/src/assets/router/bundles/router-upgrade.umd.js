@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -38,7 +38,7 @@
      * }
      * ```
      *
-     * @experimental
+     * @publicApi
      */
     var RouterUpgradeInitializer = {
         provide: core.APP_BOOTSTRAP_LISTENER,
@@ -60,7 +60,7 @@
      * History.pushState does not fire onPopState, so the Angular location
      * doesn't detect it. The workaround is to attach a location change listener
      *
-     * @experimental
+     * @publicApi
      */
     function setUpLocationSync(ngUpgrade) {
         if (!ngUpgrade.$injector) {

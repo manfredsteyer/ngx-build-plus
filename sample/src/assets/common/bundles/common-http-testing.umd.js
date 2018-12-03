@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -21,7 +21,7 @@
      * Controller to be injected into tests, that allows for mocking and flushing
      * of requests.
      *
-     *
+     * @publicApi
      */
     var HttpTestingController = /** @class */ (function () {
         function HttpTestingController() {
@@ -64,7 +64,7 @@
      * This interface allows access to the underlying `HttpRequest`, and allows
      * responding with `HttpEvent`s or `HttpErrorResponse`s.
      *
-     *
+     * @publicApi
      */
     var TestRequest = /** @class */ (function () {
         function TestRequest(request, observer) {
@@ -380,7 +380,7 @@
      *
      * Inject `HttpTestingController` to expect and flush requests in your tests.
      *
-     *
+     * @publicApi
      */
     var HttpClientTestingModule = /** @class */ (function () {
         function HttpClientTestingModule() {

@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -296,7 +296,7 @@
         { provide: compiler.NgModuleResolver, deps: [compiler.CompileReflector] },
     ];
     /**
-     * @experimental
+     * @publicApi
      */
     var JitCompilerFactory = /** @class */ (function () {
         /* @internal */
@@ -368,7 +368,7 @@
     /**
      * A platform that included corePlatform and the compiler.
      *
-     * @experimental
+     * @publicApi
      */
     var platformCoreDynamic = core.createPlatformFactory(core.platformCore, 'coreDynamic', [
         { provide: core.COMPILER_OPTIONS, useValue: {}, multi: true },
@@ -427,6 +427,9 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
+    /**
+     * @publicApi
+     */
     var INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS = [
         platformBrowser.ɵINTERNAL_BROWSER_PLATFORM_PROVIDERS,
         {
@@ -450,6 +453,8 @@
      *
      * The template cache needs to be built and loaded into window.$templateCache
      * via a separate mechanism.
+     *
+     * @publicApi
      */
     var CachedResourceLoader = /** @class */ (function (_super) {
         __extends(CachedResourceLoader, _super);
@@ -487,7 +492,10 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new core.Version('7.0.0');
+    /**
+     * @publicApi
+     */
+    var VERSION = new core.Version('7.1.1');
 
     /**
      * @license
@@ -497,9 +505,12 @@
      * found in the LICENSE file at https://angular.io/license
      */
     /**
-     * @experimental
+     * @publicApi
      */
     var RESOURCE_CACHE_PROVIDER = [{ provide: compiler.ResourceLoader, useClass: CachedResourceLoader, deps: [] }];
+    /**
+     * @publicApi
+     */
     var platformBrowserDynamic = core.createPlatformFactory(platformCoreDynamic, 'browserDynamic', INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS);
 
     /**

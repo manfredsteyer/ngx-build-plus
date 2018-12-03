@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -27,7 +27,7 @@
      *
      * In an `HttpInterceptor`, the `HttpHandler` parameter is the next interceptor in the chain.
      *
-     *
+     * @publicApi
      */
     var HttpHandler = /** @class */ (function () {
         function HttpHandler() {
@@ -42,7 +42,7 @@
      * When injected, `HttpBackend` dispatches requests directly to the backend, without going
      * through the interceptor chain.
      *
-     *
+     * @publicApi
      */
     var HttpBackend = /** @class */ (function () {
         function HttpBackend() {
@@ -127,6 +127,7 @@
     /**
      * Immutable set of Http headers, with lazy parsing.
      *
+     * @publicApi
      */
     var HttpHeaders = /** @class */ (function () {
         function HttpHeaders(headers) {
@@ -317,7 +318,7 @@
      * A `HttpParameterCodec` that uses `encodeURIComponent` and `decodeURIComponent` to
      * serialize and parse URL parameter keys and values.
      *
-     *
+     * @publicApi
      */
     var HttpUrlEncodingCodec = /** @class */ (function () {
         function HttpUrlEncodingCodec() {
@@ -362,7 +363,7 @@
      *
      * This class is immutable - all mutation operations return a new instance.
      *
-     *
+     * @publicApi
      */
     var HttpParams = /** @class */ (function () {
         function HttpParams(options) {
@@ -548,7 +549,7 @@
      * assumed to be immutable. To modify a `HttpRequest`, the `clone`
      * method should be used.
      *
-     *
+     * @publicApi
      */
     var HttpRequest = /** @class */ (function () {
         function HttpRequest(method, url, third, fourth) {
@@ -787,7 +788,7 @@
     /**
      * Base class for both `HttpResponse` and `HttpHeaderResponse`.
      *
-     *
+     * @publicApi
      */
     var HttpResponseBase = /** @class */ (function () {
         /**
@@ -817,7 +818,7 @@
      * `HttpHeaderResponse` is a `HttpEvent` available on the response
      * event stream, only when progress events are requested.
      *
-     *
+     * @publicApi
      */
     var HttpHeaderResponse = /** @class */ (function (_super) {
         __extends(HttpHeaderResponse, _super);
@@ -854,7 +855,7 @@
      * `HttpResponse` is a `HttpEvent` available on the response event
      * stream.
      *
-     *
+     * @publicApi
      */
     var HttpResponse = /** @class */ (function (_super) {
         __extends(HttpResponse, _super);
@@ -891,7 +892,7 @@
      * will contain either a wrapped Error object or the error response returned
      * from the server.
      *
-     *
+     * @publicApi
      */
     var HttpErrorResponse = /** @class */ (function (_super) {
         __extends(HttpErrorResponse, _super);
@@ -949,7 +950,7 @@
      * Each request method has multiple signatures, and the return type varies according to which
      * signature is called (mainly the values of `observe` and `responseType`).
      *
-     *
+     * @publicApi
      */
     var HttpClient = /** @class */ (function () {
         function HttpClient(handler) {
@@ -1200,7 +1201,7 @@
      * A multi-provider token which represents the array of `HttpInterceptor`s that
      * are registered.
      *
-     *
+     * @publicApi
      */
     var HTTP_INTERCEPTORS = new core.InjectionToken('HTTP_INTERCEPTORS');
     var NoopInterceptor = /** @class */ (function () {
@@ -1250,7 +1251,7 @@
      * `HttpBackend` that only processes `HttpRequest` with the JSONP method,
      * by performing JSONP style requests.
      *
-     *
+     * @publicApi
      */
     var JsonpClientBackend = /** @class */ (function () {
         function JsonpClientBackend(callbackMap, document) {
@@ -1398,7 +1399,7 @@
      * An `HttpInterceptor` which identifies requests with the method JSONP and
      * shifts them to the `JsonpClientBackend`.
      *
-     *
+     * @publicApi
      */
     var JsonpInterceptor = /** @class */ (function () {
         function JsonpInterceptor(jsonp) {
@@ -1442,7 +1443,7 @@
     /**
      * A wrapper around the `XMLHttpRequest` constructor.
      *
-     *
+     * @publicApi
      */
     var XhrFactory = /** @class */ (function () {
         function XhrFactory() {
@@ -1468,7 +1469,7 @@
      * An `HttpBackend` which uses the XMLHttpRequest API to send
      * requests to a backend server.
      *
-     *
+     * @publicApi
      */
     var HttpXhrBackend = /** @class */ (function () {
         function HttpXhrBackend(xhrFactory) {
@@ -1725,7 +1726,7 @@
     /**
      * Retrieves the current XSRF token to use with the next outgoing request.
      *
-     *
+     * @publicApi
      */
     var HttpXsrfTokenExtractor = /** @class */ (function () {
         function HttpXsrfTokenExtractor() {
@@ -1859,7 +1860,7 @@
      * If no names are supplied, the default cookie name is `XSRF-TOKEN`
      * and the default header name is `X-XSRF-TOKEN`.
      *
-     *
+     * @publicApi
      */
     var HttpClientXsrfModule = /** @class */ (function () {
         function HttpClientXsrfModule() {
@@ -1915,7 +1916,7 @@
      * You can add interceptors to the chain behind `HttpClient` by binding them to the
      * multiprovider for built-in [DI token](guide/glossary#di-token) `HTTP_INTERCEPTORS`.
      *
-     *
+     * @publicApi
      */
     var HttpClientModule = /** @class */ (function () {
         function HttpClientModule() {
@@ -1956,7 +1957,7 @@
      * You can add interceptors to the chain behind `HttpClient` by binding them to the
      * multiprovider for built-in [DI token](guide/glossary#di-token) `HTTP_INTERCEPTORS`.
      *
-     *
+     * @publicApi
      */
     var HttpClientJsonpModule = /** @class */ (function () {
         function HttpClientJsonpModule() {

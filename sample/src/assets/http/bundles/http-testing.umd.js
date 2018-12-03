@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0
+ * @license Angular v7.1.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -68,6 +68,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var MockConnection = /** @class */ (function () {
         function MockConnection(req) {
@@ -199,6 +200,7 @@
      * ```
      *
      * @deprecated see https://angular.io/guide/http
+     * @publicApi
      */
     var MockBackend = /** @class */ (function () {
         function MockBackend() {
