@@ -13,6 +13,8 @@ const webpackMerge = require('webpack-merge');
 
 export class PlusBuilder extends BrowserBuilder  {
 
+  private localOptions: any;
+
   buildWebpackConfig(
     root: Path,
     projectRoot: Path,
@@ -22,32 +24,32 @@ export class PlusBuilder extends BrowserBuilder  {
 
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
-    if (options.singleBundle) {
+    if (this.localOptions.singleBundle) {
       delete config.entry.polyfills;
       delete config.optimization;
     }
 
-    if (options.singleBundle && options.bundleStyles !== false) {
+    if (this.localOptions.singleBundle && this.localOptions.bundleStyles !== false) {
       delete config.entry.styles;
     }
-    
-    if (options.extraWebpackConfig) {
-      const filePath = path.resolve(getSystemPath(projectRoot), options.extraWebpackConfig);
+
+    if (this.localOptions.extraWebpackConfig) {
+      const filePath = path.resolve(getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
       const additionalConfig = require(filePath);
       config = webpackMerge([config, additionalConfig]);
     }
 
     let plugin: Plugin | null = null;
-    if (options.plugin) {
-      plugin = loadHook<Plugin>(options.plugin);
+    if (this.localOptions.plugin) {
+      plugin = loadHook<Plugin>(this.localOptions.plugin);
     }
 
     if (plugin && plugin.config) {
       config = plugin.config(config);
     }
 
-    if (options.configHook) {
-      const hook = loadHook<ConfigHookFn>(options.configHook);
+    if (this.localOptions.configHook) {
+      const hook = loadHook<ConfigHookFn>(this.localOptions.configHook);
       config = hook(config);
     }
 
@@ -55,7 +57,8 @@ export class PlusBuilder extends BrowserBuilder  {
   }
 
   run(builderConfig: BuilderConfiguration<PlusBuilderSchema>): Observable<BuildEvent> {
-
+    
+    this.localOptions = builderConfig.options;
     let plugin: Plugin | null = null;
     if (builderConfig.options.plugin) {
       plugin = loadHook<Plugin>(builderConfig.options.plugin);
