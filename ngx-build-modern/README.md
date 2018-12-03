@@ -63,3 +63,4 @@ npm run build:modern:demo
 - This plugin needs to switch the CLI into verbose mode to prevent a code conflict. I plan a PR to the CLI that solves this.
 - This solution extends the webpack-based builder. Hence, its limited to using webpack under the covers of the CLI.
 - Make sure to use the latest rxjs lib. This lib was successfully tested with version 6.3.3. On the other side, with 6.1.1 there have been some issues regarding tree shaking and the build optimizer in conjunction with ES2015 bundles.
+- Because this plugin is building the application twice -- once for legacy browsers and once for modern ones -- build time doubles. PRs for compensating this by performing the two builds in parallel are welcome.

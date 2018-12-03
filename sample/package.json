@@ -7,9 +7,7 @@
     "start:prod": "live-server dist/elements-loading",
     "copy:bundles": "node copy-bundles.js",
     "postinstall": "npm run copy:bundles",
-    "build:modern": "ng build --plugin ngx-build-modern --prod",
-    "build:modern:elements-loading": "ng build --plugin ngx-build-modern --project elements-loading --prod",
-    "build:modern:empty-demo": "ng build --plugin ngx-build-modern --project empty-demo --prod",
+    "build:modern": "ng build --plugin ngx-build-modern --project empty-demo --prod",
     "build:plugin": "tsc hook/modern-plugin --module commonjs --target es5 --lib DOM,ES6,ScriptHost && ng build --plugin ~hook/modern-plugin",
     "build:test": "tsc test.ts --module commonjs --target es5 --lib DOM,ES6,ScriptHost && node test.js"
   },
