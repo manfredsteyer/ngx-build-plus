@@ -1,11 +1,15 @@
 {
   "name": "ngx-build-modern",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A blank schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json && npm run copy",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "copy": "npx cpr . ../sample/node_modules/ngx-build-modern -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manfredsteyer/ngx-build-plus"
   },
   "main": "src/modern-plugin.js",
   "keywords": [

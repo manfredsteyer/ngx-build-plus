@@ -2,17 +2,16 @@
   "name": "elements-loading",
   "version": "0.0.0",
   "scripts": {
-    "start": "live-server deploy",
-    "build:webpack": "webpack-cli",
-    "build:ng": "ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none",
-    "serve": "ng serve --extraWebpackConfig webpack.serve.extra.js -o",
-    "copy:bundle": "cpr dist/elements-loading/main.js deploy/custom-element.bundle.js -o",
-    "build": "npm run build:ng && npm run copy:bundle",
-    "build:plugin": "tsc hook/modern-plugin --module commonjs --target es5 --lib DOM,ES6,ScriptHost && ng build --plugin ~hook/modern-plugin",
-    "build:test": "tsc test.ts --module commonjs --target es5 --lib DOM,ES6,ScriptHost && node test.js",
+    "start": "ng serve --extraWebpackConfig webpack.serve.extra.js -o --single-bundle true",
+    "build": "ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none --single-bundle true",
+    "start:prod": "live-server dist/elements-loading",
+    "copy:bundles": "node copy-bundles.js",
+    "postinstall": "npm run copy:bundles",
     "build:modern": "ng build --plugin ngx-build-modern --prod",
     "build:modern:elements-loading": "ng build --plugin ngx-build-modern --project elements-loading --prod",
-    "build:modern:empty-demo": "ng build --plugin ngx-build-modern --project empty-demo --prod"
+    "build:modern:empty-demo": "ng build --plugin ngx-build-modern --project empty-demo --prod",
+    "build:plugin": "tsc hook/modern-plugin --module commonjs --target es5 --lib DOM,ES6,ScriptHost && ng build --plugin ~hook/modern-plugin",
+    "build:test": "tsc test.ts --module commonjs --target es5 --lib DOM,ES6,ScriptHost && node test.js"
   },
   "private": true,
   "dependencies": {
@@ -43,6 +42,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
+    "copy": "^0.3.2",
     "cpr": "^3.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
