@@ -27,7 +27,8 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
     if (this.localOptions.singleBundle) {
       delete config.entry.polyfills;
       delete config.entry.styles;
-      delete config.optimization;
+      delete config.optimization.runtimeChunk;
+      delete config.optimization.splitChunks;
     }
 
     if (this.localOptions.singleBundle && this.localOptions.bundleStyles !== false) {
