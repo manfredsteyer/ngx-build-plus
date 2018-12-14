@@ -5,6 +5,10 @@
       "description": "Adds ngx-build-plus",
       "factory": "./add-ngx-build-plus/index#addNgxBuildPlus",
       "schema": "./add-ngx-build-plus/schema.json"
+    },
+    "externals": {
+      "description": "Adds files for compiling with externals",
+      "factory": "./externals/index#addExternalsSupport"
     }
 
   }

@@ -242,6 +242,133 @@
           }
         }
       }
+    },
+    "getting-started": {
+      "root": "projects/getting-started/",
+      "sourceRoot": "projects/getting-started/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:build",
+          "options": {
+            "outputPath": "dist/getting-started",
+            "index": "projects/getting-started/src/index.html",
+            "main": "projects/getting-started/src/main.ts",
+            "polyfills": "projects/getting-started/src/polyfills.ts",
+            "tsConfig": "projects/getting-started/tsconfig.app.json",
+            "assets": [
+              "projects/getting-started/src/favicon.ico",
+              "projects/getting-started/src/assets"
+            ],
+            "styles": [
+              "projects/getting-started/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/getting-started/src/environments/environment.ts",
+                  "with": "projects/getting-started/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "getting-started:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "getting-started:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "getting-started:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/getting-started/src/test.ts",
+            "polyfills": "projects/getting-started/src/polyfills.ts",
+            "tsConfig": "projects/getting-started/tsconfig.spec.json",
+            "karmaConfig": "projects/getting-started/karma.conf.js",
+            "styles": [
+              "projects/getting-started/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/getting-started/src/favicon.ico",
+              "projects/getting-started/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/getting-started/tsconfig.app.json",
+              "projects/getting-started/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "getting-started-e2e": {
+      "root": "projects/getting-started-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/getting-started-e2e/protractor.conf.js",
+            "devServerTarget": "getting-started:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "getting-started:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/getting-started-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "elements-loading"
