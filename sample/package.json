@@ -9,7 +9,13 @@
     "postinstall": "npm run copy:bundles",
     "build:modern": "ng build --plugin ngx-build-modern --project empty-demo --prod",
     "build:plugin": "tsc hook/modern-plugin --module commonjs --target es5 --lib DOM,ES6,ScriptHost && ng build --plugin ~hook/modern-plugin",
-    "build:test": "tsc test.ts --module commonjs --target es5 --lib DOM,ES6,ScriptHost && node test.js"
+    "build:test": "tsc test.ts --module commonjs --target es5 --lib DOM,ES6,ScriptHost && node test.js",
+    "build:externals": "ng build --extra-webpack-config webpack.externals.js --prod",
+    "start:externals": "ng serve --extra-webpack-config webpack.externals.js",
+    "build:externals:empty-demo": "ng build --extra-webpack-config webpack.externals.js --prod --project empty-demo",
+    "start:externals:empty-demo": "ng serve --extra-webpack-config webpack.externals.js --project empty-demo",
+    "build:externals:elements-loading": "ng build --extra-webpack-config webpack.externals.js --prod --project elements-loading",
+    "start:externals:elements-loading": "ng serve --extra-webpack-config webpack.externals.js --project elements-loading"
   },
   "private": true,
   "dependencies": {
