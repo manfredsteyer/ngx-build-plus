@@ -1,5 +1,6 @@
 import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
+import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 
 const spawn = require('cross-spawn');
 
@@ -22,7 +23,8 @@ const installNpmPackages: () => Rule = () => (tree: Tree, context: SchematicCont
   return tree;
 }
 
-function executeNodeScript(scriptName: string): Rule {
+export function executeNodeScript(options: any): Rule {
+  const scriptName = options.script;
   return (tree: Tree, _context: SchematicContext) => {
     spawn.sync('node', [scriptName], { stdio: 'inherit' });
   }
@@ -39,9 +41,11 @@ export function addWebComponentsPolyfill(_options: any): Rule {
       updateIndexHtml(_options),
       updatePackageJson( _options),
       branchAndMerge(mergeWith(templateSource)),
-      installNpmPackages(),
-      executeNodeScript('copy-wc-polyfill.js')
+      installNpmPackages()
     ]);
+
+    // addTasks makes sure this runs after the current schematic has been committed
+    _context.addTask(new RunSchematicTask('executeNodeScript', {script: 'copy-wc-polyfill.js'}));
 
     return rule(tree, _context);
   };
@@ -71,7 +75,7 @@ function updateIndexHtml(options: any): Rule {
       return;
     }
 
-    const modifiedContent = contentAsString.replace('</body>', scripts + '\n\n</body>');
+    const modifiedContent = contentAsString.replace('</body>', scripts + '\n</body>');
 
     tree.overwrite(fileName, modifiedContent);
     return tree;

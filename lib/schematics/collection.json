@@ -13,6 +13,11 @@
     "wc-polyfill": {
       "description": "Adds files for the webcomponents polyfill",
       "factory": "./webcomponents-polyfill/index#addWebComponentsPolyfill"
+    },
+    "executeNodeScript": {
+      "private": true,
+      "description": "Executes a node script",
+      "factory": "./webcomponents-polyfill/index#executeNodeScript"
     }
 
 

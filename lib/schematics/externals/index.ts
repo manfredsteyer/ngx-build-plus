@@ -1,5 +1,6 @@
 import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
+import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 
 const spawn = require('cross-spawn');
 
@@ -26,7 +27,7 @@ const scripts = `
 `
 const installNpmPackages: () => Rule = () => (tree: Tree, context: SchematicContext) => {
   console.info('Installing deps');
-  spawn.sync('npm', ['install', '@webcomponents/custom-elements', '--save'], { stdio: 'inherit' });
+  // spawn.sync('npm', ['install', '@webcomponents/custom-elements', '--save'], { stdio: 'inherit' });
   spawn.sync('npm', ['install', 'copy', '--save-dev'], { stdio: 'inherit' });
   return tree;
 }
@@ -44,19 +45,16 @@ export function addExternalsSupport(_options: any): Rule {
     const rule = 
     chain([
       branchAndMerge(mergeWith(templateSource)),
-      installNpmPackages(),
-      executeNodeScript('copy-bundles.js')
+      installNpmPackages()
     ]);
+
+    // addTasks makes sure this runs after the current schematic has been committed
+    _context.addTask(new RunSchematicTask('executeNodeScript', {script: 'copy-bundles.js'}));
 
     return rule(tree, _context);
   };
 }
 
-function executeNodeScript(scriptName: string): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    spawn.sync('node', [scriptName], { stdio: 'inherit' });
-  }
-}
 
 function updatePackageJson(tree: Tree, _options: any) {
   const config = loadPackageJson(tree);
@@ -78,12 +76,12 @@ function updateIndexHtml(options: any, tree: Tree) {
     return;
   }
 
-  const modifiedContent = contentAsString.replace('</body>', scripts + '\n\n</body>');
+  const modifiedContent = contentAsString.replace('</body>', scripts + '\n</body>');
 
   tree.overwrite(fileName, modifiedContent);
 }
 
-function getProject(tree: import("c:/Users/Manfred/Documents/experimente/ngx-build-elements/lib/node_modules/@angular-devkit/schematics/src/tree/interface").Tree, options: any) {
+function getProject(tree: Tree, options: any) {
   const workspace = getWorkspace(tree);
   if (!options.project) {
     options.project = Object.keys(workspace.projects)[0];
