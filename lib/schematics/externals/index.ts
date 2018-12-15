@@ -1,73 +1,95 @@
-import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith } from '@angular-devkit/schematics';
-import { parseName } from '@schematics/angular/utility/parse-name';
+import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { addPackageJsonDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
+
+const spawn = require('cross-spawn');
+
+const scripts = `
+  <!-- core-js for legacy browsers 
+        Consider only loading for IE
+  -->
+  <script src="./assets/core-js/core.js"></script>
+
+  <!-- Zone.js 
+        Consider excluding zone.js when creating
+        custom Elements by using the noop zone.
+  -->
+  <script src="./assets/zone.js/zone.js"></script>
+
+  <!-- Rx -->
+  <script src="./assets/rxjs/rxjs.umd.js"></script>
+
+  <!-- Angular Packages -->
+  <script src="./assets/core/bundles/core.umd.js"></script>
+  <script src="./assets/common/bundles/common.umd.js"></script>
+  <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
+  <script src="./assets/elements/bundles/elements.umd.js"></script>
+`
+const installNpmPackages: () => Rule = () => (tree: Tree, context: SchematicContext) => {
+  console.info('Installing deps');
+  spawn.sync('npm', ['install', '@webcomponents/custom-elements', '--save'], { stdio: 'inherit' });
+  spawn.sync('npm', ['install', 'copy', '--save-dev'], { stdio: 'inherit' });
+  return tree;
+}
 
 export function addExternalsSupport(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     
-    //setupOptions(_options, tree);
-
-    console.log('root', _options.path);
     updateIndexHtml(_options, tree);
-    const config = loadPackageJson(tree);
-    updateScripts(config, _options);
-    savePackageJson(config, tree);
+    updatePackageJson(tree, _options);
     
     const templateSource = apply(url('./files'), [
-      template({
-        ..._options
-      }),
+      template({..._options}),
       move('/')
     ]);
-
     const rule = 
-      branchAndMerge(
-        mergeWith(templateSource)
-
-      );
+    chain([
+      branchAndMerge(mergeWith(templateSource)),
+      installNpmPackages(),
+      executeNodeScript('copy-bundles.js')
+    ]);
 
     return rule(tree, _context);
   };
 }
 
-function setupOptions(options: any, host: Tree): void {
-  console.log('*');
-  const workspace = getWorkspace(host);
-  console.log('*');
-  if (!options.project) {
-    options.project = Object.keys(workspace.projects)[0];
+function executeNodeScript(scriptName: string): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    spawn.sync('node', [scriptName], { stdio: 'inherit' });
   }
-  console.log('*');
-  const project = workspace.projects[options.project];
-  console.log('project', project);
-  if (options.path === undefined) {
-    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-    options.path = `/${project.root}/src/${projectDirName}`;
-  }
-  console.log('*');
-  const parsedPath = parseName(options.path, options.name);
-  options.name = parsedPath.name;
-  options.path = parsedPath.path;
-  console.log('*');
+}
+
+function updatePackageJson(tree: Tree, _options: any) {
+  const config = loadPackageJson(tree);
+  updateScripts(config, tree, _options);
+  savePackageJson(config, tree);
 }
 
 function updateIndexHtml(options: any, tree: Tree) {
+  const project = getProject(tree, options);
+  const fileName = `${project.sourceRoot}/index.html`;
+
+  const indexHtml = tree.read(fileName);
+  if (indexHtml === null)
+    throw Error('could not read index.html');
+  const contentAsString = indexHtml.toString('UTF-8');
+  
+  if (contentAsString.indexOf('.umd.js') > -1) {
+    console.info('Seems like, UMD bundles are already referenced by index.html');
+    return;
+  }
+
+  const modifiedContent = contentAsString.replace('</body>', scripts + '\n\n</body>');
+
+  tree.overwrite(fileName, modifiedContent);
+}
+
+function getProject(tree: import("c:/Users/Manfred/Documents/experimente/ngx-build-elements/lib/node_modules/@angular-devkit/schematics/src/tree/interface").Tree, options: any) {
   const workspace = getWorkspace(tree);
   if (!options.project) {
     options.project = Object.keys(workspace.projects)[0];
   }
   const project = workspace.projects[options.project];
-  const fileName = `${project.sourceRoot}/index.html`;
-  console.debug(fileName);
-  
-  const indexHtml = tree.read(fileName);
-  if (indexHtml === null)
-    throw Error('could not read index.html');
-  const contentAsString = indexHtml.toString('UTF-8');
-  console.log('index.html', contentAsString);
-
-
+  return project;
 }
 
 function savePackageJson(config: any, tree: Tree) {
@@ -84,20 +106,36 @@ function loadPackageJson(tree: Tree) {
   return config;
 }
 
-function updateScripts(config: any, _options: any) {
+function updateScripts(config: any, tree: Tree, _options: any) {
+  const project = getProject(tree, _options);
+  
   if (!config['scripts']) {
     config.scripts = {};
   }
-  if (!config.scripts['build:externals']) {
-    config.scripts['build:externals'] = `ng build --extra-webpack-config webpack.externals.js --prod`;
+
+  const postInstallScript = 'node copy-bundles.js';
+  let postinstall: string = config.scripts['postinstall'];
+
+  if (!postinstall) {
+    postinstall = postInstallScript;
+  }
+  else if (!postinstall.includes(postInstallScript)) {
+    postinstall += ' && ' + postInstallScript;
   }
 
-  if (!config.scripts['start:externals']) {
-    config.scripts['start:externals'] = `ng serve --extra-webpack-config webpack.externals.js`;
+  config.scripts['postinstall'] = postinstall;
+  
+  // Heuristic for default project
+  if (!project.root) {
+    config.scripts['build:old'] = config.scripts['build'];
+    config.scripts['start:old'] = config.scripts['start'];
+    config.scripts['build'] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod`;
+    config.scripts['start'] = `ng serve --extra-webpack-config webpack.externals.js --single-bundle true -o`;
   }
+
   if (_options.project) {
-    config.scripts[`build:externals:${_options.project}`] = `ng build --extra-webpack-config webpack.externals.js --prod --project ${_options.project}`;
-    config.scripts[`start:externals:${_options.project}`] = `ng serve --extra-webpack-config webpack.externals.js --project ${_options.project}`;
+    config.scripts[`build:${_options.project}`] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project ${_options.project}`;
+    config.scripts[`start:${_options.project}`] = `ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project ${_options.project} -o`;
   }
 }
 

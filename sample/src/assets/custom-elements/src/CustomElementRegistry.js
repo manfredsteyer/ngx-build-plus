@@ -111,7 +111,7 @@ export default class CustomElementRegistry {
 
     const definition = {
       localName,
-      constructor,
+      constructorFunction: constructor,
       connectedCallback,
       disconnectedCallback,
       adoptedCallback,
@@ -147,14 +147,14 @@ export default class CustomElementRegistry {
     /**
      * Unupgraded elements with definitions that were defined *before* the last
      * flush, in document order.
-     * @type {!Array<!Element>}
+     * @type {!Array<!HTMLElement>}
      */
     const elementsWithStableDefinitions = [];
 
     /**
      * A map from `localName`s of definitions that were defined *after* the last
      * flush to unupgraded elements matching that definition, in document order.
-     * @type {!Map<string, !Array<!Element>>}
+     * @type {!Map<string, !Array<!HTMLElement>>}
      */
     const elementsWithPendingDefinitions = new Map();
     for (let i = 0; i < pendingDefinitions.length; i++) {
@@ -212,7 +212,7 @@ export default class CustomElementRegistry {
   get(localName) {
     const definition = this._internals.localNameToDefinition(localName);
     if (definition) {
-      return definition.constructor;
+      return definition.constructorFunction;
     }
 
     return undefined;

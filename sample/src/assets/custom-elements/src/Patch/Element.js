@@ -259,8 +259,7 @@ export default function(internals) {
         if (position === "beforebegin") {
           const marker = this.previousSibling;
           baseMethod.call(this, position, text);
-          upgradeNodesInRange(
-            /** @type {!Node} */ (marker || this.parentNode.firstChild), this);
+          upgradeNodesInRange(marker || /** @type {!Node} */ (this.parentNode.firstChild), this);
         } else if (position === "afterbegin") {
           const marker = this.firstChild;
           baseMethod.call(this, position, text);
@@ -268,7 +267,7 @@ export default function(internals) {
         } else if (position === "beforeend") {
           const marker = this.lastChild;
           baseMethod.call(this, position, text);
-          upgradeNodesInRange(marker || this.firstChild, null);
+          upgradeNodesInRange(marker || /** @type {!Node} */ (this.firstChild), null);
         } else if (position === "afterend") {
           const marker = this.nextSibling;
           baseMethod.call(this, position, text);

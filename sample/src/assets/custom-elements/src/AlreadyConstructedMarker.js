@@ -4,6 +4,7 @@
  * element construction stacks.
  *
  * https://html.spec.whatwg.org/#concept-already-constructed-marker
+ * @extends AlreadyConstructedMarkerType
  */
 class AlreadyConstructedMarker {}
 

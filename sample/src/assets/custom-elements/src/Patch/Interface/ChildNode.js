@@ -84,7 +84,7 @@ export default function(internals, destination, builtIn) {
       function(...nodes) {
         /**
          * A copy of `nodes`, with any DocumentFragment replaced by its children.
-         * @type {!Array<!Node>}
+         * @type {!Array<!Node|string>}
          */
         const flattenedNodes = [];
 

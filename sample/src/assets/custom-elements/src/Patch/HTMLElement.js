@@ -15,8 +15,7 @@ export default function(internals) {
       // This should really be `new.target` but `new.target` can't be emulated
       // in ES5. Assuming the user keeps the default value of the constructor's
       // prototype's `constructor` property, this is equivalent.
-      /** @type {!Function} */
-      const constructor = this.constructor;
+      const constructor = /** @type {!Function} */ (this.constructor);
 
       const definition = internals.constructorToDefinition(constructor);
       if (!definition) {
@@ -26,7 +25,7 @@ export default function(internals) {
       const constructionStack = definition.constructionStack;
 
       if (constructionStack.length === 0) {
-        const element = Native.Document_createElement.call(document, definition.localName);
+        const element = /** @type {!HTMLElement} */ (Native.Document_createElement.call(document, definition.localName));
         Object.setPrototypeOf(element, constructor.prototype);
         element.__CE_state = CEState.custom;
         element.__CE_definition = definition;
@@ -39,12 +38,13 @@ export default function(internals) {
       if (element === AlreadyConstructedMarker) {
         throw new Error('The HTMLElement constructor was either called reentrantly for this constructor or called multiple times.');
       }
+      const toConstructElement = /** @type {!HTMLElement} */ (element);
       constructionStack[lastIndex] = AlreadyConstructedMarker;
 
-      Object.setPrototypeOf(element, constructor.prototype);
-      internals.patch(/** @type {!HTMLElement} */ (element));
+      Object.setPrototypeOf(toConstructElement, constructor.prototype);
+      internals.patch(toConstructElement);
 
-      return element;
+      return toConstructElement;
     }
 
     HTMLElement.prototype = Native.HTMLElement.prototype;

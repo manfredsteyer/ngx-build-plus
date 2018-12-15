@@ -91,7 +91,7 @@ export default function(internals) {
      * @return {!Node}
      */
     function(deep) {
-      const clone = Native.Node_cloneNode.call(this, deep);
+      const clone = Native.Node_cloneNode.call(this, !!deep);
       // Only create custom elements if this element's owner document is
       // associated with the registry.
       if (!this.ownerDocument.__CE_hasRegistry) {

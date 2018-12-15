@@ -9,7 +9,12 @@
     "externals": {
       "description": "Adds files for compiling with externals",
       "factory": "./externals/index#addExternalsSupport"
+    },
+    "wc-polyfill": {
+      "description": "Adds files for the webcomponents polyfill",
+      "factory": "./webcomponents-polyfill/index#addWebComponentsPolyfill"
     }
+
 
   }
 }

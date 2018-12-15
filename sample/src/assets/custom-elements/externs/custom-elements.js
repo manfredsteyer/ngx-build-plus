@@ -1,7 +1,7 @@
 /** @type {boolean|undefined} */
 CustomElementRegistry.prototype.forcePolyfill;
 
-class AlreadyConstructedMarker {}
+class AlreadyConstructedMarkerType {}
 
 /**
  * @enum {number}
@@ -14,13 +14,13 @@ const CustomElementState = {
 /**
  * @typedef {{
  *  localName: string,
- *  constructor: !Function,
+ *  constructorFunction: !Function,
  *  connectedCallback: Function,
  *  disconnectedCallback: Function,
  *  adoptedCallback: Function,
  *  attributeChangedCallback: Function,
  *  observedAttributes: !Array<string>,
- *  constructionStack: !Array<!HTMLElement|!AlreadyConstructedMarker>,
+ *  constructionStack: !Array<!HTMLElement|!AlreadyConstructedMarkerType>,
  * }}
  */
 let CustomElementDefinition;

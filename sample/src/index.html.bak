@@ -9,21 +9,23 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  
-  <!-- Calling Custom Element -->
-  <custom-element></custom-element>
+  <!--<script src="assets/load-custom-elements-polyfill.js"></script>-->
 
+  <!-- Consider putting the following UMD (!) bundles -->
+  <!-- into a big one -->
 
   <!-- core-js for legacy browsers 
-        Consider only loading for IE
+       Consider only loading for IE
   -->
   <script src="./assets/core-js/core.js"></script>
 
-  <!-- Zone.js 
-        Consider excluding zone.js when creating
-        custom Elements by using the noop zone.
+  <!-- Zone.js -->
+  <!-- 
+    Consider excluding zone.js when creating
+    custom Elements by using the noop zone.
   -->
   <script src="./assets/zone.js/zone.js"></script>
+
 
   <!-- Polyfills for Browsers supporting 
         Custom Elements. Needed b/c we downlevel
@@ -41,12 +43,13 @@
   <script src="./assets/rxjs/rxjs.umd.js"></script>
 
   <!-- Angular Packages -->
-  <!-- Consider putting those bundles into one bundle -->
   <script src="./assets/core/bundles/core.umd.js"></script>
   <script src="./assets/common/bundles/common.umd.js"></script>
   <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
   <script src="./assets/elements/bundles/elements.umd.js"></script>
 
+  <!-- Calling Custom Element -->
+  <custom-element></custom-element>
 
 </body>
 </html>

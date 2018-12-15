@@ -22,7 +22,7 @@ export default class CustomElementInternals {
    */
   setDefinition(localName, definition) {
     this._localNameToDefinition.set(localName, definition);
-    this._constructorToDefinition.set(definition.constructor, definition);
+    this._constructorToDefinition.set(definition.constructorFunction, definition);
   }
 
   /**
@@ -233,7 +233,7 @@ export default class CustomElementInternals {
   }
 
   /**
-   * @param {!Element} element
+   * @param {!HTMLElement} element
    */
   upgradeElement(element) {
     const currentState = element.__CE_state;
@@ -260,7 +260,7 @@ export default class CustomElementInternals {
 
     definition.constructionStack.push(element);
 
-    const constructor = definition.constructor;
+    const constructor = definition.constructorFunction;
     try {
       try {
         let result = new (constructor)();
