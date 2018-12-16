@@ -18,8 +18,12 @@
       "private": true,
       "description": "Executes a node script",
       "factory": "./webcomponents-polyfill/index#executeNodeScript"
+    },
+    "npmRun": {
+      "private": true,
+      "description": "Executes the postinstall script",
+      "factory": "./webcomponents-polyfill/index#npmRun"
     }
-
 
   }
 }

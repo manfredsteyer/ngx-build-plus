@@ -35,17 +35,19 @@ const installNpmPackages: () => Rule = () => (tree: Tree, context: SchematicCont
 export function addExternalsSupport(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     
+    const project = getProject(tree, _options);
+
     updateIndexHtml(_options, tree);
     updatePackageJson(tree, _options);
     
     const templateSource = apply(url('./files'), [
       template({..._options}),
-      move('/')
+      move(project.root || '/')
     ]);
     const rule = 
     chain([
       branchAndMerge(mergeWith(templateSource)),
-      installNpmPackages()
+      // installNpmPackages()
     ]);
 
     // addTasks makes sure this runs after the current schematic has been committed

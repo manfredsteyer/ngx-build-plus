@@ -18,7 +18,8 @@
     "start:old": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true -o",
     "build:elements-loading": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project elements-loading",
     "start:elements-loading": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project elements-loading -o",
-    "postinstall": "node copy-wc-polyfill.js && node copy-bundles.js"
+    "npx-build-plus:copy-assets": "node projects/externals-demo/copy-wc-polyfill.js && node copy-wc-polyfill.js",
+    "postinstall": "node copy-wc-polyfill.js"
   },
   "private": true,
   "dependencies": {
@@ -33,11 +34,11 @@
     "@angular/platform-browser-dynamic": "^7.1.1",
     "@angular/router": "^7.1.1",
     "@webcomponents/custom-elements": "^1.2.1",
+    "copy": "^0.3.2",
     "core-js": "^2.5.4",
     "document-register-element": "^1.7.2",
     "domino": "^2.1.0",
     "ngx-build-modern": "^0.9.2",
-    "ngx-build-plus": "",
     "rxjs": "^6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.26"
@@ -51,7 +52,6 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^4.5.0",
-    "copy": "^0.3.2",
     "cpr": "^3.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

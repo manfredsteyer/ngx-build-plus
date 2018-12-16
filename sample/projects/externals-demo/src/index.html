@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ExternalsDemo</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+
+  <!-- Polyfills for Browsers supporting 
+        Custom Elements. Needed b/c we downlevel
+        to ES5. See: @webcomponents/custom-elements
+  -->
+  <script src="./assets/custom-elements/src/native-shim.js"></script>
+
+  <!-- Polyfills for Browsers not supporting
+        Custom Elements. See: @webcomponents/custom-elements
+        Consider only loading when such a browser is used
+  -->
+  <script src="./assets/custom-elements/custom-elements.min.js"></script>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
+import { RunSchematicTask, NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 const spawn = require('cross-spawn');
 
@@ -17,11 +17,20 @@ const scripts = `
   -->
   <script src="./assets/custom-elements/custom-elements.min.js"></script>
 `
-const installNpmPackages: () => Rule = () => (tree: Tree, context: SchematicContext) => {
-  spawn.sync('npm', ['install', '@webcomponents/custom-elements', '--save'], { stdio: 'inherit' });
-  spawn.sync('npm', ['install', 'copy', '--save-dev'], { stdio: 'inherit' });
-  return tree;
+function npmInstall(options: any): Rule {
+  return function (tree: Tree, context: SchematicContext) {
+    spawn.sync('npm', ['install', options.package, options.switch], { stdio: 'inherit' });
+    return tree;
+  }
 }
+
+export function npmRun(options: any): Rule {
+  return function (tree: Tree, context: SchematicContext) {
+    spawn.sync('npm', ['run', options.script], { stdio: 'inherit' });
+    return tree;
+  }
+}
+
 
 export function executeNodeScript(options: any): Rule {
   const scriptName = options.script;
@@ -33,28 +42,54 @@ export function executeNodeScript(options: any): Rule {
 export function addWebComponentsPolyfill(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     
+    const project = getProject(tree, _options);
+
+    const relProjectRootPath = 
+      project.root.replace(/[^\/]+/g, '..') || '';
+
     const templateSource = apply(url('./files'), [
-      template({..._options}),
-      move('/')
+      template({..._options, relProjectRootPath, projectRoot: project.root || ''}),
+      move(project.root || '/')
     ]);
     const rule = chain([
       updateIndexHtml(_options),
-      updatePackageJson( _options),
+      updatePackageJson(project.root || '', _options),
       branchAndMerge(mergeWith(templateSource)),
-      installNpmPackages()
+      // npmInstall({package: '@webcomponents/custom-elements', switch: '--save'}),
+      // npmInstall({package: 'copy', switch: '--save-dev'}),
     ]);
 
-    // addTasks makes sure this runs after the current schematic has been committed
-    _context.addTask(new RunSchematicTask('executeNodeScript', {script: 'copy-wc-polyfill.js'}));
+    const packageJson = loadPackageJson(tree);
+
+    if (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/custom-elements']) {
+      _context.addTask(new NodePackageInstallTask({
+        packageName: '@webcomponents/custom-elements',
+      }));
+    }
+
+    if (
+      (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/custom-elements']) 
+      && (!packageJson['devDependencies'] || !packageJson['devDependencies']['@webcomponents/custom-elements']) 
+    ) {
+
+    const id = _context.addTask(new NodePackageInstallTask({
+        packageName: 'copy',
+    }));
+
+    _context.addTask(new RunSchematicTask('npmRun', {script: 'npx-build-plus:copy-assets'}), [id]);
+  }
+  else {
+    _context.addTask(new RunSchematicTask('npmRun', {script: 'npx-build-plus:copy-assets'}));
+  }
 
     return rule(tree, _context);
   };
 }
 
-function updatePackageJson(_options: any): Rule {
+function updatePackageJson(path: string, _options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const config = loadPackageJson(tree);
-    updateScripts(config, tree, _options);
+    updateScripts(path, config, tree, _options);
     savePackageJson(config, tree);
     return tree;
   }
@@ -105,23 +140,22 @@ function loadPackageJson(tree: Tree) {
   return config;
 }
 
-function updateScripts(config: any, tree: Tree, _options: any) {
-  const script = 'node copy-wc-polyfill.js';
+function updateScripts(path: string, config: any, tree: Tree, _options: any) {
+  const script = `node ${path}copy-wc-polyfill.js`;
   
   if (!config['scripts']) {
     config.scripts = {};
   }
   
-  let postinstall: string = config.scripts['postinstall'];
+  let currentScript: string = config.scripts['npx-build-plus:copy-assets'];
 
-  if (!postinstall) {
-    postinstall = script;
+  if (!currentScript) {
+    currentScript = script;
   }
-  else if (!postinstall.includes(script)) {
-    postinstall += ' && ' + script;
+  else if (!currentScript.includes(script)) {
+    currentScript += ' && ' + script;
   }
 
-  config.scripts['postinstall'] = postinstall;
-
+  config.scripts['npx-build-plus:copy-assets'] = currentScript;
 }
 
