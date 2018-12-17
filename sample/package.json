@@ -18,8 +18,10 @@
     "start:old": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true -o",
     "build:elements-loading": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project elements-loading",
     "start:elements-loading": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project elements-loading -o",
-    "npx-build-plus:copy-assets": "node projects/externals-demo/copy-wc-polyfill.js && node copy-wc-polyfill.js",
-    "postinstall": "node copy-wc-polyfill.js"
+    "npx-build-plus:copy-assets": "node projects/externals-demo/copy-wc-polyfill.js && node copy-wc-polyfill.js && node copy-bundles.js && node projects/externals-demo/copy-bundles.js",
+    "postinstall": "node copy-wc-polyfill.js",
+    "build:externals-demo": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project externals-demo",
+    "start:externals-demo": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project externals-demo -o"
   },
   "private": true,
   "dependencies": {

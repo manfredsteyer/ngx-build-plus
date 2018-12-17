@@ -51,6 +51,7 @@ export function addWebComponentsPolyfill(_options: any): Rule {
       template({..._options, relProjectRootPath, projectRoot: project.root || ''}),
       move(project.root || '/')
     ]);
+    
     const rule = chain([
       updateIndexHtml(_options),
       updatePackageJson(project.root || '', _options),

@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
+import { RunSchematicTask, NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 const spawn = require('cross-spawn');
 
@@ -25,42 +25,52 @@ const scripts = `
   <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
   <script src="./assets/elements/bundles/elements.umd.js"></script>
 `
-const installNpmPackages: () => Rule = () => (tree: Tree, context: SchematicContext) => {
-  console.info('Installing deps');
-  // spawn.sync('npm', ['install', '@webcomponents/custom-elements', '--save'], { stdio: 'inherit' });
-  spawn.sync('npm', ['install', 'copy', '--save-dev'], { stdio: 'inherit' });
-  return tree;
-}
+
 
 export function addExternalsSupport(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     
     const project = getProject(tree, _options);
 
+    const relProjectRootPath = 
+            project.root.replace(/[^\/]+/g, '..') || '';
+
     updateIndexHtml(_options, tree);
-    updatePackageJson(tree, _options);
+    updatePackageJson(project.root || '', tree, _options);
     
     const templateSource = apply(url('./files'), [
-      template({..._options}),
+      template({..._options, relProjectRootPath, projectRoot: project.root || ''}),
       move(project.root || '/')
     ]);
+
     const rule = 
-    chain([
-      branchAndMerge(mergeWith(templateSource)),
-      // installNpmPackages()
-    ]);
+      chain([
+        branchAndMerge(mergeWith(templateSource))
+      ]);
 
-    // addTasks makes sure this runs after the current schematic has been committed
-    _context.addTask(new RunSchematicTask('executeNodeScript', {script: 'copy-bundles.js'}));
+      const packageJson = loadPackageJson(tree);
 
+      if (
+        (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/custom-elements']) 
+        && (!packageJson['devDependencies'] || !packageJson['devDependencies']['@webcomponents/custom-elements']) 
+      ) {
+  
+      const id = _context.addTask(new NodePackageInstallTask({
+          packageName: 'copy',
+      }));
+  
+      _context.addTask(new RunSchematicTask('npmRun', {script: 'npx-build-plus:copy-assets'}), [id]);
+    }
+    else {
+      _context.addTask(new RunSchematicTask('npmRun', {script: 'npx-build-plus:copy-assets'}));
+    }
     return rule(tree, _context);
   };
 }
 
-
-function updatePackageJson(tree: Tree, _options: any) {
+function updatePackageJson(path: string, tree: Tree, _options: any) {
   const config = loadPackageJson(tree);
-  updateScripts(config, tree, _options);
+  updateScripts(path, config, tree, _options);
   savePackageJson(config, tree);
 }
 
@@ -106,24 +116,24 @@ function loadPackageJson(tree: Tree) {
   return config;
 }
 
-function updateScripts(config: any, tree: Tree, _options: any) {
+function updateScripts(path: string, config: any, tree: Tree, _options: any) {
   const project = getProject(tree, _options);
   
   if (!config['scripts']) {
     config.scripts = {};
   }
 
-  const postInstallScript = 'node copy-bundles.js';
-  let postinstall: string = config.scripts['postinstall'];
+  const script = `node ${path}copy-bundles.js`;
+  let copyAssetsScript: string = config.scripts['npx-build-plus:copy-assets'];
 
-  if (!postinstall) {
-    postinstall = postInstallScript;
+  if (!copyAssetsScript) {
+    copyAssetsScript = script;
   }
-  else if (!postinstall.includes(postInstallScript)) {
-    postinstall += ' && ' + postInstallScript;
+  else if (!copyAssetsScript.includes(script)) {
+    copyAssetsScript += ' && ' + script;
   }
 
-  config.scripts['postinstall'] = postinstall;
+  config.scripts['npx-build-plus:copy-assets'] = copyAssetsScript;
   
   // Heuristic for default project
   if (!project.root) {
@@ -138,4 +148,3 @@ function updateScripts(config: any, tree: Tree, _options: any) {
     config.scripts[`start:${_options.project}`] = `ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project ${_options.project} -o`;
   }
 }
-
