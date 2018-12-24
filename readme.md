@@ -84,8 +84,70 @@ Please find the example shown here in the sample application in the folder ``pro
 
 6. Make sure that the VERSION provided by your webpack config is displayed.
 
+## Using Plugins
 
-## Another example: Externals and Angular Elements
+Plugins allow you to provide some custom code that modifies your webpack configuration. In addition to that, they also provide a pre- and a post-hook for tasks that need to take happen before and after bundling. This is an example for an plugin:
+
+```typescript
+export default {
+    pre() {
+        console.debug('pre');
+    },
+    config(cfg) {
+        console.debug('config');
+        return cfg;
+    },
+    post() {
+        console.debug('post');
+    }
+}
+```
+
+As this plugin is written with TypeScript you need to compile it.
+
+The ``config`` method works like a ``configHook`` (see above).
+
+To use a plugin, point to it's JavaScript representation (not the TypeScript file) using the ``--plugin`` switch:
+
+```
+ng build --plugin ~dist\out-tsc\hook\plugin
+```
+
+The prefix ``~`` points to the current directory. Without this prefix, ngx-build-plus assumes that the plugin is an installed ``node_module``.
+
+## Using different merging strategies
+
+You can also use plugins to implement different merging strategies. The following plugin demonstrates this:
+
+```javascript
+var merge = require('webpack-merge');
+var webpack = require('webpack');
+
+exports.default = {
+    config: function(cfg) {
+        const strategy = merge.strategy({
+            'plugins': 'prepend'
+        });
+
+        return strategy (cfg, {
+            plugins: [
+                new webpack.DefinePlugin({
+                    "VERSION": JSON.stringify("4711")
+                })
+            ]
+        });
+    }
+}
+```
+To execute this, use the following command:
+
+```
+ng build --plugin ~my-plugin.js
+```
+
+One more time, the ``~`` tells ngx-build-plus that the plugin is not an installed node_module but a local file.
+
+## Advanced example: Externals and Angular Elements
 
 This shows another example for using ``ngx-build-plus``. It uses a custom webpack configuration to define some dependencies of an Angular Element as external which can be loaded separately into the browser and shared among several bundles.
 
@@ -252,58 +314,3 @@ The result of this description can be found in the [repository's](https://github
 
 **Hint:** The sample project contains a node script ``copy-bundles.js`` that copies the needed UMD bundles from the ``node_modules`` folder into the assets folder.
 
-
-## Using a custom function to modify the webpack config
-
-For more advanced modifications you can provide a function that gets the webpack config passed and returns the modified one.
-
-Follow the following steps to try it out:
-
-1. Add a file with a config hook to your project (``hook/hook.ts``):
-
-    ```typescript
-    export default (cfg) => {
-        console.debug('config', cfg);
-        // mess around with wepback config here ...
-        return cfg;
-    }
-    ```
-
-2. Compile your solution using ``tsc``.
-
-3. Use the ``configHook`` switch to point to the compiled version of your hook:
-
-    ```
-    ng build --configHook ~dist/out-tsc/hook/hook
-    ```
-
-The prefix ``~`` is replaced with your current directory. If you don't use it, it points to a installed ``node_module``.
-
-## Using Plugins
-
-Plugins work similar to custom functions for configuring webpack (see above). However, they also provide a pre- and a post-hook for tasks that need to take happen before and after bundling. This is an example for an plugin:
-
-```typescript
-export default {
-    pre() {
-        console.debug('pre');
-    },
-    config(cfg) {
-        console.debug('config');
-        return cfg;
-    },
-    post() {
-        console.debug('post');
-    }
-}
-```
-
-The ``config`` method works like a ``configHook`` (see above).
-
-To use a plugin, point to it using the ``--plugin`` switch:
-
-```
-ng build --plugin ~dist\out-tsc\hook\plugin
-```
-
-The prefix ``~`` points to the current directory. Without this prefix, ngx-build-plus assumes that the plugin is an installed ``node_module``.

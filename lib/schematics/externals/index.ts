@@ -13,6 +13,9 @@ const scripts = `
   <!-- Zone.js 
         Consider excluding zone.js when creating
         custom Elements by using the noop zone.
+
+        If you load zone.js with an additional 
+        bundle, delete this line.
   -->
   <script src="./assets/zone.js/zone.js"></script>
 
@@ -22,8 +25,17 @@ const scripts = `
   <!-- Angular Packages -->
   <script src="./assets/core/bundles/core.umd.js"></script>
   <script src="./assets/common/bundles/common.umd.js"></script>
-  <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
+  <script src="./assets/common/bundles/common-http.umd.js"></script>
   <script src="./assets/elements/bundles/elements.umd.js"></script>
+
+  <!-- Just needed for prod mode -->
+  <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
+  
+  <!-- Just needed for dev mode -->
+  <!--
+  <script src="./assets/compiler/bundles/compiler.umd.js"></script>
+  <script src="./assets/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"></script>
+  -->
 `
 
 
@@ -51,8 +63,8 @@ export function addExternalsSupport(_options: any): Rule {
       const packageJson = loadPackageJson(tree);
 
       if (
-        (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/custom-elements']) 
-        && (!packageJson['devDependencies'] || !packageJson['devDependencies']['@webcomponents/custom-elements']) 
+        (!packageJson['dependencies'] || !packageJson['dependencies']['copy']) 
+        && (!packageJson['devDependencies'] || !packageJson['devDependencies']['copy']) 
       ) {
   
       const id = _context.addTask(new NodePackageInstallTask({
@@ -137,14 +149,11 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any) {
   
   // Heuristic for default project
   if (!project.root) {
-    config.scripts['build:old'] = config.scripts['build'];
-    config.scripts['start:old'] = config.scripts['start'];
-    config.scripts['build'] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod`;
-    config.scripts['start'] = `ng serve --extra-webpack-config webpack.externals.js --single-bundle true -o`;
+    config.scripts['build:externals'] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod`;
   }
 
   if (_options.project) {
-    config.scripts[`build:${_options.project}`] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project ${_options.project}`;
-    config.scripts[`start:${_options.project}`] = `ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project ${_options.project} -o`;
+    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project ${_options.project}`;
+
   }
 }

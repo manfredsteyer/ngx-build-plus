@@ -41,17 +41,17 @@ export function executeNodeScript(options: any): Rule {
 
 export function addWebComponentsPolyfill(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    
+
     const project = getProject(tree, _options);
 
-    const relProjectRootPath = 
+    const relProjectRootPath =
       project.root.replace(/[^\/]+/g, '..') || '';
 
     const templateSource = apply(url('./files'), [
-      template({..._options, relProjectRootPath, projectRoot: project.root || ''}),
+      template({ ..._options, relProjectRootPath, projectRoot: project.root || '' }),
       move(project.root || '/')
     ]);
-    
+
     const rule = chain([
       updateIndexHtml(_options),
       updatePackageJson(project.root || '', _options),
@@ -69,19 +69,19 @@ export function addWebComponentsPolyfill(_options: any): Rule {
     }
 
     if (
-      (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/custom-elements']) 
-      && (!packageJson['devDependencies'] || !packageJson['devDependencies']['@webcomponents/custom-elements']) 
+      (!packageJson['dependencies'] || !packageJson['dependencies']['copy'])
+      && (!packageJson['devDependencies'] || !packageJson['devDependencies']['copy'])
     ) {
 
-    const id = _context.addTask(new NodePackageInstallTask({
+      const id = _context.addTask(new NodePackageInstallTask({
         packageName: 'copy',
-    }));
+      }));
 
-    _context.addTask(new RunSchematicTask('npmRun', {script: 'npx-build-plus:copy-assets'}), [id]);
-  }
-  else {
-    _context.addTask(new RunSchematicTask('npmRun', {script: 'npx-build-plus:copy-assets'}));
-  }
+      _context.addTask(new RunSchematicTask('npmRun', { script: 'npx-build-plus:copy-assets' }), [id]);
+    }
+    else {
+      _context.addTask(new RunSchematicTask('npmRun', { script: 'npx-build-plus:copy-assets' }));
+    }
 
     return rule(tree, _context);
   };
@@ -105,7 +105,7 @@ function updateIndexHtml(options: any): Rule {
     if (indexHtml === null)
       throw Error('could not read index.html');
     const contentAsString = indexHtml.toString('UTF-8');
-    
+
     if (contentAsString.includes('custom-elements.min.js')) {
       console.info('Seems like, webcomponent polyfills are already referenced by index.html');
       return;
@@ -143,11 +143,11 @@ function loadPackageJson(tree: Tree) {
 
 function updateScripts(path: string, config: any, tree: Tree, _options: any) {
   const script = `node ${path}copy-wc-polyfill.js`;
-  
+
   if (!config['scripts']) {
     config.scripts = {};
   }
-  
+
   let currentScript: string = config.scripts['npx-build-plus:copy-assets'];
 
   if (!currentScript) {
