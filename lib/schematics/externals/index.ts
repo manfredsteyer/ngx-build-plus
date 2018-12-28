@@ -1,6 +1,7 @@
 import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { RunSchematicTask, NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import * as path from 'path';
 
 const spawn = require('cross-spawn');
 
@@ -88,6 +89,7 @@ function updatePackageJson(path: string, tree: Tree, _options: any) {
 
 function updateIndexHtml(options: any, tree: Tree) {
   const project = getProject(tree, options);
+
   const fileName = `${project.sourceRoot}/index.html`;
 
   const indexHtml = tree.read(fileName);
@@ -111,6 +113,16 @@ function getProject(tree: Tree, options: any) {
     options.project = Object.keys(workspace.projects)[0];
   }
   const project = workspace.projects[options.project];
+
+  // compensate for lacking sourceRoot property
+  // e. g. when project was migrated to ng7, sourceRoot is lacking
+  if (!project.sourceRoot && !project.root) {
+    project.sourceRoot = 'src';
+  }
+  else if (!project.sourceRoot) {
+    project.sourceRoot = path.join(project.root, 'src');
+  }
+
   return project;
 }
 
