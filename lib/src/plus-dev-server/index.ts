@@ -42,6 +42,18 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
 
     return config;
   }
+
+  _buildServerConfig(root, projectRoot, options, browserOptions) {
+    let devServerConfig = super._buildServerConfig(root, projectRoot, options, browserOptions);
+
+    if (this.localOptions.extraWebpackConfig) {
+      const filePath = path.resolve(core_1.getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
+      const additionalConfig = require(filePath).devServer || {};
+      devServerConfig = webpackMerge([devServerConfig, additionalConfig]);
+    }
+
+    return devServerConfig;
+  }
 }
 
 export default PlusDevServerBuilder;
