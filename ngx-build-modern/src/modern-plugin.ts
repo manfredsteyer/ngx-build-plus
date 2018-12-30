@@ -173,7 +173,7 @@ function buildModernOutput(config: any) {
 }
 
 function buildModernResolve(config: any) {
-    let modernResolve = { ...config.reolve };
+    let modernResolve = { ...config.resolve };
     modernResolve.mainFields = ['es2015', 'module', 'browser', 'main'];
     return modernResolve;
 }
