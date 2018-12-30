@@ -13,6 +13,13 @@
       "description": "Generate just one bundle",
       "default": false
     },
+
+    "configHook": {
+      "type": "string",
+      "description": "es module exporting a configHook function (default export).",
+      "default": ""
+    },
+
     "bundleStyles": {
       "type": "boolean",
       "description": "Used conjunction with 'singleBundle' to explizitly not bundle styles",
