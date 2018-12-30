@@ -1,6 +1,8 @@
 import { Path, getSystemPath, virtualFs } from '@angular-devkit/core';
 import * as path from 'path';
 import * as fs from 'fs';
+import { ConfigHookFn } from '../ext/hook';
+import { loadHook } from '../ext/load-hook';
 
 import { DevServerBuilder as DevServerBuilderBase, BrowserBuilderSchema as BrowserBuilderSchemaBase   } from '@angular-devkit/build-angular';
 const webpackMerge = require('webpack-merge');
@@ -9,6 +11,7 @@ export interface BrowserBuilderSchema extends BrowserBuilderSchemaBase {
   extraWebpackConfig: string;
   singleBundle: boolean;
   bundleStyles: boolean;
+  configHook: string;
 }
 
 export class PlusDevServerBuilder extends DevServerBuilderBase {
@@ -26,6 +29,7 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
 
     if (this.localOptions.singleBundle) {
       delete config.entry.polyfills;
+
       delete config.entry.styles;
       delete config.optimization.runtimeChunk;
       delete config.optimization.splitChunks;
@@ -41,7 +45,24 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
       config = webpackMerge([config, additionalConfig]);
     }
 
+    if (this.localOptions.configHook) {
+      const hook = loadHook<ConfigHookFn>(this.localOptions.configHook);
+      config = hook(config);
+    }
+
     return config;
+  }
+
+  _buildServerConfig(root, projectRoot, options, browserOptions) {
+    let devServerConfig = super._buildServerConfig(root, projectRoot, options, browserOptions);
+
+    if (this.localOptions.extraWebpackConfig) {
+      const filePath = path.resolve(core_1.getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
+      const additionalConfig = require(filePath).devServer || {};
+      devServerConfig = webpackMerge([devServerConfig, additionalConfig]);
+    }
+
+    return devServerConfig;
   }
 }
 

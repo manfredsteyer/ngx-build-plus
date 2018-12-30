@@ -9,23 +9,14 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <!--<script src="assets/load-custom-elements-polyfill.js"></script>-->
-
-  <!-- Consider putting the following UMD (!) bundles -->
-  <!-- into a big one -->
-
-  <!-- core-js for legacy browsers -->
-  <script src="./assets/core-js/core.js"></script>
-
-  <!-- Zone.js -->
-  <!-- 
-    Consider excluding zone.js when creating
-    custom Elements by using the noop zone.
-  -->
-  <script src="./assets/zone.js/zone.js"></script>
+  
 
 
-  <!-- Polyfills for Browsers supporting 
+  <!-- Calling Custom Element -->
+  <custom-element></custom-element>
+
+
+    <!-- Polyfills for Browsers supporting 
         Custom Elements. Needed b/c we downlevel
         to ES5. See: @webcomponents/custom-elements
   -->
@@ -33,8 +24,21 @@
 
   <!-- Polyfills for Browsers not supporting
         Custom Elements. See: @webcomponents/custom-elements
+        Consider only loading when such a browser is used
   -->
   <script src="./assets/custom-elements/custom-elements.min.js"></script>
+
+
+  <!-- core-js for legacy browsers 
+        Consider only loading for IE
+  -->
+  <script src="./assets/core-js/core.js"></script>
+
+  <!-- Zone.js 
+        Consider excluding zone.js when creating
+        custom Elements by using the noop zone.
+  -->
+  <script src="./assets/zone.js/zone.js"></script>
 
   <!-- Rx -->
   <script src="./assets/rxjs/rxjs.umd.js"></script>
@@ -45,8 +49,7 @@
   <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
   <script src="./assets/elements/bundles/elements.umd.js"></script>
 
-  <!-- Calling Custom Element -->
-  <custom-element></custom-element>
+
 
 </body>
 </html>

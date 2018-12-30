@@ -27,6 +27,15 @@ export function addNgxBuildModern(_options: any): Rule {
 function generateModernConfigs(tree: Tree, _options: any) {
   const project = getProject(tree, _options.project);
 
+  // compensate for lacking sourceRoot property
+  // e. g. when project was migrated to ng7, sourceRoot is lacking
+  if (!project.sourceRoot && !project.root) {
+    project.sourceRoot = 'src';
+  }
+  else if (!project.sourceRoot) {
+    project.sourceRoot = path.join(project.root, 'src');
+  }
+
   // TODO: If project is not main project (src !== ""), 
   // use root instead of sourceRoot for tsconfig.modern.app.json
   // (the path of polyfills.modern.ts is fine)

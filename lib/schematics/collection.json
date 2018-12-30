@@ -5,6 +5,24 @@
       "description": "Adds ngx-build-plus",
       "factory": "./add-ngx-build-plus/index#addNgxBuildPlus",
       "schema": "./add-ngx-build-plus/schema.json"
+    },
+    "externals": {
+      "description": "Adds files for compiling with externals",
+      "factory": "./externals/index#addExternalsSupport"
+    },
+    "wc-polyfill": {
+      "description": "Adds files for the webcomponents polyfill",
+      "factory": "./webcomponents-polyfill/index#addWebComponentsPolyfill"
+    },
+    "executeNodeScript": {
+      "private": true,
+      "description": "Executes a node script",
+      "factory": "./webcomponents-polyfill/index#executeNodeScript"
+    },
+    "npmRun": {
+      "private": true,
+      "description": "Executes the postinstall script",
+      "factory": "./webcomponents-polyfill/index#npmRun"
     }
 
   }
