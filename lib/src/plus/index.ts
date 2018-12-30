@@ -26,7 +26,8 @@ export class PlusBuilder extends BrowserBuilder  {
 
     if (this.localOptions.singleBundle) {
       delete config.entry.polyfills;
-      delete config.optimization;
+      delete config.optimization.runtimeChunk;
+      delete config.optimization.splitChunks;
     }
 
     if (this.localOptions.singleBundle && this.localOptions.bundleStyles !== false) {
