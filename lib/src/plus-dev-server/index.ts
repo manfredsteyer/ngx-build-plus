@@ -15,6 +15,7 @@ const webpackMerge = require('webpack-merge');
 export interface BrowserBuilderSchema extends BrowserBuilderSchemaBase {
   extraWebpackConfig: string;
   singleBundle: boolean;
+  keepPolyfills: boolean;
   bundleStyles: boolean;
   configHook: string;
   plugin: string;
@@ -34,7 +35,9 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
     if (this.localOptions.singleBundle) {
-      delete config.entry.polyfills;
+      if (!this.localOptions.keepPolyfills) {
+        delete config.entry.polyfills;
+      } 
       delete config.optimization.runtimeChunk;
       delete config.optimization.splitChunks;
     }

@@ -25,7 +25,10 @@ export class PlusBuilder extends BrowserBuilder  {
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
     if (this.localOptions.singleBundle) {
-      delete config.entry.polyfills;
+      
+      if (!this.localOptions.keepPolyfills) {
+        delete config.entry.polyfills;
+      } 
       delete config.optimization.runtimeChunk;
       delete config.optimization.splitChunks;
     }
