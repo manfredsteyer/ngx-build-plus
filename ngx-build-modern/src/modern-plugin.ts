@@ -3,6 +3,9 @@ import * as path from 'path';
 
 const domino = require('domino');
 
+const SUFFIX_MODERN = 'modern';
+const SUFFIX_LEGACY = 'legacy';
+
 // TODO: PR that allows skipping options.verbose = true; 
 
 export default {
@@ -16,7 +19,7 @@ export default {
         options.verbose = true;
     },
     config(config) {
-        
+
         // Preventing too much unneeded warnings
         if (!config['stats']) {
             config['stats'] = {};
@@ -25,12 +28,12 @@ export default {
         
         const legacyConfig = {
             ...config, 
-            output: buildLegacyOutput(config)
+            output: buildOutput(config, SUFFIX_LEGACY)
         };
         
         const modernConfig = {
             ...config, 
-            output: buildModernOutput(config),
+            output: buildOutput(config, SUFFIX_MODERN),
             plugins: buildModernPlugins(config),
             entry: buildModernEntry(config),
             resolve: buildModernResolve(config)
@@ -76,7 +79,7 @@ function writeIndexHtml(indexPath: string, indexDocument: HTMLDocument) {
 
 function findLegacyScripts(indexDocument: HTMLDocument) {
     const scripts = Array.from(indexDocument.getElementsByTagName('script'));
-    const legacyScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.endsWith('.legacy.js'));
+    const legacyScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.includes(`.${SUFFIX_LEGACY}.`));
     return legacyScripts;
 }
 
@@ -104,14 +107,14 @@ function setNoModuleFlag(legacyScripts: HTMLScriptElement[]) {
 
 function addModernElements(outputPath: string, indexDocument: HTMLDocument, firstLegacyScript: HTMLScriptElement) {
     const modernIndexPath = path.join(
-        outputPath, 'index.modern.html');
+        outputPath, `index.${SUFFIX_MODERN}.html`);
     const modernIndex = fs.readFileSync(modernIndexPath, { encoding: 'UTF-8' });
     const modernIndexDocument: HTMLDocument = domino.createDocument(modernIndex, true);
     
     insertPreloadStyles(indexDocument);
 
     const scripts = Array.from(modernIndexDocument.getElementsByTagName('script'));
-    const modernScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.endsWith('.modern.js'));
+    const modernScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.includes(`.${SUFFIX_MODERN}.`));
 
     modernScripts.forEach(script => {
         indexDocument.adoptNode(script);
@@ -167,13 +170,12 @@ function moveStylesToEndOfHead(indexDocument: HTMLDocument) {
     })
 }
 
-function buildLegacyOutput(config: any) {
-    return { ...config.output, filename: '[name].legacy.js' };
+function buildOutput(config: any, suffix: string) {
+    const filename = config.output.filename.replace('[name]', `[name].${suffix}`);
+    return { ...config.output, filename };
 }
 
-function buildModernOutput(config: any) {
-    return { ...config.output, filename: '[name].modern.js' };
-}
+
 
 function buildModernResolve(config: any) {
     let modernResolve = { ...config.resolve };
@@ -186,7 +188,7 @@ function buildModernEntry(config: any) {
     const polyfills: string[] = entry.polyfills;
     const tweakPolyfills = (file) => {
         if (file.endsWith('polyfills.ts')) {
-            return file.replace('polyfills.ts', 'polyfills.modern.ts');
+            return file.replace('polyfills.ts', `polyfills.${SUFFIX_MODERN}.ts`);
         }
         else {
             return file;
@@ -217,7 +219,7 @@ function buildModernPlugins(config: any) {
 function buildModernHtmlPlugin(htmlPlugin: any) {
     const indexOptions = htmlPlugin._options;
     const modernIndexOptions = { ...indexOptions };
-    modernIndexOptions.output = 'index.modern.html';
+    modernIndexOptions.output = `index.${SUFFIX_MODERN}.html`;
     const modernHtmlPlugin = new htmlPlugin.constructor(modernIndexOptions);
     return modernHtmlPlugin;
 }
