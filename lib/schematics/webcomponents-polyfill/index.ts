@@ -5,6 +5,14 @@ import * as path from 'path';
 
 const spawn = require('cross-spawn');
 
+// TODO: Put 2nd polyfill into polyfills.ts
+//       --full flag: wc loader instead of ce polyfill 
+//       Example:
+//       if (!window['customElements']) {
+//          document.write(`<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>`);
+//       }
+
+
 const scripts = `
   <!-- Polyfills for Browsers supporting 
         Custom Elements. Needed b/c we downlevel
@@ -65,6 +73,12 @@ export function addWebComponentsPolyfill(_options: any): Rule {
     if (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/custom-elements']) {
       _context.addTask(new NodePackageInstallTask({
         packageName: '@webcomponents/custom-elements',
+      }));
+    }
+
+    if (!packageJson['dependencies'] || !packageJson['dependencies']['@webcomponents/webcomponentsjs']) {
+      _context.addTask(new NodePackageInstallTask({
+        packageName: '@webcomponents/webcomponentsjs',
       }));
     }
 

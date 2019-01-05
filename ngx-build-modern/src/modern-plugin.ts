@@ -18,7 +18,10 @@ export default {
     config(config) {
         
         // Preventing too much unneeded warnings
-        config.stats.warningsFilter = /Terser Plugin/;
+        if (!config['stats']) {
+            config['stats'] = {};
+        }
+        config.stats.warningsFilter = /./;
         
         const legacyConfig = {
             ...config, 

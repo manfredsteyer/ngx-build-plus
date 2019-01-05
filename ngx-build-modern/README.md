@@ -26,6 +26,8 @@ Big thanks to ...
 - Angular >= 7.0.0
 - Angular CLI >= 7.0.0
 
+**Important:** **If** you've **migrated to Angular 7.0** make sure to have a current version of ``@angular-devkit/build-angular``
+
 ## Getting Started
 
 Using this library is quite automated. You just need the following commands:
