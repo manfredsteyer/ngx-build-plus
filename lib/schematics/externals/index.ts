@@ -6,6 +6,11 @@ import * as path from 'path';
 const spawn = require('cross-spawn');
 
 const scripts = `
+
+  <!-- Here, all the shared code is imported -->
+  <!-- consider creating one or several bundles -->
+  <!-- for those -->
+
   <!-- core-js for legacy browsers 
         Consider only loading for IE
   -->
@@ -20,6 +25,8 @@ const scripts = `
   -->
   <script src="./assets/zone.js/zone.js"></script>
 
+  <!-- TODO: Add further needed polyfills here ... -->
+
   <!-- Rx -->
   <script src="./assets/rxjs/rxjs.umd.js"></script>
 
@@ -29,16 +36,15 @@ const scripts = `
   <script src="./assets/common/bundles/common-http.umd.js"></script>
   <script src="./assets/elements/bundles/elements.umd.js"></script>
 
+  <script src="./assets/forms/bundles/forms.umd.js"></script>
+  <script src="./assets/router/bundles/router.umd.js"></script>
+
+  <!-- TODO: Add further needed Angular libs here ... -->
+
   <!-- Just needed for prod mode -->
   <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
-  
-  <!-- Just needed for dev mode -->
-  <!--
-  <script src="./assets/compiler/bundles/compiler.umd.js"></script>
-  <script src="./assets/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"></script>
-  -->
-`
 
+`
 
 export function addExternalsSupport(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -49,6 +55,15 @@ export function addExternalsSupport(_options: any): Rule {
             project.root.replace(/[^\/]+/g, '..') || '';
 
     updateIndexHtml(_options, tree);
+    
+    // The host decides about prod mode 
+    // when sharing deps
+    if (!_options.host) {
+      removeEnableProdModeInMainTs(_options, tree);
+    }
+
+    emptyPolyfillsTs(_options, tree);
+
     updatePackageJson(project.root || '', tree, _options);
     
     const templateSource = apply(url('./files'), [
@@ -87,6 +102,21 @@ function updatePackageJson(path: string, tree: Tree, _options: any) {
   savePackageJson(config, tree);
 }
 
+function removeEnableProdModeInMainTs(options: any, tree: Tree) {
+  const project = getProject(tree, options);
+
+  const fileName = `${project.sourceRoot}/main.ts`;
+
+  const content = tree.read(fileName);
+  if (content === null)
+    throw Error('could not read main.ts');
+  const contentAsString = content.toString('UTF-8');
+  
+  const modifiedContent = contentAsString.replace('enableProdMode();', '// Let the host app decide about prod mode\n  // enableProdMode();');
+
+  tree.overwrite(fileName, modifiedContent);
+}
+
 function updateIndexHtml(options: any, tree: Tree) {
   const project = getProject(tree, options);
 
@@ -106,6 +136,30 @@ function updateIndexHtml(options: any, tree: Tree) {
 
   tree.overwrite(fileName, modifiedContent);
 }
+
+
+function emptyPolyfillsTs(options: any, tree: Tree) {
+  const project = getProject(tree, options);
+
+  const fileName = `${project.sourceRoot}/polyfills.ts`;
+  const bakFileName = `${project.sourceRoot}/polyfills.ts.bak`;
+
+  const content = tree.read(fileName);
+  if (content === null)
+    throw Error('could not read polyfills.ts');
+  const contentAsString = content.toString('UTF-8');
+  
+  if (!tree.exists(bakFileName)) {
+    tree.create(bakFileName, contentAsString);
+  }
+
+  tree.overwrite(fileName, `
+// in extenals mode, polyfills are directly loaded into index.html
+// to make sure everything is loaded in the right order
+// the original contents of this file has been moved to polyfills.ts.bak
+  `);
+}
+
 
 function getProject(tree: Tree, options: any) {
   const workspace = getWorkspace(tree);
@@ -159,13 +213,20 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any) {
 
   config.scripts['npx-build-plus:copy-assets'] = copyAssetsScript;
   
+  let additionalFlags = '';
+
+  if (!_options.host) {
+    // external web components need single bundle w/ output hashing
+    additionalFlags = '-- single-bundle --output-hashing none';
+  }
+
   // Heuristic for default project
   if (!project.root) {
-    config.scripts['build:externals'] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod`;
+    config.scripts['build:externals'] = `ng build --extra-webpack-config webpack.externals.js ${additionalFlags} true --prod`;
   }
 
   if (_options.project) {
-    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project ${_options.project}`;
+    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config webpack.externals.js ${additionalFlags} --prod --project ${_options.project}`;
 
   }
 }

@@ -5,27 +5,23 @@ import * as path from 'path';
 
 const spawn = require('cross-spawn');
 
-// TODO: Put 2nd polyfill into polyfills.ts
-//       --full flag: wc loader instead of ce polyfill 
-//       Example:
-//       if (!window['customElements']) {
-//          document.write(`<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>`);
-//       }
-
-
-const scripts = `
+const scriptsIndexHtml = `
   <!-- Polyfills for Browsers supporting 
         Custom Elements. Needed b/c we downlevel
         to ES5. See: @webcomponents/custom-elements
   -->
   <script src="./assets/custom-elements/src/native-shim.js"></script>
-
-  <!-- Polyfills for Browsers not supporting
-        Custom Elements. See: @webcomponents/custom-elements
-        Consider only loading when such a browser is used
-  -->
-  <script src="./assets/custom-elements/custom-elements.min.js"></script>
 `
+
+const scriptsPolyfills = `
+  // This polyfill for web components has to be loaded 
+  // after the other polyfills (esp. the core-js ones) 
+  // using a script tag
+  if (!window['customElements']) {
+      document.write('<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>');
+  }
+`;
+
 function npmInstall(options: any): Rule {
   return function (tree: Tree, context: SchematicContext) {
     spawn.sync('npm', ['install', options.package, options.switch], { stdio: 'inherit' });
@@ -62,6 +58,7 @@ export function addWebComponentsPolyfill(_options: any): Rule {
 
     const rule = chain([
       updateIndexHtml(_options),
+      updatePolyfills(_options),
       updatePackageJson(project.root || '', _options),
       branchAndMerge(mergeWith(templateSource)),
       // npmInstall({package: '@webcomponents/custom-elements', switch: '--save'}),
@@ -120,17 +117,40 @@ function updateIndexHtml(options: any): Rule {
       throw Error('could not read index.html');
     const contentAsString = indexHtml.toString('UTF-8');
 
-    if (contentAsString.includes('custom-elements.min.js')) {
+    if (contentAsString.includes('native-shim.js')) {
       console.info('Seems like, webcomponent polyfills are already referenced by index.html');
       return;
     }
 
-    const modifiedContent = contentAsString.replace('</body>', scripts + '\n</body>');
+    const modifiedContent = contentAsString.replace('</body>', scriptsIndexHtml + '\n</body>');
 
     tree.overwrite(fileName, modifiedContent);
     return tree;
   }
 }
+
+function updatePolyfills(options: any): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const project = getProject(tree, options);
+    const fileName = `${project.sourceRoot}/polyfills.js`;
+
+    const polyfillsJs = tree.read(fileName);
+    if (polyfillsJs === null)
+      throw Error('could not read polyfills.js');
+    const contentAsString = polyfillsJs.toString('UTF-8');
+
+    if (contentAsString.includes('webcomponents-loader.js')) {
+      console.info('Seems like, webcomponents-loader is already referenced by polyfill.js');
+      return;
+    }
+
+    const modifiedContent = contentAsString + '\n\n' + scriptsPolyfills;
+
+    tree.overwrite(fileName, modifiedContent);
+    return tree;
+  }
+}
+
 
 function getProject(tree: Tree, options: any) {
   const workspace = getWorkspace(tree);

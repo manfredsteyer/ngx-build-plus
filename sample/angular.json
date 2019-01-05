@@ -496,6 +496,514 @@
           }
         }
       }
+    },
+    "delme1": {
+      "root": "projects/delme1/",
+      "sourceRoot": "projects/delme1/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:build",
+          "options": {
+            "outputPath": "dist/delme1",
+            "index": "projects/delme1/src/index.html",
+            "main": "projects/delme1/src/main.ts",
+            "polyfills": "projects/delme1/src/polyfills.ts",
+            "tsConfig": "projects/delme1/tsconfig.app.json",
+            "assets": [
+              "projects/delme1/src/favicon.ico",
+              "projects/delme1/src/assets"
+            ],
+            "styles": [
+              "projects/delme1/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/delme1/src/environments/environment.ts",
+                  "with": "projects/delme1/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "delme1:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "delme1:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "delme1:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/delme1/src/test.ts",
+            "polyfills": "projects/delme1/src/polyfills.ts",
+            "tsConfig": "projects/delme1/tsconfig.spec.json",
+            "karmaConfig": "projects/delme1/karma.conf.js",
+            "styles": [
+              "projects/delme1/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/delme1/src/favicon.ico",
+              "projects/delme1/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/delme1/tsconfig.app.json",
+              "projects/delme1/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme1-e2e": {
+      "root": "projects/delme1-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/delme1-e2e/protractor.conf.js",
+            "devServerTarget": "delme1:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "delme1:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/delme1-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme1-host": {
+      "root": "projects/delme1-host/",
+      "sourceRoot": "projects/delme1-host/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:build",
+          "options": {
+            "outputPath": "dist/delme1-host",
+            "index": "projects/delme1-host/src/index.html",
+            "main": "projects/delme1-host/src/main.ts",
+            "polyfills": "projects/delme1-host/src/polyfills.ts",
+            "tsConfig": "projects/delme1-host/tsconfig.app.json",
+            "assets": [
+              "projects/delme1-host/src/favicon.ico",
+              "projects/delme1-host/src/assets"
+            ],
+            "styles": [
+              "projects/delme1-host/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/delme1-host/src/environments/environment.ts",
+                  "with": "projects/delme1-host/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "delme1-host:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "delme1-host:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "delme1-host:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/delme1-host/src/test.ts",
+            "polyfills": "projects/delme1-host/src/polyfills.ts",
+            "tsConfig": "projects/delme1-host/tsconfig.spec.json",
+            "karmaConfig": "projects/delme1-host/karma.conf.js",
+            "styles": [
+              "projects/delme1-host/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/delme1-host/src/favicon.ico",
+              "projects/delme1-host/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/delme1-host/tsconfig.app.json",
+              "projects/delme1-host/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme1-host-e2e": {
+      "root": "projects/delme1-host-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/delme1-host-e2e/protractor.conf.js",
+            "devServerTarget": "delme1-host:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "delme1-host:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/delme1-host-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme2": {
+      "root": "projects/delme2/",
+      "sourceRoot": "projects/delme2/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:build",
+          "options": {
+            "outputPath": "dist/delme2",
+            "index": "projects/delme2/src/index.html",
+            "main": "projects/delme2/src/main.ts",
+            "polyfills": "projects/delme2/src/polyfills.ts",
+            "tsConfig": "projects/delme2/tsconfig.app.json",
+            "assets": [
+              "projects/delme2/src/favicon.ico",
+              "projects/delme2/src/assets"
+            ],
+            "styles": [
+              "projects/delme2/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/delme2/src/environments/environment.ts",
+                  "with": "projects/delme2/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "delme2:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "delme2:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "delme2:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/delme2/src/test.ts",
+            "polyfills": "projects/delme2/src/polyfills.ts",
+            "tsConfig": "projects/delme2/tsconfig.spec.json",
+            "karmaConfig": "projects/delme2/karma.conf.js",
+            "styles": [
+              "projects/delme2/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/delme2/src/favicon.ico",
+              "projects/delme2/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/delme2/tsconfig.app.json",
+              "projects/delme2/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme2-e2e": {
+      "root": "projects/delme2-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/delme2-e2e/protractor.conf.js",
+            "devServerTarget": "delme2:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "delme2:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/delme2-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme2-host": {
+      "root": "projects/delme2-host/",
+      "sourceRoot": "projects/delme2-host/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:build",
+          "options": {
+            "outputPath": "dist/delme2-host",
+            "index": "projects/delme2-host/src/index.html",
+            "main": "projects/delme2-host/src/main.ts",
+            "polyfills": "projects/delme2-host/src/polyfills.ts",
+            "tsConfig": "projects/delme2-host/tsconfig.app.json",
+            "assets": [
+              "projects/delme2-host/src/favicon.ico",
+              "projects/delme2-host/src/assets"
+            ],
+            "styles": [
+              "projects/delme2-host/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/delme2-host/src/environments/environment.ts",
+                  "with": "projects/delme2-host/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "delme2-host:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "delme2-host:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "delme2-host:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/delme2-host/src/test.ts",
+            "polyfills": "projects/delme2-host/src/polyfills.ts",
+            "tsConfig": "projects/delme2-host/tsconfig.spec.json",
+            "karmaConfig": "projects/delme2-host/karma.conf.js",
+            "styles": [
+              "projects/delme2-host/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/delme2-host/src/favicon.ico",
+              "projects/delme2-host/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/delme2-host/tsconfig.app.json",
+              "projects/delme2-host/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "delme2-host-e2e": {
+      "root": "projects/delme2-host-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/delme2-host-e2e/protractor.conf.js",
+            "devServerTarget": "delme2-host:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "delme2-host:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/delme2-host-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "elements-loading"

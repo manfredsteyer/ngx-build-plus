@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Delme2Host</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+
+
+  <!-- Here, all the shared code is imported -->
+  <!-- consider creating one or several bundles -->
+  <!-- for those -->
+
+  <!-- core-js for legacy browsers 
+        Consider only loading for IE
+  -->
+  <script src="./assets/core-js/core.js"></script>
+
+  <!-- Zone.js 
+        Consider excluding zone.js when creating
+        custom Elements by using the noop zone.
+
+        If you load zone.js with an additional 
+        bundle, delete this line.
+  -->
+  <script src="./assets/zone.js/zone.js"></script>
+
+  <!-- TODO: Add further needed polyfills here ... -->
+
+  <!-- Rx -->
+  <script src="./assets/rxjs/rxjs.umd.js"></script>
+
+  <!-- Angular Packages -->
+  <script src="./assets/core/bundles/core.umd.js"></script>
+  <script src="./assets/common/bundles/common.umd.js"></script>
+  <script src="./assets/common/bundles/common-http.umd.js"></script>
+  <script src="./assets/elements/bundles/elements.umd.js"></script>
+
+  <script src="./assets/forms/bundles/forms.umd.js"></script>
+  <script src="./assets/router/bundles/router.umd.js"></script>
+
+  <!-- TODO: Add further needed Angular libs here ... -->
+
+  <!-- Just needed for prod mode -->
+  <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
+
+
+</body>
+</html>

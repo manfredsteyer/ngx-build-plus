@@ -18,10 +18,14 @@
     "start:old": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true -o",
     "build:elements-loading": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project elements-loading",
     "start:elements-loading": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project elements-loading -o",
-    "npx-build-plus:copy-assets": "node projects/externals-demo/copy-wc-polyfill.js && node copy-wc-polyfill.js && node copy-bundles.js && node projects/externals-demo/copy-bundles.js",
+    "npx-build-plus:copy-assets": "node projects/externals-demo/copy-wc-polyfill.js && node copy-wc-polyfill.js && node copy-bundles.js && node projects/externals-demo/copy-bundles.js && node projects/delme1/copy-bundles.js && node projects/delme1-host/copy-bundles.js && node projects/delme2-host/copy-bundles.js && node projects/delme2/copy-bundles.js",
     "postinstall": "node copy-wc-polyfill.js",
     "build:externals-demo": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project externals-demo",
-    "start:externals-demo": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project externals-demo -o"
+    "start:externals-demo": "ng serve --extra-webpack-config webpack.externals.js --single-bundle true --project externals-demo -o",
+    "build:delme1:externals": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project delme1",
+    "build:delme1-host:externals": "ng build --extra-webpack-config webpack.externals.js --single-bundle true --prod --project delme1-host",
+    "build:delme2-host:externals": "ng build --extra-webpack-config webpack.externals.js  --prod --project delme2-host",
+    "build:delme2:externals": "ng build --extra-webpack-config webpack.externals.js -- single-bundle --output-hashing none --prod --project delme2"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +40,7 @@
     "@angular/platform-browser-dynamic": "^7.1.1",
     "@angular/router": "^7.1.1",
     "@webcomponents/custom-elements": "^1.2.1",
+    "app": "^0.1.0",
     "copy": "^0.3.2",
     "core-js": "^2.5.4",
     "document-register-element": "^1.7.2",
