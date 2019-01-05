@@ -14,12 +14,12 @@ const scriptsIndexHtml = `
 `
 
 const scriptsPolyfills = `
-  // This polyfill for web components has to be loaded 
-  // after the other polyfills (esp. the core-js ones) 
-  // using a script tag
-  if (!window['customElements']) {
-      document.write('<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>');
-  }
+// This polyfill for web components has to be loaded 
+// after the other polyfills (esp. the core-js ones) 
+// using a script tag
+if (!window['customElements']) {
+    document.write('<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>');
+}
 `;
 
 function npmInstall(options: any): Rule {
@@ -132,11 +132,11 @@ function updateIndexHtml(options: any): Rule {
 function updatePolyfills(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProject(tree, options);
-    const fileName = `${project.sourceRoot}/polyfills.js`;
+    const fileName = `${project.sourceRoot}/polyfills.ts`;
 
     const polyfillsJs = tree.read(fileName);
     if (polyfillsJs === null)
-      throw Error('could not read polyfills.js');
+      throw Error('could not read polyfills.ts');
     const contentAsString = polyfillsJs.toString('UTF-8');
 
     if (contentAsString.includes('webcomponents-loader.js')) {

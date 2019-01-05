@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "7.6.0-experimental",
+  "version": "7.6.0",
   "description": "Extensible Builder for the Angular CLI suitable not only for Angular Elements.",
   "license": "MIT",
   "repository": {

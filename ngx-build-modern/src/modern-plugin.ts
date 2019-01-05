@@ -17,11 +17,13 @@ export default {
     },
     config(config) {
         
-        // Preventing too much unneeded warnings
         if (!config['stats']) {
             config['stats'] = {};
         }
-        config.stats.warningsFilter = /./;
+
+        // Preventing too much unneeded warnings
+        config.stats.warningsFilter = /Terser Plugin/;
+        //config.stats.warnings = false;
         
         const legacyConfig = {
             ...config, 
@@ -184,6 +186,11 @@ function buildModernResolve(config: any) {
 function buildModernEntry(config: any) {
     const entry = config.entry;
     const polyfills: string[] = entry.polyfills;
+
+    if (!polyfills) {
+        return { ...entry };
+    }
+
     const tweakPolyfills = (file) => {
         if (file.endsWith('polyfills.ts')) {
             return file.replace('polyfills.ts', 'polyfills.modern.ts');
@@ -211,6 +218,15 @@ function buildModernPlugins(config: any) {
     const htmlPlugin = plugins[htmlPluginIndex];
     const modernHtmlPlugin = buildModernHtmlPlugin(htmlPlugin);
     modernPlugins[htmlPluginIndex] = modernHtmlPlugin;
+
+    const statsPluginIndex = plugins.findIndex(p => p.constructor.name === 'StatsPlugin');
+    if (statsPluginIndex > -1) {
+        const statsPlugin = plugins[statsPluginIndex];
+        statsPlugin.output = 'stats.legacy.json';
+        const modernStatsPlugin = buildModernStatsPlugin(statsPlugin);
+        modernPlugins[statsPluginIndex] = modernStatsPlugin;
+    }
+
     return modernPlugins;
 }
 
@@ -220,6 +236,12 @@ function buildModernHtmlPlugin(htmlPlugin: any) {
     modernIndexOptions.output = 'index.modern.html';
     const modernHtmlPlugin = new htmlPlugin.constructor(modernIndexOptions);
     return modernHtmlPlugin;
+}
+
+function buildModernStatsPlugin(statsPlugin: any) {
+    const modernStatsPlugin = new statsPlugin.constructor();
+    modernStatsPlugin.output = 'stats.modern.json';
+    return modernStatsPlugin;
 }
 
 function buildModernAcp(acp: any) {

@@ -16,6 +16,13 @@ const scripts = `
   -->
   <script src="./assets/core-js/core.js"></script>
 
+  <!-- 
+        Web Component polyfills
+  -->
+  if (!window['customElements']) {
+    document.write('<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>');
+  }
+
   <!-- Zone.js 
         Consider excluding zone.js when creating
         custom Elements by using the noop zone.
@@ -217,16 +224,15 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any) {
 
   if (!_options.host) {
     // external web components need single bundle w/ output hashing
-    additionalFlags = '-- single-bundle --output-hashing none';
+    additionalFlags = '--single-bundle --output-hashing none';
   }
 
   // Heuristic for default project
   if (!project.root) {
-    config.scripts['build:externals'] = `ng build --extra-webpack-config webpack.externals.js ${additionalFlags} true --prod`;
+    config.scripts['build:externals'] = `ng build --extra-webpack-config webpack.externals.js --prod ${additionalFlags}`;
   }
 
   if (_options.project) {
-    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config webpack.externals.js ${additionalFlags} --prod --project ${_options.project}`;
-
+    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config webpack.externals.js --prod --project ${_options.project} ${additionalFlags}`;
   }
 }
