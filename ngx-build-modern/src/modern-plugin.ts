@@ -22,7 +22,7 @@ export default {
         }
 
         // Preventing too much unneeded warnings
-        config.stats.warningsFilter = /Terser Plugin/;
+        config.stats.warningsFilter = () => true; // /Terser Plugin|Dropping|Side effects|Condition always false/;
         //config.stats.warnings = false;
         
         const legacyConfig = {
