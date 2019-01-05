@@ -78,7 +78,7 @@ function writeIndexHtml(indexPath: string, indexDocument: HTMLDocument) {
 
 function findLegacyScripts(indexDocument: HTMLDocument) {
     const scripts = Array.from(indexDocument.getElementsByTagName('script'));
-    const legacyScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.endsWith('.legacy.js'));
+    const legacyScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.includes('.legacy.'));
     return legacyScripts;
 }
 
@@ -113,7 +113,7 @@ function addModernElements(outputPath: string, indexDocument: HTMLDocument, firs
     insertPreloadStyles(indexDocument);
 
     const scripts = Array.from(modernIndexDocument.getElementsByTagName('script'));
-    const modernScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.endsWith('.modern.js'));
+    const modernScripts = scripts.filter(s => s.type === 'text/javascript' && s.src.includes('.modern.'));
 
     modernScripts.forEach(script => {
         indexDocument.adoptNode(script);
@@ -170,11 +170,13 @@ function moveStylesToEndOfHead(indexDocument: HTMLDocument) {
 }
 
 function buildLegacyOutput(config: any) {
-    return { ...config.output, filename: '[name].legacy.js' };
+    const filename = config.output.filename.replace('[name]', '[name].legacy');
+    return { ...config.output, filename };
 }
 
 function buildModernOutput(config: any) {
-    return { ...config.output, filename: '[name].modern.js' };
+    const filename = config.output.filename.replace('[name]', '[name].modern');
+    return { ...config.output, filename };
 }
 
 function buildModernResolve(config: any) {
