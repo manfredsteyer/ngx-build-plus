@@ -21,7 +21,12 @@ export function addNgxBuildPlus(_options: any): Rule {
 
     serve.builder = <any>'ngx-build-plus:dev-server';
 
+    const test = architect.test;
+    if (!test) throw new Error(`expected node projects/${project}/architect/test in angular.json`);
+    test.builder = <any>'ngx-build-plus:karma';
+
     return updateWorkspace(workspace);
   };
 }
 
+  

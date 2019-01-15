@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "7.6.0",
+  "version": "7.7.0",
   "description": "Extensible Builder for the Angular CLI suitable not only for Angular Elements.",
   "license": "MIT",
   "repository": {
@@ -18,11 +18,11 @@
     "build": "npm run tsc && npm run copy:sample && npm run copy:readme"
   },
   "dependencies": {
-    "@schematics/angular": "^7.0.5",
+    "@schematics/angular": "^7.2.1",
     "cross-spawn": "^6.0.5",
     "rxjs": "^6.3.3",
-    "webpack-dev-server": "^3.1.10",
-    "webpack-merge": "^4.1.2"
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.2.1"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">= 0.10.0",
@@ -31,16 +31,16 @@
     "rxjs": ">= 6.0.0"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.10.5",
-    "@angular-devkit/build-angular": "^0.10.5",
-    "@angular-devkit/core": "^7.0.3",
-    "@angular-devkit/schematics": "^7.0.3",
-    "@types/node": "^10.12.9",
-    "@types/webpack": "^4.4.0",
-    "@types/webpack-dev-server": "^2.9.4",
+    "@angular-devkit/architect": "^0.12.1",
+    "@angular-devkit/build-angular": "^0.12.1",
+    "@angular-devkit/core": "^7.2.1",
+    "@angular-devkit/schematics": "^7.2.1",
+    "@types/node": "^10.12.18",
+    "@types/webpack": "^4.4.22",
+    "@types/webpack-dev-server": "^3.1.1",
     "cpr": "^3.0.1",
-    "typescript": "^2.9.1",
-    "webpack": "^4.12.0",
-    "webpack-merge": "^4.1.2"
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.4",
+    "webpack-merge": "^4.2.1"
   }
 }

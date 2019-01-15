@@ -7,8 +7,8 @@ import { loadHook } from '../ext/load-hook';
 import { DevServerBuilder as DevServerBuilderBase, BrowserBuilderSchema as BrowserBuilderSchemaBase, DevServerBuilderOptions   } from '@angular-devkit/build-angular';
 import { BuildEvent } from '@angular-devkit/architect';
 
-import { Observable } from '@angular-devkit/schematics/node_modules/rxjs';
 import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 const webpackMerge = require('webpack-merge');
 
@@ -29,7 +29,7 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
     root: Path,
     projectRoot: Path,
     host: virtualFs.Host<fs.Stats>,
-    options: BrowserBuilderSchema,
+    options: any,
   ) {
 
     let config = super.buildWebpackConfig(root, projectRoot, host, options);

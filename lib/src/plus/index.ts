@@ -8,12 +8,36 @@ import { BuilderConfiguration, BuildEvent } from '@angular-devkit/architect';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { loadHook } from '../ext/load-hook';
+import { LoggingCallback } from '@angular-devkit/build-webpack';
+import { statsToString, statsWarningsToString, statsErrorsToString } from '../stats';
 
 const webpackMerge = require('webpack-merge');
 
 export class PlusBuilder extends BrowserBuilder  {
 
   private localOptions: any;
+
+  protected createLoggingFactory(): (verbose: boolean) => LoggingCallback  {
+    console.debug('createLoggingFactory')
+    
+    return (verbose: boolean): LoggingCallback =>
+    (stats, config, logger) => {
+      // config.stats contains our own stats settings, added during buildWebpackConfig().
+      const json = stats.toJson(config.stats);
+      if (verbose) {
+        logger.info(stats.toString(config.stats));
+      } else {
+        logger.info(statsToString(json, config.stats));
+      }
+  
+      if (stats.hasWarnings()) {
+        logger.warn(statsWarningsToString(json, config.stats));
+      }
+      if (stats.hasErrors()) {
+        logger.error(statsErrorsToString(json, config.stats));
+      }
+    };;
+  }
 
   buildWebpackConfig(
     root: Path,
