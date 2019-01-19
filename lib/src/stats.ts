@@ -14,12 +14,19 @@ export function formatSize(size: number): string {
 }
 
 
-export function statsToString(json: any, statsConfig: any) {
+export function statsToString(json: any, statsConfig: any = {}) {
   const colors = statsConfig.colors;
   const rs = (x: string) => colors ? reset(x) : x;
   const w = (x: string) => colors ? bold(white(x)) : x;
   const g = (x: string) => colors ? bold(green(x)) : x;
   const y = (x: string) => colors ? bold(yellow(x)) : x;
+
+  if (!json.chunks) {
+    return '\n' + rs(tags.stripIndents`
+    ${g('Successfully builded your bundles!')}
+    Date: ${w(new Date().toISOString())}
+    Hash: ${w(json.hash)}`);
+  }
 
   const changedChunksStats = json.chunks
     .filter((chunk: any) => chunk.rendered)
@@ -63,7 +70,7 @@ export function statsWarningsToString(json: any, statsConfig: any) {
 }
 
 export function statsErrorsToString(json: any, statsConfig: any) {
-  const colors = statsConfig.colors;
+  const colors =  statsConfig.colors;
   const rs = (x: string) => colors ? reset(x) : x;
   const r = (x: string) => colors ? bold(red(x)) : x;
 

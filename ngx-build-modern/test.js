@@ -1,16 +1,16 @@
 var utils = require('./src/utils');
-var v = utils.getDepVersion('@angular-devkit/core1');
 
-console.debug('v', v);
+//console.debug('v', utils.getDepVersion('@angular-devkit/core'););
+
 
 
 // var compareVersions = require('compare-versions');
 
 // console.debug('>', compareVersions('^7.2.1', '7.2.1-beta.0'));
 
-// var semver = require('semver');
+var semver = require('semver');
 
-//console.debug('>', semver.gt('7.2.1-beta.0', '7.2.1'));
+console.debug('>', semver.lt('7.3.0-beta.0', '7.3.0-beta.0'));
 
 // console.debug('^7.2.0-beta.3'.replace(/[^\d]*(.*)/, '$1'));
 

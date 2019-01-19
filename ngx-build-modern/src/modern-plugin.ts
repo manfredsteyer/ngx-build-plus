@@ -9,11 +9,14 @@ const chalk = require('chalk');
 // TODO: PR that allows skipping options.verbose = true; 
 const buildAngularVersion = getDepVersion('@angular-devkit/build-angular');
 const cliVersion = getDepVersion('@angular/cli');
-
+ 
 export default {
     pre(builderConfig) {
         const options = builderConfig.options;
         
+        console.log('cli', cliVersion);
+        console.log('build', buildAngularVersion);
+
         if (semver.lt(cliVersion, '7.0.0')) {
             console.log(chalk.red('ERROR: ngx-build-plus has been tested with CLI 7.0.0 and higher\n'));
         }
@@ -27,11 +30,12 @@ export default {
         // the webpack config is an array of configurations
         // like [legacyConfig, modernConfig]
 
-        if (semver.lt(cliVersion, '7.3.0')) {
-            console.log(chalk.yellow('WARNING: Before CLI 7.3.0, ngx-build-plus needs to switch the CLI into verbose mode, hence you will see lot\'s of unnecessary details. Please consider updating your CLI version when 7.3.0 comes out.\n'));
+        if (semver.lt(cliVersion, '7.3.0-beta.0')) {
+            console.log(chalk.yellow('WARNING: Before CLI 7.3.0, ngx-build-plus needs to switch the CLI into verbose mode, hence you will see lot\'s of unnecessary details. Please consider updating to @angular/cli >=7.3.0 and @angular-devkit/build-angular >= 0.13.0 when available. As an alternative, you can already try out their beta versions (*-beta.0)\n'));
+            options.verbose = true;
         }
 
-        options.verbose = true;
+        
         
     },
     config(config) {

@@ -18,12 +18,13 @@ export class PlusBuilder extends BrowserBuilder  {
   private localOptions: any;
 
   protected createLoggingFactory(): (verbose: boolean) => LoggingCallback  {
-    console.debug('createLoggingFactory')
     
     return (verbose: boolean): LoggingCallback =>
     (stats, config, logger) => {
       // config.stats contains our own stats settings, added during buildWebpackConfig().
+      
       const json = stats.toJson(config.stats);
+
       if (verbose) {
         logger.info(stats.toString(config.stats));
       } else {
@@ -36,7 +37,7 @@ export class PlusBuilder extends BrowserBuilder  {
       if (stats.hasErrors()) {
         logger.error(statsErrorsToString(json, config.stats));
       }
-    };;
+    };
   }
 
   buildWebpackConfig(
