@@ -36,6 +36,12 @@
       "default": true
     },
 
+    "verbose": {
+      "type": "boolean",
+      "description": "Adds more details to output logging.",
+      "default": false
+    },
+
 
     "browserTarget": {
       "type": "string",
@@ -87,6 +93,7 @@
       "type": "string",
       "description": "The pathname where the app will be served."
     },
+
     "disableHostCheck": {
       "type": "boolean",
       "description": "Don't verify connected clients are part of allowed hosts.",

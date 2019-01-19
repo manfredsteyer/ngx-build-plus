@@ -66,6 +66,10 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
       config = hook(config);
     }
 
+    if (options.verbose) {
+      console.debug('modified webpack config', config);
+    }
+
     return config;
   }
 

@@ -14,9 +14,6 @@ export default {
     pre(builderConfig) {
         const options = builderConfig.options;
         
-        console.log('cli', cliVersion);
-        console.log('build', buildAngularVersion);
-
         if (semver.lt(cliVersion, '7.0.0')) {
             console.log(chalk.red('ERROR: ngx-build-plus has been tested with CLI 7.0.0 and higher\n'));
         }
