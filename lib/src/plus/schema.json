@@ -10,6 +10,12 @@
         "$ref": "#/definitions/assetPattern"
       }
     },
+    "es5BrowserSupport": {
+      "description": "Enables conditionally loaded ES2015 polyfills.",
+      "type": "boolean",
+      "default": false
+    },
+
     "extraWebpackConfig": {
       "type": "string",
       "description": "Additional Webpack Config that gets merged with the default config."
@@ -272,7 +278,7 @@
       "default": []
     }
   },
-  "additionalProperties": false,
+  "additionalProperties": true,
   "required": [
     "outputPath",
     "index",

@@ -165,7 +165,7 @@
       "description": "Enable and define the file watching poll time period in milliseconds."
     }
   },
-  "additionalProperties": false,
+  "additionalProperties": true,
   "required": [
     "browserTarget"
   ]

@@ -283,7 +283,7 @@
                 "default": false
               }
             },
-            "additionalProperties": false,
+            "additionalProperties": true,
             "required": [
               "input"
             ]
