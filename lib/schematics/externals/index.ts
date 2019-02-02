@@ -19,9 +19,7 @@ const scripts = `
   <!-- 
         Web Component polyfills
   -->
-  if (!window['customElements']) {
-    document.write('<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>');
-  }
+  <script src="/assets/webcomponentsjs/bundles/webcomponents-sd-ce.js"></script>
 
   <!-- Zone.js 
         Consider excluding zone.js when creating

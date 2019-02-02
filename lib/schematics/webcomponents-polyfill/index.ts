@@ -6,19 +6,19 @@ import * as path from 'path';
 const spawn = require('cross-spawn');
 
 const scriptsIndexHtml = `
-  <!-- Polyfills for Browsers supporting 
-        Custom Elements. Needed b/c we downlevel
-        to ES5. See: @webcomponents/custom-elements
-  -->
-  <script src="./assets/custom-elements/src/native-shim.js"></script>
 `
 
 const scriptsPolyfills = `
-// This polyfill for web components has to be loaded 
-// after the other polyfills (esp. the core-js ones) 
-// using a script tag
+if (window['customElements']) {
+  const script = document.createElement('script');
+  script.src = './assets/webcomponentsjs/custom-elements-es5-adapter.js';
+  document.writeln(script.outerHTML);
+}
+
 if (!window['customElements']) {
-    document.write('<script src="/assets/webcomponentsjs/webcomponents-loader.js"></script>');
+  const script = document.createElement('script');
+  script.src = './assets/webcomponentsjs/bundles/webcomponents-sd-ce.js';
+  document.writeln(script.outerHTML);
 }
 `;
 

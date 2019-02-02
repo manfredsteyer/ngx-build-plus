@@ -22,13 +22,17 @@ export default {
             console.log(chalk.yellow('WARNING: Please update your version of @angular-devkit/build-angular\n'));
         }
 
+        if (semver.gte(cliVersion, '7.3.0') && !semver.gte(cliVersion, '0.13.0')) {
+            console.log(chalk.yellow('WARNING: It seems like you are using an old version of @angular-devkit/build-angular. Please update it to make sure everything works here.\n'));
+        }
+
         // Printing the non-verbose summary at the end
         // causes some troubles in the CLI's code if
         // the webpack config is an array of configurations
         // like [legacyConfig, modernConfig]
 
         if (semver.lt(cliVersion, '7.3.0-beta.0')) {
-            console.log(chalk.yellow('WARNING: Before CLI 7.3.0, ngx-build-plus needs to switch the CLI into verbose mode, hence you will see lot\'s of unnecessary details. Please consider updating to @angular/cli >=7.3.0 and @angular-devkit/build-angular >= 0.13.0 when available. As an alternative, you can already try out their beta versions (*-beta.0)\n'));
+            console.log(chalk.yellow('WARNING: Before CLI 7.3.0, ngx-build-plus needs to switch the CLI into verbose mode, hence you will see lot\'s of unnecessary details. Please consider updating to @angular/cli >=7.3.0 and @angular-devkit/build-angular >= 0.13.0.\n'));
             options.verbose = true;
         }
 
