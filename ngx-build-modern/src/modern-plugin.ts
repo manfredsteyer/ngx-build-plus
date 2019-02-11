@@ -74,6 +74,7 @@ export default {
     post(builderConfig) {
 
         const outputPath = builderConfig.options.outputPath;
+        const deployUrl = builderConfig.options.deployUrl;
 
         const indexPath = path.join(
             outputPath,
@@ -89,7 +90,7 @@ export default {
 
         setNoModuleFlag(legacyScripts);
         addModernElements(outputPath, indexDocument, anchorElement);
-        addPolyfill(outputPath, indexDocument, anchorElement);
+        addPolyfill(outputPath, deployUrl, indexDocument, anchorElement);
     
         writeIndexHtml(indexPath, indexDocument);
     
@@ -112,11 +113,11 @@ function loadIndexHtml(indexPath: string) {
     return indexDocument;
 }
 
-function addPolyfill(outputPath: string, indexDocument: HTMLDocument, anchorElement: HTMLScriptElement) {
+function addPolyfill(outputPath: string, deployUrl: string, indexDocument: HTMLDocument, anchorElement: HTMLScriptElement) {
     const polyfillPath = path.join(
         outputPath, 'nomodule-polyfill.js');
     const polyfillScript = indexDocument.createElement('script');
-    polyfillScript.src = 'nomodule-polyfill.js';
+    polyfillScript.src = `${deployUrl}nomodule-polyfill.js`;
     anchorElement.parentElement.insertBefore(polyfillScript, anchorElement);
     // Workaround for nomodule in Safari 10
     // https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
