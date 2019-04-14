@@ -7,11 +7,11 @@ declare let VERSION: string;
   // templateUrl: './app.component.html',
   // styleUrls: ['./app.component.css']
   template: '<h1>Custom Element works!</h1>'
-  
+
 })
 export class AppComponent {
   constructor() {
     console.debug('started!');
-    // console.debug('VERSION', VERSION);
+    console.debug('VERSION', VERSION);
   }
 }

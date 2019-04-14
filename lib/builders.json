@@ -1,17 +1,17 @@
 {
   "builders": {
-    "build": {
-      "class": "./src/plus",
-      "schema": "./src/plus/schema.json",
+    "browser": {
+      "implementation": "./src/browser",
+      "schema": "./src/browser/schema.json",
       "description": "Extensible Builder"
     },
     "dev-server": {
-      "class": "./src/plus-dev-server",
+      "implementation": "./src/plus-dev-server",
       "schema": "./src/plus-dev-server/schema.json",
       "description": "Extensible Builder using dev-server"
     },
     "karma": {
-      "class": "./src/karma",
+      "implementation": "./src/karma",
       "schema": "./src/karma/schema.json",
       "description": "Extensible Builder using karma"
     }

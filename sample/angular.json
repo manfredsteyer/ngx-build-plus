@@ -11,7 +11,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/elements-loading",
             "index": "src/index.html",
@@ -60,7 +60,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "elements-loading:build"
+            "browserTarget": "elements-loading:browser"
           }
         },
         "test": {
@@ -124,7 +124,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/empty-demo",
             "index": "projects/empty-demo/src/index.html",
@@ -170,18 +170,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "empty-demo:build"
+            "browserTarget": "empty-demo:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "empty-demo:build:production"
+              "browserTarget": "empty-demo:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "empty-demo:build"
+            "browserTarget": "empty-demo:browser"
           }
         },
         "test": {
@@ -251,7 +251,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/getting-started",
             "index": "projects/getting-started/src/index.html",
@@ -297,18 +297,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "getting-started:build"
+            "browserTarget": "getting-started:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "getting-started:build:production"
+              "browserTarget": "getting-started:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "getting-started:build"
+            "browserTarget": "getting-started:browser"
           }
         },
         "test": {
@@ -378,7 +378,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/externals-demo",
             "index": "projects/externals-demo/src/index.html",
@@ -424,18 +424,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "externals-demo:build"
+            "browserTarget": "externals-demo:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "externals-demo:build:production"
+              "browserTarget": "externals-demo:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "externals-demo:build"
+            "browserTarget": "externals-demo:browser"
           }
         },
         "test": {
@@ -505,7 +505,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/delme1",
             "index": "projects/delme1/src/index.html",
@@ -551,18 +551,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "delme1:build"
+            "browserTarget": "delme1:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "delme1:build:production"
+              "browserTarget": "delme1:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "delme1:build"
+            "browserTarget": "delme1:browser"
           }
         },
         "test": {
@@ -632,7 +632,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/delme1-host",
             "index": "projects/delme1-host/src/index.html",
@@ -678,18 +678,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "delme1-host:build"
+            "browserTarget": "delme1-host:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "delme1-host:build:production"
+              "browserTarget": "delme1-host:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "delme1-host:build"
+            "browserTarget": "delme1-host:browser"
           }
         },
         "test": {
@@ -759,7 +759,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/delme2",
             "index": "projects/delme2/src/index.html",
@@ -805,18 +805,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "delme2:build"
+            "browserTarget": "delme2:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "delme2:build:production"
+              "browserTarget": "delme2:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "delme2:build"
+            "browserTarget": "delme2:browser"
           }
         },
         "test": {
@@ -886,7 +886,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/delme2-host",
             "index": "projects/delme2-host/src/index.html",
@@ -932,18 +932,18 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "delme2-host:build"
+            "browserTarget": "delme2-host:browser"
           },
           "configurations": {
             "production": {
-              "browserTarget": "delme2-host:build:production"
+              "browserTarget": "delme2-host:browser:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "delme2-host:build"
+            "browserTarget": "delme2-host:browser"
           }
         },
         "test": {
