@@ -1,5 +1,7 @@
 # ngx-build-plus
 
+** This works with CLI 7.x; for CLI 8.x+ it is not updated b/c those versions come with a baked-in feature for differential loading **
+
 Extend the Angular CLI's default build behavior without ejecting:
 
 - 📄 Extend the default behavior by providing a **partial** config that just contains your additional settings

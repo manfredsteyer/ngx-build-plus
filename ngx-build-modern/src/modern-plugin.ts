@@ -18,6 +18,10 @@ export default {
             console.log(chalk.red('ERROR: ngx-build-plus has been tested with CLI 7.0.0 and higher\n'));
         }
 
+        if (semver.gte(cliVersion, '8.0.0')) {
+            console.log(chalk.red('ERROR: ngx-build-plus does not work with Angular CLI 8. Beginning with Angular CLI 8 there are build-in features for differential loading (aka differential serving).\n'));
+        }
+
         if (semver.lt(buildAngularVersion, '0.13.0')) {
             console.log(chalk.yellow('WARNING: Please update your version of @angular-devkit/build-angular\n'));
         }
