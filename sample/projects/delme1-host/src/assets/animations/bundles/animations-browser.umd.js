@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/animations'), require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@angular/animations/browser', ['exports', '@angular/animations', '@angular/core'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.animations = global.ng.animations || {}, global.ng.animations.browser = {}),global.ng.animations,global.ng.core));
-}(this, (function (exports,animations,core) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.animations = global.ng.animations || {}, global.ng.animations.browser = {}), global.ng.animations, global.ng.core));
+}(this, function (exports, animations, core) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -365,7 +365,7 @@
             duration = _convertTimeValueToMS(parseFloat(matches[1]), matches[2]);
             var delayMatch = matches[3];
             if (delayMatch != null) {
-                delay = _convertTimeValueToMS(Math.floor(parseFloat(delayMatch)), matches[4]);
+                delay = _convertTimeValueToMS(parseFloat(delayMatch), matches[4]);
             }
             var easingVal = matches[5];
             if (easingVal) {
@@ -3062,7 +3062,7 @@
                 this.markElementAsDisabled(element, false);
             }
             this.driver.query(element, DISABLED_SELECTOR, true).forEach(function (node) {
-                _this.markElementAsDisabled(element, false);
+                _this.markElementAsDisabled(node, false);
             });
         };
         TransitionAnimationEngine.prototype.flush = function (microtaskId) {
@@ -4562,11 +4562,11 @@
      */
 
     exports.AnimationDriver = AnimationDriver;
+    exports.ɵAnimationDriver = AnimationDriver;
     exports.ɵAnimation = Animation;
     exports.ɵAnimationStyleNormalizer = AnimationStyleNormalizer;
     exports.ɵNoopAnimationStyleNormalizer = NoopAnimationStyleNormalizer;
     exports.ɵWebAnimationsStyleNormalizer = WebAnimationsStyleNormalizer;
-    exports.ɵAnimationDriver = AnimationDriver;
     exports.ɵNoopAnimationDriver = NoopAnimationDriver;
     exports.ɵAnimationEngine = AnimationEngine;
     exports.ɵCssKeyframesDriver = CssKeyframesDriver;
@@ -4582,5 +4582,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=animations-browser.umd.js.map

@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define('@angular/animations', ['exports'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.animations = {})));
-}(this, (function (exports) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.animations = {})));
+}(this, function (exports) { 'use strict';
 
     /**
      * An injectable service that produces an animation sequence programmatically within an
@@ -753,7 +753,7 @@
     }
     /**
      * Finds one or more inner elements within the current element that is
-     * being animated within a sequence. Use with `animateChild()`.
+     * being animated within a sequence. Use with `animate()`.
      *
      * @param selector The element to query, or a set of elements that contain Angular-specific
      * characteristics, specified with one or more of the following tokens.
@@ -800,7 +800,7 @@
      * ### Usage Example
      *
      * The following example queries for inner elements and animates them
-     * individually using `animateChild()`.
+     * individually using `animate()`.
      *
      * ```typescript
      * @Component({
@@ -1215,5 +1215,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=animations.umd.js.map

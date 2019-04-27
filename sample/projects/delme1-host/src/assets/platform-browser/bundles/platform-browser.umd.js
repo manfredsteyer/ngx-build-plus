@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@angular/platform-browser', ['exports', '@angular/common', '@angular/core'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.platformBrowser = {}),global.ng.common,global.ng.core));
-}(this, (function (exports,common,core) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.platformBrowser = {}), global.ng.common, global.ng.core));
+}(this, function (exports, common, core) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -173,7 +173,7 @@
                     }
                 });
             }
-            catch (e) {
+            catch (_a) {
                 _this._animationPrefix = null;
                 _this._transitionEnd = null;
             }
@@ -486,7 +486,7 @@
             try {
                 return el.getBoundingClientRect();
             }
-            catch (e) {
+            catch (_a) {
                 return { top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 };
             }
         };
@@ -2552,7 +2552,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('7.1.1');
+    var VERSION = new core.Version('7.2.1');
 
     /**
      * @license
@@ -2638,5 +2638,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=platform-browser.umd.js.map

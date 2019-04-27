@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('rxjs/operators'), require('@angular/common')) :
     typeof define === 'function' && define.amd ? define('@angular/common/http', ['exports', '@angular/core', 'rxjs', 'rxjs/operators', '@angular/common'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.common = global.ng.common || {}, global.ng.common.http = {}),global.ng.core,global.rxjs,global.rxjs.operators,global.ng.common));
-}(this, (function (exports,core,rxjs,operators,common) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.common = global.ng.common || {}, global.ng.common.http = {}), global.ng.core, global.rxjs, global.rxjs.operators, global.ng.common));
+}(this, function (exports, core, rxjs, operators, common) { 'use strict';
 
     /**
      * @license
@@ -1619,10 +1619,12 @@
                 // Connection timeout, DNS error, offline, etc. These are actual errors, and are
                 // transmitted on the error channel.
                 var onError = function (error) {
+                    var url = partialFromXhr().url;
                     var res = new HttpErrorResponse({
                         error: error,
                         status: xhr.status || 0,
                         statusText: xhr.statusText || 'Unknown Error',
+                        url: url || undefined,
                     });
                     observer.error(res);
                 };
@@ -2026,5 +2028,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=common-http.umd.js.map

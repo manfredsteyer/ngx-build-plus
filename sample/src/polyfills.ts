@@ -84,3 +84,14 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  // while we are downleveling to ES5.
  //import '@webcomponents/custom-elements/custom-elements.min';
 
+
+
+
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
+
+
+if (!window['customElements']) {
+  const script = document.createElement('script');
+  script.src = './assets/webcomponentsjs/bundles/webcomponents-sd-ce.js';
+  document.writeln(script.outerHTML);
+}

@@ -40,6 +40,7 @@
     "@angular/platform-browser-dynamic": "^7.2.1",
     "@angular/router": "^7.2.1",
     "@webcomponents/custom-elements": "^1.2.1",
+    "@webcomponents/webcomponentsjs": "^2.2.10",
     "app": "^0.1.0",
     "copy": "^0.3.2",
     "core-js": "^2.6.2",

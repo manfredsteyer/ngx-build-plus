@@ -9,11 +9,7 @@ const scriptsIndexHtml = `
 `
 
 const scriptsPolyfills = `
-if (window['customElements']) {
-  const script = document.createElement('script');
-  script.src = './assets/webcomponentsjs/custom-elements-es5-adapter.js';
-  document.writeln(script.outerHTML);
-}
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
 
 if (!window['customElements']) {
   const script = document.createElement('script');

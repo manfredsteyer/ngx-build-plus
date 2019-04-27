@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/http'), require('rxjs'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@angular/http/testing', ['exports', '@angular/core', '@angular/http', 'rxjs', 'rxjs/operators'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.http = global.ng.http || {}, global.ng.http.testing = {}),global.ng.core,global.ng.http,global.rxjs,global.rxjs.operators));
-}(this, (function (exports,core,http,rxjs,operators) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.http = global.ng.http || {}, global.ng.http.testing = {}), global.ng.core, global.ng.http, global.rxjs, global.rxjs.operators));
+}(this, function (exports, core, http, rxjs, operators) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -282,5 +282,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=http-testing.umd.js.map

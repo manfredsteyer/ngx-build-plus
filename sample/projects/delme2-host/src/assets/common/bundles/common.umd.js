@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@angular/common', ['exports', '@angular/core'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.common = {}),global.ng.core));
-}(this, (function (exports,core) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.common = {}), global.ng.core));
+}(this, function (exports, core) { 'use strict';
 
     /**
      * @license
@@ -1034,7 +1034,7 @@
         return data[15 /* CurrencySymbol */] || null;
     }
     /**
-     * The name of the currency for the main country using this locale (e.g. USD for the locale
+     * The name of the currency for the main country using this locale (e.g. 'US Dollar' for the locale
      * en-US).
      * The name will be `null` if the main country cannot be determined.
      *
@@ -3168,7 +3168,7 @@
                     try {
                         this._differ = this._differs.find(value).create(this.ngForTrackBy);
                     }
-                    catch (e) {
+                    catch (_a) {
                         throw new Error("Cannot find a differ supporting object '" + value + "' of type '" + getTypeNameForDebugging(value) + "'. NgFor only supports binding to Iterables such as Arrays.");
                     }
                 }
@@ -3498,9 +3498,53 @@
     /**
      * @ngModule CommonModule
      *
+     * @description A structural directive that adds or removes templates (displaying or hiding views)
+     * when the next match expression matches the switch expression.
+     *
+     * The `[ngSwitch]` directive on a container specifies an expression to match against.
+     * The expressions to match are provided by `ngSwitchCase` directives on views within the container.
+     * - Every view that matches is rendered.
+     * - If there are no matches, a view with the `ngSwitchDefault` directive is rendered.
+     * - Elements within the `[NgSwitch]` statement but outside of any `NgSwitchCase`
+     * or `ngSwitchDefault` directive are preserved at the location.
+     *
      * @usageNotes
+     * Define a container element for the directive, and specify the switch expression
+     * to match against as an attribute:
+     *
      * ```
-     *     <container-element [ngSwitch]="switch_expression">
+     * <container-element [ngSwitch]="switch_expression">
+     * ```
+     *
+     * Within the container, `*ngSwitchCase` statements specify the match expressions
+     * as attributes. Include `*ngSwitchDefault` as the final case.
+     *
+     * ```
+     * <container-element [ngSwitch]="switch_expression">
+     *    <some-element *ngSwitchCase="match_expression_1">...</some-element>
+     * ...
+     *    <some-element *ngSwitchDefault>...</some-element>
+     * </container-element>
+     * ```
+     *
+     * ### Usage Examples
+     *
+     * The following example shows how to use more than one case to display the same view:
+     *
+     * ```
+     * <container-element [ngSwitch]="switch_expression">
+     *   <!-- the same view can be shown in more than one case -->
+     *   <some-element *ngSwitchCase="match_expression_1">...</some-element>
+     *   <some-element *ngSwitchCase="match_expression_2">...</some-element>
+     *   <some-other-element *ngSwitchCase="match_expression_3">...</some-other-element>
+     *   <!--default case when there are no matches -->
+     *   <some-element *ngSwitchDefault>...</some-element>
+     * </container-element>
+     * ```
+     *
+     * The following example shows how cases can be nested:
+     * ```
+     * <container-element [ngSwitch]="switch_expression">
      *       <some-element *ngSwitchCase="match_expression_1">...</some-element>
      *       <some-element *ngSwitchCase="match_expression_2">...</some-element>
      *       <some-other-element *ngSwitchCase="match_expression_3">...</some-other-element>
@@ -3512,28 +3556,12 @@
      *       <some-element *ngSwitchDefault>...</some-element>
      *     </container-element>
      * ```
-     * @description
-     *
-     * Adds / removes DOM sub-trees when the nest match expressions matches the switch expression.
-     *
-     * `NgSwitch` stamps out nested views when their match expression value matches the value of the
-     * switch expression.
-     *
-     * In other words:
-     * - you define a container element (where you place the directive with a switch expression on the
-     * `[ngSwitch]="..."` attribute)
-     * - you define inner views inside the `NgSwitch` and place a `*ngSwitchCase` attribute on the view
-     * root elements.
-     *
-     * Elements within `NgSwitch` but outside of a `NgSwitchCase` or `NgSwitchDefault` directives will
-     * be preserved at the location.
-     *
-     * The `ngSwitchCase` directive informs the parent `NgSwitch` of which view to display when the
-     * expression is evaluated.
-     * When no matching expression is found on a `ngSwitchCase` view, the `ngSwitchDefault` view is
-     * stamped out.
      *
      * @publicApi
+     * @see `NgSwitchCase`
+     * @see `NgSwitchDefault`
+     * @see [Stuctural Directives](guide/structural-directives)
+     *
      */
     var NgSwitch = /** @class */ (function () {
         function NgSwitch() {
@@ -3595,26 +3623,35 @@
     /**
      * @ngModule CommonModule
      *
+     * @description
+     * Provides a switch case expression to match against an enclosing `ngSwitch` expression.
+     * When the expressions match, the given `NgSwitchCase` template is rendered.
+     * If multiple match expressions match the switch expression value, all of them are displayed.
+     *
      * @usageNotes
+     *
+     * Within a switch container, `*ngSwitchCase` statements specify the match expressions
+     * as attributes. Include `*ngSwitchDefault` as the final case.
+     *
      * ```
      * <container-element [ngSwitch]="switch_expression">
      *   <some-element *ngSwitchCase="match_expression_1">...</some-element>
+     *   ...
+     *   <some-element *ngSwitchDefault>...</some-element>
      * </container-element>
-     *```
-     * @description
+     * ```
      *
-     * Creates a view that will be added/removed from the parent {@link NgSwitch} when the
-     * given expression evaluate to respectively the same/different value as the switch
-     * expression.
+     * Each switch-case statement contains an in-line HTML template or template reference
+     * that defines the subtree to be selected if the value of the match expression
+     * matches the value of the switch expression.
      *
-     * Insert the sub-tree when the expression evaluates to the same value as the enclosing switch
-     * expression.
-     *
-     * If multiple match expressions match the switch expression value, all of them are displayed.
-     *
-     * See {@link NgSwitch} for more details and example.
+     * Unlike JavaScript, which uses strict equality, Angular uses loose equality.
+     * This means that the empty string, `""` matches 0.
      *
      * @publicApi
+     * @see `NgSwitch`
+     * @see `NgSwitchDefault`
+     *
      */
     var NgSwitchCase = /** @class */ (function () {
         function NgSwitchCase(viewContainer, templateRef, ngSwitch) {
@@ -3622,6 +3659,9 @@
             ngSwitch._addCase();
             this._view = new SwitchView(viewContainer, templateRef);
         }
+        /**
+         * Performs case matching. For internal use only.
+         */
         NgSwitchCase.prototype.ngDoCheck = function () { this._view.enforceState(this.ngSwitch._matchCase(this.ngSwitchCase)); };
         __decorate([
             core.Input(),
@@ -3637,25 +3677,17 @@
     }());
     /**
      * @ngModule CommonModule
-     * @usageNotes
-     * ```
-     * <container-element [ngSwitch]="switch_expression">
-     *   <some-element *ngSwitchCase="match_expression_1">...</some-element>
-     *   <some-other-element *ngSwitchDefault>...</some-other-element>
-     * </container-element>
-     * ```
      *
      * @description
      *
-     * Creates a view that is added to the parent {@link NgSwitch} when no case expressions
-     * match the switch expression.
-     *
-     * Insert the sub-tree when no case expressions evaluate to the same value as the enclosing switch
-     * expression.
-     *
-     * See {@link NgSwitch} for more details and example.
+     * Creates a view that is rendered when no `NgSwitchCase` expressions
+     * match the `NgSwitch` expression.
+     * This statement should be the final case in an `NgSwitch`.
      *
      * @publicApi
+     * @see `NgSwitch`
+     * @see `NgSwitchCase`
+     *
      */
     var NgSwitchDefault = /** @class */ (function () {
         function NgSwitchDefault(viewContainer, templateRef, ngSwitch) {
@@ -5123,7 +5155,7 @@
      * @usageNotes
      * ### Examples
      *
-     * This examples show how an Object or a Map and be iterated by ngFor with the use of this keyvalue
+     * This examples show how an Object or a Map can be iterated by ngFor with the use of this keyvalue
      * pipe.
      *
      * {@example common/pipes/ts/keyvalue_pipe.ts region='KeyValuePipe'}
@@ -5133,6 +5165,7 @@
     var KeyValuePipe = /** @class */ (function () {
         function KeyValuePipe(differs) {
             this.differs = differs;
+            this.keyValues = [];
         }
         KeyValuePipe.prototype.transform = function (input, compareFn) {
             var _this = this;
@@ -5309,7 +5342,7 @@
          *   - `minFractionDigits`: The minimum number of digits after the decimal point.
          * Default is `0`.
          *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
-         * Default is `3`.
+         * Default is `0`.
          * @param locale A locale code for the locale format rules to use.
          * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
          * See [Setting your app locale](guide/i18n#setting-up-the-locale-of-your-app).
@@ -5381,9 +5414,9 @@
          *   - `minIntegerDigits`: The minimum number of integer digits before the decimal point.
          * Default is `1`.
          *   - `minFractionDigits`: The minimum number of digits after the decimal point.
-         * Default is `0`.
+         * Default is `2`.
          *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
-         * Default is `3`.
+         * Default is `2`.
          * If not provided, the number will be formatted with the proper amount of digits,
          * depending on what the [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) specifies.
          * For example, the Canadian dollar has 2 digits, whereas the Chilean peso has none.
@@ -5670,7 +5703,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('7.1.1');
+    var VERSION = new core.Version('7.2.1');
 
     /**
      * @license
@@ -5680,7 +5713,7 @@
      * found in the LICENSE file at https://angular.io/license
      */
     /**
-     * Manages the scroll position.
+     * Defines a scroll position manager. Implemented by `BrowserViewportScroller`.
      *
      * @publicApi
      */
@@ -5694,7 +5727,7 @@
         return ViewportScroller;
     }());
     /**
-     * Manages the scroll position.
+     * Manages the scroll position for a browser window.
      */
     var BrowserViewportScroller = /** @class */ (function () {
         function BrowserViewportScroller(document, window) {
@@ -5704,10 +5737,9 @@
         }
         /**
          * Configures the top offset used when scrolling to an anchor.
+         * @param offset A position in screen coordinates (a tuple with x and y values)
+         * or a function that returns the top offset position.
          *
-         * * When given a number, the service will always use the number.
-         * * When given a function, the service will invoke the function every time it restores scroll
-         * position.
          */
         BrowserViewportScroller.prototype.setOffset = function (offset) {
             if (Array.isArray(offset)) {
@@ -5718,7 +5750,8 @@
             }
         };
         /**
-         * Returns the current scroll position.
+         * Retrieves the current scroll position.
+         * @returns The position in screen coordinates.
          */
         BrowserViewportScroller.prototype.getScrollPosition = function () {
             if (this.supportScrollRestoration()) {
@@ -5730,6 +5763,7 @@
         };
         /**
          * Sets the scroll position.
+         * @param position The new position in screen coordinates.
          */
         BrowserViewportScroller.prototype.scrollToPosition = function (position) {
             if (this.supportScrollRestoration()) {
@@ -5737,7 +5771,8 @@
             }
         };
         /**
-         * Scrolls to the provided anchor.
+         * Scrolls to an anchor element.
+         * @param anchor The ID of the anchor element.
          */
         BrowserViewportScroller.prototype.scrollToAnchor = function (anchor) {
             if (this.supportScrollRestoration()) {
@@ -5783,7 +5818,7 @@
             try {
                 return !!this.window && !!this.window.scrollTo;
             }
-            catch (e) {
+            catch (_a) {
                 return false;
             }
         };
@@ -5855,13 +5890,13 @@
     exports.ɵangular_packages_common_common_g = COMMON_DEPRECATED_I18N_PIPES;
     exports.ɵangular_packages_common_common_f = COMMON_PIPES;
     exports.ɵregisterLocaleData = registerLocaleData;
+    exports.registerLocaleData = registerLocaleData;
     exports.formatDate = formatDate;
     exports.formatCurrency = formatCurrency;
     exports.formatNumber = formatNumber;
     exports.formatPercent = formatPercent;
     exports.NgLocaleLocalization = NgLocaleLocalization;
     exports.NgLocalization = NgLocalization;
-    exports.registerLocaleData = registerLocaleData;
     exports.getNumberOfCurrencyDigits = getNumberOfCurrencyDigits;
     exports.getCurrencySymbol = getCurrencySymbol;
     exports.getLocaleDayPeriods = getLocaleDayPeriods;
@@ -5936,5 +5971,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=common.umd.js.map

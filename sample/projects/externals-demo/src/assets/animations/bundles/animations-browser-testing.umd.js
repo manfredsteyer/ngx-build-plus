@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/animations'), require('@angular/animations/browser')) :
     typeof define === 'function' && define.amd ? define('@angular/animations/browser/testing', ['exports', '@angular/animations', '@angular/animations/browser'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.animations = global.ng.animations || {}, global.ng.animations.browser = global.ng.animations.browser || {}, global.ng.animations.browser.testing = {}),global.ng.animations,global.ng.animations.browser));
-}(this, (function (exports,animations,browser) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.animations = global.ng.animations || {}, global.ng.animations.browser = global.ng.animations.browser || {}, global.ng.animations.browser.testing = {}), global.ng.animations, global.ng.animations.browser));
+}(this, function (exports, animations, browser) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -172,5 +172,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=animations-browser-testing.umd.js.map

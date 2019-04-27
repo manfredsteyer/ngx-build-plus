@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.1
+ * @license Angular v7.2.1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/platform-browser')) :
     typeof define === 'function' && define.amd ? define('@angular/platform-browser/testing', ['exports', '@angular/core', '@angular/platform-browser'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.platformBrowser = global.ng.platformBrowser || {}, global.ng.platformBrowser.testing = {}),global.ng.core,global.ng.platformBrowser));
-}(this, (function (exports,core,platformBrowser) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.platformBrowser = global.ng.platformBrowser || {}, global.ng.platformBrowser.testing = {}), global.ng.core, global.ng.platformBrowser));
+}(this, function (exports, core, platformBrowser) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -140,6 +140,11 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(BrowserDetection.prototype, "supportsRegExUnicodeFlag", {
+            get: function () { return RegExp.prototype.hasOwnProperty('unicode'); },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(BrowserDetection.prototype, "supportsShadowDom", {
             get: function () {
                 var testEl = document.createElement('div');
@@ -231,5 +236,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=platform-browser-testing.umd.js.map
