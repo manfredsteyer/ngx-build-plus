@@ -24,7 +24,14 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "scripts":[
+              {
+                "input": "src/extra-polyfill.ts",
+                "bundleName": "extra.js"
+              }
             ]
+
           },
           "configurations": {
             "production": {
@@ -73,7 +80,8 @@
             "styles": [
               "styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
