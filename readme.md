@@ -13,6 +13,11 @@ Extend the Angular CLI's default build behavior without ejecting:
 
 Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](https://twitter.com/davidh_23)!
 
+## Get the right version
+
+- Angular 6-7/ CLI 6-7: ngx-build-plus@^7
+- Angular 8/ CLI 8: ngx-build-plus^8.0.0-rc.3
+
 ## Tested with CLI 6.x and CLI 7.0.x
 
 This package has been created and tested with Angular CLI 6.x. and CLI 7.0.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.

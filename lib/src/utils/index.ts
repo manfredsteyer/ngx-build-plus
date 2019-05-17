@@ -1,4 +1,4 @@
-import { BrowserConfigTransformFn, BrowserBuilderOutput } from "@angular-devkit/build-angular";
+import { ExecutionTransformer } from "@angular-devkit/build-angular";
 import { BuilderContext, BuilderOutput, BuilderOutputLike } from "@angular-devkit/architect";
 import { WebpackLoggingCallback } from "@angular-devkit/build-webpack";
 import { Observable, of, from, isObservable } from 'rxjs';
@@ -12,9 +12,8 @@ import * as webpackMerge from 'webpack-merge';
 
 
 export interface Transforms {
-  config?: BrowserConfigTransformFn;
-  output?: (output: BrowserBuilderOutput) => Observable<BuilderOutput>;
-  logging?: WebpackLoggingCallback;
+  webpackConfiguration?: ExecutionTransformer<webpack.Configuration>;
+ 
 }
 
 export interface BuilderHandlerPlusFn<A> {
@@ -22,7 +21,7 @@ export interface BuilderHandlerPlusFn<A> {
 }
 
 
-export function runBuilderHandler(options: any, transforms: Transforms, context: BuilderContext, builderHandler: BuilderHandlerPlusFn<any>, configTransformerName = 'config') {
+export function runBuilderHandler(options: any, transforms: Transforms, context: BuilderContext, builderHandler: BuilderHandlerPlusFn<any>, configTransformerName = 'webpackConfiguration') {
   
   let plugin: Plugin | null = null;
   if (options.plugin) {
@@ -54,13 +53,9 @@ function asObservable(result: BuilderOutputLike) {
   return of(result);
 }
 
-function setupConfigHook(transforms: {
-  config?: BrowserConfigTransformFn | undefined;
-  output?: ((output: BrowserBuilderOutput) => Observable<BuilderOutput>) | undefined;
-  logging?: WebpackLoggingCallback | undefined;
-}, options: any, context: BuilderContext, plugin: Plugin | null, configTransformerName = 'config') {
+function setupConfigHook(transforms: Transforms, options: any, context: BuilderContext, plugin: Plugin | null, configTransformerName = 'webpackConfiguration') {
   const originalConfigFn = transforms[configTransformerName];
-  transforms[configTransformerName] = (workspace: experimental.workspace.Workspace, config: webpack.Configuration) => {
+  transforms[configTransformerName] = (config: webpack.Configuration) => {
 
     if (options.singleBundle) {
       if (!options.keepPolyfills && config.entry && config.entry['polyfills']) {
@@ -91,10 +86,10 @@ function setupConfigHook(transforms: {
     }
 
     if (originalConfigFn) {
-      return originalConfigFn(workspace, config);
+      return originalConfigFn(config);
     }
     else {
-      return of(config);
+      return config;
     }
   };
 }

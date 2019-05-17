@@ -1,4 +1,4 @@
-import { buildWebpackBrowser, BrowserBuilderSchema, serveWebpackBrowser } from "@angular-devkit/build-angular";
+import { executeKarmaBuilder } from "@angular-devkit/build-angular";
 import { BuilderContext, BuilderOutput, BuilderHandlerFn, createBuilder } from "@angular-devkit/architect";
 import { Observable } from 'rxjs';
 import { Transforms, runBuilderHandler } from "../utils";
@@ -11,7 +11,7 @@ function serveWebpackBrowserPlus(
   transforms: Transforms = {}
 ): Observable<BuilderOutput> {
 
-    return runBuilderHandler(options, transforms, context, serveWebpackBrowser);
+    return runBuilderHandler(options, transforms, context, executeKarmaBuilder);
     
 }
 

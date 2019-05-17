@@ -1,20 +1,17 @@
-import { buildWebpackBrowser, BrowserBuilderSchema } from "@angular-devkit/build-angular";
-import { BuilderContext, BuilderOutput, BuilderHandlerFn, createBuilder } from "@angular-devkit/architect";
+import { executeBrowserBuilder } from "@angular-devkit/build-angular";
+import { BuilderContext, BuilderOutput, createBuilder } from "@angular-devkit/architect";
 import { Observable } from 'rxjs';
-import { BrowserBuilderSchemaPlus } from "./schema";
 import { Transforms, runBuilderHandler } from "../utils";
-import { JsonObject } from "@angular-devkit/core";
 
 
 function buildWebpackBrowserPlus(
-  options: BrowserBuilderSchemaPlus,
+  options: any,
   context: BuilderContext,
   transforms: Transforms = {}
 ): Observable<BuilderOutput> {
-
-    return runBuilderHandler(options, transforms, context, buildWebpackBrowser);
-
+    return runBuilderHandler(options, transforms, context, executeBrowserBuilder);
 }
 
 
-export default createBuilder<JsonObject & BrowserBuilderSchemaPlus>(buildWebpackBrowserPlus);
+//export default createBuilder<JsonObject & BrowserBuilderSchemaPlus>(buildWebpackBrowserPlus);
+export default createBuilder<any>(buildWebpackBrowserPlus);

@@ -1,7 +1,7 @@
 {
   "name": "ngx-build-plus",
-  "version": "7.7.6",
-  "description": "Extensible Builder for the Angular CLI suitable not only for Angular Elements.",
+  "version": "8.0.0-rc.3.0.1",
+  "description": "Extends the Angular CLI's build process!",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -18,28 +18,28 @@
     "build": "npm run tsc && npm run copy:sample && npm run copy:readme"
   },
   "dependencies": {
-    "@schematics/angular": "8.0.0-beta.13",
+    "@schematics/angular": "8.0.0-rc.3",
     "cross-spawn": "^6.0.5",
     "rxjs": "6.4.0",
     "webpack-dev-server": "^3.1.14",
     "webpack-merge": "^4.2.1"
   },
   "peerDependencies": {
-    "@angular-devkit/architect": "~0.800.0-beta.7",
-    "@angular-devkit/build-angular": "~0.800.0-beta.7",
-    "@angular-devkit/core": "~0.800.0-beta.7",
+    "@angular-devkit/architect": "~0.800.0-rc.3",
+    "@angular-devkit/build-angular": "~0.800.0-rc.3",
+    "@angular-devkit/core": "~0.800.0-rc.3",
     "rxjs": ">= 6.0.0"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "~0.800.0-beta.7",
-    "@angular-devkit/build-angular": "~0.800.0-beta.7",
-    "@angular-devkit/core": "8.0.0-beta.13",
-    "@angular-devkit/schematics": "8.0.0-beta.13",
+    "@angular-devkit/architect": "~0.800.0-rc.3",
+    "@angular-devkit/build-angular": "~0.800.0-rc.3",
+    "@angular-devkit/core": "8.0.0-rc.3",
+    "@angular-devkit/schematics": "8.0.0-rc.3",
     "@types/node": "^10.12.18",
     "@types/webpack": "^4.4.22",
     "@types/webpack-dev-server": "^3.1.1",
     "cpr": "^3.0.1",
-    "typescript": "^3.2.2",
+    "typescript": "^3.4.5",
     "webpack": "^4.28.4",
     "webpack-merge": "^4.2.1"
   }

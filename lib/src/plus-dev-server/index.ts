@@ -1,4 +1,4 @@
-import { buildWebpackBrowser, BrowserBuilderSchema, serveWebpackBrowser } from "@angular-devkit/build-angular";
+import { executeDevServerBuilder } from "@angular-devkit/build-angular";
 import { BuilderContext, BuilderOutput, BuilderHandlerFn, createBuilder } from "@angular-devkit/architect";
 import { Observable } from 'rxjs';
 import { Transforms, runBuilderHandler } from "../utils";
@@ -14,8 +14,7 @@ function serveWebpackBrowserPlus(
       options, 
       transforms, 
       context, 
-      serveWebpackBrowser,
-      'browserConfig');
+      executeDevServerBuilder);
     
 }
 
