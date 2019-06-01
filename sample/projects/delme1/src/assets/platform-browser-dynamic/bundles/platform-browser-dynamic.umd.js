@@ -1,14 +1,14 @@
 /**
- * @license Angular v7.1.1
- * (c) 2010-2018 Google, Inc. https://angular.io/
+ * @license Angular v8.0.0
+ * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/compiler'), require('@angular/core'), require('@angular/common'), require('@angular/platform-browser')) :
     typeof define === 'function' && define.amd ? define('@angular/platform-browser-dynamic', ['exports', '@angular/compiler', '@angular/core', '@angular/common', '@angular/platform-browser'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.platformBrowserDynamic = {}),global.ng.compiler,global.ng.core,global.ng.common,global.ng.platformBrowser));
-}(this, (function (exports,compiler,core,common,platformBrowser) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.platformBrowserDynamic = {}), global.ng.compiler, global.ng.core, global.ng.common, global.ng.platformBrowser));
+}(this, function (exports, compiler, core, common, platformBrowser) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -187,9 +187,9 @@
     };
     var baseHtmlParser = new core.InjectionToken('HtmlParser');
     var CompilerImpl = /** @class */ (function () {
-        function CompilerImpl(injector, _metadataResolver, templateParser, styleCompiler, viewCompiler, ngModuleCompiler, summaryResolver, compileReflector, compilerConfig, console) {
+        function CompilerImpl(injector, _metadataResolver, templateParser, styleCompiler, viewCompiler, ngModuleCompiler, summaryResolver, compileReflector, jitEvaluator, compilerConfig, console) {
             this._metadataResolver = _metadataResolver;
-            this._delegate = new compiler.JitCompiler(_metadataResolver, templateParser, styleCompiler, viewCompiler, ngModuleCompiler, summaryResolver, compileReflector, compilerConfig, console, this.getExtraNgModuleProviders.bind(this));
+            this._delegate = new compiler.JitCompiler(_metadataResolver, templateParser, styleCompiler, viewCompiler, ngModuleCompiler, summaryResolver, compileReflector, jitEvaluator, compilerConfig, console, this.getExtraNgModuleProviders.bind(this));
             this.injector = injector;
         }
         CompilerImpl.prototype.getExtraNgModuleProviders = function () {
@@ -269,6 +269,7 @@
                 compiler.Parser, compiler.ElementSchemaRegistry,
                 compiler.I18NHtmlParser, core.ɵConsole]
         },
+        { provide: compiler.JitEvaluator, useClass: compiler.JitEvaluator, deps: [] },
         { provide: compiler.DirectiveNormalizer, deps: [compiler.ResourceLoader, compiler.UrlResolver, compiler.HtmlParser, compiler.CompilerConfig] },
         { provide: compiler.CompileMetadataResolver, deps: [compiler.CompilerConfig, compiler.HtmlParser, compiler.NgModuleResolver,
                 compiler.DirectiveResolver, compiler.PipeResolver,
@@ -286,7 +287,7 @@
         { provide: core.Compiler, useClass: CompilerImpl, deps: [core.Injector, compiler.CompileMetadataResolver,
                 compiler.TemplateParser, compiler.StyleCompiler,
                 compiler.ViewCompiler, compiler.NgModuleCompiler,
-                compiler.SummaryResolver, compiler.CompileReflector, compiler.CompilerConfig,
+                compiler.SummaryResolver, compiler.CompileReflector, compiler.JitEvaluator, compiler.CompilerConfig,
                 core.ɵConsole] },
         { provide: compiler.DomElementSchemaRegistry, deps: [] },
         { provide: compiler.ElementSchemaRegistry, useExisting: compiler.DomElementSchemaRegistry },
@@ -365,13 +366,14 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
+    var ɵ0 = {};
     /**
      * A platform that included corePlatform and the compiler.
      *
      * @publicApi
      */
     var platformCoreDynamic = core.createPlatformFactory(core.platformCore, 'coreDynamic', [
-        { provide: core.COMPILER_OPTIONS, useValue: {}, multi: true },
+        { provide: core.COMPILER_OPTIONS, useValue: ɵ0, multi: true },
         { provide: core.CompilerFactory, useClass: JitCompilerFactory, deps: [core.COMPILER_OPTIONS] },
     ]);
 
@@ -427,6 +429,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
+    var ɵ0$1 = { providers: [{ provide: compiler.ResourceLoader, useClass: ResourceLoaderImpl, deps: [] }] }, ɵ1 = common.ɵPLATFORM_BROWSER_ID;
     /**
      * @publicApi
      */
@@ -434,10 +437,10 @@
         platformBrowser.ɵINTERNAL_BROWSER_PLATFORM_PROVIDERS,
         {
             provide: core.COMPILER_OPTIONS,
-            useValue: { providers: [{ provide: compiler.ResourceLoader, useClass: ResourceLoaderImpl, deps: [] }] },
+            useValue: ɵ0$1,
             multi: true
         },
-        { provide: core.PLATFORM_ID, useValue: common.ɵPLATFORM_BROWSER_ID },
+        { provide: core.PLATFORM_ID, useValue: ɵ1 },
     ];
 
     /**
@@ -495,7 +498,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('7.1.1');
+    var VERSION = new core.Version('8.0.0');
 
     /**
      * @license
@@ -546,5 +549,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=platform-browser-dynamic.umd.js.map

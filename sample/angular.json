@@ -185,7 +185,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "ngx-build-plus:karma",
           "options": {
             "main": "projects/empty-demo/src/test.ts",
             "polyfills": "projects/empty-demo/src/polyfills.ts",

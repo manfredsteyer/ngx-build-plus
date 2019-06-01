@@ -1,14 +1,14 @@
 /**
- * @license Angular v7.1.1
- * (c) 2010-2018 Google, Inc. https://angular.io/
+ * @license Angular v8.0.0
+ * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/animations'), require('@angular/core'), require('@angular/platform-browser'), require('@angular/animations/browser'), require('@angular/common')) :
-    typeof define === 'function' && define.amd ? define('@angular/platform-browser/animations', ['exports', '@angular/animations', '@angular/core', '@angular/platform-browser', '@angular/animations/browser', '@angular/common'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.platformBrowser = global.ng.platformBrowser || {}, global.ng.platformBrowser.animations = {}),global.ng.animations,global.ng.core,global.ng.platformBrowser,global.ng.animations.browser,global.ng.common));
-}(this, (function (exports,animations,core,platformBrowser,browser,common) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/platform-browser'), require('@angular/animations'), require('@angular/animations/browser'), require('@angular/common')) :
+    typeof define === 'function' && define.amd ? define('@angular/platform-browser/animations', ['exports', '@angular/core', '@angular/platform-browser', '@angular/animations', '@angular/animations/browser', '@angular/common'], factory) :
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.platformBrowser = global.ng.platformBrowser || {}, global.ng.platformBrowser.animations = {}), global.ng.core, global.ng.platformBrowser, global.ng.animations, global.ng.animations.browser, global.ng.common));
+}(this, function (exports, core, platformBrowser, animations, browser, common) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -100,7 +100,7 @@
         };
         BrowserAnimationBuilder = __decorate([
             core.Injectable(),
-            __param(1, core.Inject(platformBrowser.DOCUMENT)),
+            __param(1, core.Inject(common.DOCUMENT)),
             __metadata("design:paramtypes", [core.RendererFactory2, Object])
         ], BrowserAnimationBuilder);
         return BrowserAnimationBuilder;
@@ -241,7 +241,7 @@
             var _this = this;
             this._cdRecurDepth--;
             // this is to prevent animations from running twice when an inner
-            // component does CD when a parent component insted has inserted it
+            // component does CD when a parent component instead has inserted it
             if (this._cdRecurDepth == 0) {
                 this._zone.runOutsideAngular(function () {
                     _this._scheduleCountTask();
@@ -288,8 +288,8 @@
             this.delegate.insertBefore(parent, newChild, refChild);
             this.engine.onInsert(this.namespaceId, newChild, parent, true);
         };
-        BaseAnimationRenderer.prototype.removeChild = function (parent, oldChild) {
-            this.engine.onRemove(this.namespaceId, oldChild, this.delegate);
+        BaseAnimationRenderer.prototype.removeChild = function (parent, oldChild, isHostElement) {
+            this.engine.onRemove(this.namespaceId, oldChild, this.delegate, isHostElement);
         };
         BaseAnimationRenderer.prototype.selectRootElement = function (selectorOrNode, preserveContent) {
             return this.delegate.selectRootElement(selectorOrNode, preserveContent);
@@ -515,13 +515,12 @@
      * Generated bundle index. Do not edit.
      */
 
-    exports.ɵangular_packages_platform_browser_animations_animations_g = BaseAnimationRenderer;
-    exports.ɵangular_packages_platform_browser_animations_animations_e = BROWSER_ANIMATIONS_PROVIDERS;
-    exports.ɵangular_packages_platform_browser_animations_animations_f = BROWSER_NOOP_ANIMATIONS_PROVIDERS;
-    exports.ɵangular_packages_platform_browser_animations_animations_a = InjectableAnimationEngine;
-    exports.ɵangular_packages_platform_browser_animations_animations_c = instantiateDefaultStyleNormalizer;
-    exports.ɵangular_packages_platform_browser_animations_animations_d = instantiateRendererFactory;
-    exports.ɵangular_packages_platform_browser_animations_animations_b = instantiateSupportedAnimationDriver;
+    exports.ɵangular_packages_platform_browser_animations_animations_f = BaseAnimationRenderer;
+    exports.ɵangular_packages_platform_browser_animations_animations_d = BROWSER_ANIMATIONS_PROVIDERS;
+    exports.ɵangular_packages_platform_browser_animations_animations_e = BROWSER_NOOP_ANIMATIONS_PROVIDERS;
+    exports.ɵangular_packages_platform_browser_animations_animations_b = instantiateDefaultStyleNormalizer;
+    exports.ɵangular_packages_platform_browser_animations_animations_c = instantiateRendererFactory;
+    exports.ɵangular_packages_platform_browser_animations_animations_a = instantiateSupportedAnimationDriver;
     exports.BrowserAnimationsModule = BrowserAnimationsModule;
     exports.NoopAnimationsModule = NoopAnimationsModule;
     exports.ANIMATION_MODULE_TYPE = ANIMATION_MODULE_TYPE;
@@ -529,8 +528,9 @@
     exports.ɵBrowserAnimationFactory = BrowserAnimationFactory;
     exports.ɵAnimationRenderer = AnimationRenderer;
     exports.ɵAnimationRendererFactory = AnimationRendererFactory;
+    exports.ɵInjectableAnimationEngine = InjectableAnimationEngine;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=platform-browser-animations.umd.js.map

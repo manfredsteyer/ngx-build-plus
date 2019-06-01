@@ -1,14 +1,14 @@
 /**
- * @license Angular v7.1.1
- * (c) 2010-2018 Google, Inc. https://angular.io/
+ * @license Angular v8.0.0
+ * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define('@angular/animations', ['exports'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.animations = {})));
-}(this, (function (exports) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.animations = {})));
+}(this, function (exports) { 'use strict';
 
     /**
      * An injectable service that produces an animation sequence programmatically within an
@@ -310,8 +310,8 @@
      *
      * ```typescript
      * group([
-     *   animate("1s", { background: "black" }))
-     *   animate("2s", { color: "white" }))
+     *   animate("1s", style({ background: "black" })),
+     *   animate("2s", style({ color: "white" }))
      * ])
      * ```
      *
@@ -346,7 +346,7 @@
      * ```typescript
      * sequence([
      *   style({ opacity: 0 })),
-     *   animate("1s", { opacity: 1 }))
+     *   animate("1s", style({ opacity: 1 }))
      * ])
      * ```
      *
@@ -727,7 +727,7 @@
      * for a child animation to run, the parent animation must query each of the elements
      * containing child animations, and run them using this function.
      *
-     * Note that this feature designed to be used with `query()` and it will only work
+     * Note that this feature is designed to be used with `query()` and it will only work
      * with animations that are assigned using the Angular animation library. CSS keyframes
      * and transitions are not handled by this API.
      *
@@ -753,7 +753,7 @@
     }
     /**
      * Finds one or more inner elements within the current element that is
-     * being animated within a sequence. Use with `animateChild()`.
+     * being animated within a sequence. Use with `animate()`.
      *
      * @param selector The element to query, or a set of elements that contain Angular-specific
      * characteristics, specified with one or more of the following tokens.
@@ -800,7 +800,7 @@
      * ### Usage Example
      *
      * The following example queries for inner elements and animates them
-     * individually using `animateChild()`.
+     * individually using `animate()`.
      *
      * ```typescript
      * @Component({
@@ -821,8 +821,8 @@
      *        query('.content', style({ opacity: 0 })),
      *
      *        // animate the inner elements in, one by one
-     *        query('h1', animate(1000, style({ opacity: 1 })),
-     *        query('.content', animate(1000, style({ opacity: 1 })),
+     *        query('h1', animate(1000, style({ opacity: 1 }))),
+     *        query('.content', animate(1000, style({ opacity: 1 }))),
      *      ])
      *    ])
      *  ]
@@ -1215,5 +1215,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=animations.umd.js.map

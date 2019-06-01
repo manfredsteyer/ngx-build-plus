@@ -1,14 +1,14 @@
 /**
- * @license Angular v7.1.1
- * (c) 2010-2018 Google, Inc. https://angular.io/
+ * @license Angular v8.0.0
+ * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@angular/elements', ['exports', '@angular/core', 'rxjs', 'rxjs/operators'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.elements = {}),global.ng.core,global.rxjs,global.rxjs.operators));
-}(this, (function (exports,core,rxjs,operators) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.elements = {}), global.ng.core, global.rxjs, global.rxjs.operators));
+}(this, function (exports, core, rxjs, operators) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -69,9 +69,12 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var elProto = Element.prototype;
-    var matches = elProto.matches || elProto.matchesSelector || elProto.mozMatchesSelector ||
-        elProto.msMatchesSelector || elProto.oMatchesSelector || elProto.webkitMatchesSelector;
+    var ɵ0 = function () {
+        var elProto = Element.prototype;
+        return elProto.matches || elProto.matchesSelector || elProto.mozMatchesSelector ||
+            elProto.msMatchesSelector || elProto.oMatchesSelector || elProto.webkitMatchesSelector;
+    };
+    var matches = (ɵ0)();
     /**
      * Provide methods for scheduling the execution of a callback.
      */
@@ -537,7 +540,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('7.1.1');
+    var VERSION = new core.Version('8.0.0');
 
     /**
      * @license
@@ -566,5 +569,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=elements.umd.js.map

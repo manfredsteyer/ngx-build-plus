@@ -1,14 +1,14 @@
 /**
- * @license Angular v7.1.1
- * (c) 2010-2018 Google, Inc. https://angular.io/
+ * @license Angular v8.0.0
+ * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common')) :
-    typeof define === 'function' && define.amd ? define('@angular/common/testing', ['exports', '@angular/core', '@angular/common'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.common = global.ng.common || {}, global.ng.common.testing = {}),global.ng.core,global.ng.common));
-}(this, (function (exports,core,common) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('rxjs')) :
+    typeof define === 'function' && define.amd ? define('@angular/common/testing', ['exports', '@angular/core', '@angular/common', 'rxjs'], factory) :
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.common = global.ng.common || {}, global.ng.common.testing = {}), global.ng.core, global.ng.common, global.rxjs));
+}(this, function (exports, core, common, rxjs) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -39,11 +39,26 @@
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     }
 
+    var __assign = function() {
+        __assign = Object.assign || function __assign(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+            }
+            return t;
+        };
+        return __assign.apply(this, arguments);
+    };
+
     function __decorate(decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
+    }
+
+    function __param(paramIndex, decorator) {
+        return function (target, key) { decorator(target, key, paramIndex); }
     }
 
     function __metadata(metadataKey, metadataValue) {
@@ -73,11 +88,15 @@
             this._baseHref = '';
             /** @internal */
             this._platformStrategy = null;
+            /** @internal */
+            this._platformLocation = null;
+            /** @internal */
+            this._urlChangeListeners = [];
         }
         SpyLocation.prototype.setInitialPath = function (url) { this._history[this._historyIndex].path = url; };
         SpyLocation.prototype.setBaseHref = function (url) { this._baseHref = url; };
         SpyLocation.prototype.path = function () { return this._history[this._historyIndex].path; };
-        SpyLocation.prototype.state = function () { return this._history[this._historyIndex].state; };
+        SpyLocation.prototype.getState = function () { return this._history[this._historyIndex].state; };
         SpyLocation.prototype.isCurrentPathEqualTo = function (path, query) {
             if (query === void 0) { query = ''; }
             var givenPath = path.endsWith('/') ? path.substring(0, path.length - 1) : path;
@@ -133,14 +152,24 @@
         SpyLocation.prototype.forward = function () {
             if (this._historyIndex < (this._history.length - 1)) {
                 this._historyIndex++;
-                this._subject.emit({ 'url': this.path(), 'state': this.state(), 'pop': true });
+                this._subject.emit({ 'url': this.path(), 'state': this.getState(), 'pop': true });
             }
         };
         SpyLocation.prototype.back = function () {
             if (this._historyIndex > 0) {
                 this._historyIndex--;
-                this._subject.emit({ 'url': this.path(), 'state': this.state(), 'pop': true });
+                this._subject.emit({ 'url': this.path(), 'state': this.getState(), 'pop': true });
             }
+        };
+        SpyLocation.prototype.onUrlChange = function (fn) {
+            var _this = this;
+            this._urlChangeListeners.push(fn);
+            this.subscribe(function (v) { _this._notifyUrlChangeListeners(v.url, v.state); });
+        };
+        /** @internal */
+        SpyLocation.prototype._notifyUrlChangeListeners = function (url, state) {
+            if (url === void 0) { url = ''; }
+            this._urlChangeListeners.forEach(function (fn) { return fn(url, state); });
         };
         SpyLocation.prototype.subscribe = function (onNext, onThrow, onReturn) {
             return this._subject.subscribe({ next: onNext, error: onThrow, complete: onReturn });
@@ -183,6 +212,7 @@
             _this.urlChanges = [];
             /** @internal */
             _this._subject = new core.EventEmitter();
+            _this.stateChanges = [];
             return _this;
         }
         MockLocationStrategy.prototype.simulatePopState = function (url) {
@@ -200,6 +230,8 @@
             return this.internalBaseHref + internal;
         };
         MockLocationStrategy.prototype.pushState = function (ctx, title, path, query) {
+            // Add state change to changes array
+            this.stateChanges.push(ctx);
             this.internalTitle = title;
             var url = path + (query.length > 0 ? ('?' + query) : '');
             this.internalPath = url;
@@ -207,6 +239,8 @@
             this.urlChanges.push(externalUrl);
         };
         MockLocationStrategy.prototype.replaceState = function (ctx, title, path, query) {
+            // Reset the last index of stateChanges to the ctx (state) object
+            this.stateChanges[(this.stateChanges.length || 1) - 1] = ctx;
             this.internalTitle = title;
             var url = path + (query.length > 0 ? ('?' + query) : '');
             this.internalPath = url;
@@ -218,11 +252,13 @@
         MockLocationStrategy.prototype.back = function () {
             if (this.urlChanges.length > 0) {
                 this.urlChanges.pop();
+                this.stateChanges.pop();
                 var nextUrl = this.urlChanges.length > 0 ? this.urlChanges[this.urlChanges.length - 1] : '';
                 this.simulatePopState(nextUrl);
             }
         };
         MockLocationStrategy.prototype.forward = function () { throw 'not implemented'; };
+        MockLocationStrategy.prototype.getState = function () { return this.stateChanges[(this.stateChanges.length || 1) - 1]; };
         MockLocationStrategy = __decorate([
             core.Injectable(),
             __metadata("design:paramtypes", [])
@@ -237,6 +273,188 @@
         }
         return _MockPopStateEvent;
     }());
+
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    /**
+     * Parser from https://tools.ietf.org/html/rfc3986#appendix-B
+     * ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+     *  12            3  4          5       6  7        8 9
+     *
+     * Example: http://www.ics.uci.edu/pub/ietf/uri/#Related
+     *
+     * Results in:
+     *
+     * $1 = http:
+     * $2 = http
+     * $3 = //www.ics.uci.edu
+     * $4 = www.ics.uci.edu
+     * $5 = /pub/ietf/uri/
+     * $6 = <undefined>
+     * $7 = <undefined>
+     * $8 = #Related
+     * $9 = Related
+     */
+    var urlParse = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
+    function parseUrl(urlStr, baseHref) {
+        var verifyProtocol = /^((http[s]?|ftp):\/\/)/;
+        var serverBase;
+        // URL class requires full URL. If the URL string doesn't start with protocol, we need to add
+        // an arbitrary base URL which can be removed afterward.
+        if (!verifyProtocol.test(urlStr)) {
+            serverBase = 'http://empty.com/';
+        }
+        var parsedUrl;
+        try {
+            parsedUrl = new URL(urlStr, serverBase);
+        }
+        catch (e) {
+            var result = urlParse.exec(serverBase || '' + urlStr);
+            if (!result) {
+                throw new Error("Invalid URL: " + urlStr + " with base: " + baseHref);
+            }
+            var hostSplit = result[4].split(':');
+            parsedUrl = {
+                protocol: result[1],
+                hostname: hostSplit[0],
+                port: hostSplit[1] || '',
+                pathname: result[5],
+                search: result[6],
+                hash: result[8],
+            };
+        }
+        if (parsedUrl.pathname && parsedUrl.pathname.indexOf(baseHref) === 0) {
+            parsedUrl.pathname = parsedUrl.pathname.substring(baseHref.length);
+        }
+        return {
+            hostname: !serverBase && parsedUrl.hostname || '',
+            protocol: !serverBase && parsedUrl.protocol || '',
+            port: !serverBase && parsedUrl.port || '',
+            pathname: parsedUrl.pathname || '/',
+            search: parsedUrl.search || '',
+            hash: parsedUrl.hash || '',
+        };
+    }
+    /**
+     * Provider for mock platform location config
+     *
+     * @publicApi
+     */
+    var MOCK_PLATFORM_LOCATION_CONFIG = new core.InjectionToken('MOCK_PLATFORM_LOCATION_CONFIG');
+    /**
+     * Mock implementation of URL state.
+     *
+     * @publicApi
+     */
+    var MockPlatformLocation = /** @class */ (function () {
+        function MockPlatformLocation(config) {
+            this.baseHref = '';
+            this.hashUpdate = new rxjs.Subject();
+            this.urlChanges = [{ hostname: '', protocol: '', port: '', pathname: '/', search: '', hash: '', state: null }];
+            if (config) {
+                this.baseHref = config.appBaseHref || '';
+                var parsedChanges = this.parseChanges(null, config.startUrl || 'http://<empty>/', this.baseHref);
+                this.urlChanges[0] = __assign({}, parsedChanges);
+            }
+        }
+        Object.defineProperty(MockPlatformLocation.prototype, "hostname", {
+            get: function () { return this.urlChanges[0].hostname; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "protocol", {
+            get: function () { return this.urlChanges[0].protocol; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "port", {
+            get: function () { return this.urlChanges[0].port; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "pathname", {
+            get: function () { return this.urlChanges[0].pathname; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "search", {
+            get: function () { return this.urlChanges[0].search; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "hash", {
+            get: function () { return this.urlChanges[0].hash; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "state", {
+            get: function () { return this.urlChanges[0].state; },
+            enumerable: true,
+            configurable: true
+        });
+        MockPlatformLocation.prototype.getBaseHrefFromDOM = function () { return this.baseHref; };
+        MockPlatformLocation.prototype.onPopState = function (fn) {
+            // No-op: a state stack is not implemented, so
+            // no events will ever come.
+        };
+        MockPlatformLocation.prototype.onHashChange = function (fn) { this.hashUpdate.subscribe(fn); };
+        Object.defineProperty(MockPlatformLocation.prototype, "href", {
+            get: function () {
+                var url = this.protocol + "//" + this.hostname + (this.port ? ':' + this.port : '');
+                url += "" + (this.pathname === '/' ? '' : this.pathname) + this.search + this.hash;
+                return url;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MockPlatformLocation.prototype, "url", {
+            get: function () { return "" + this.pathname + this.search + this.hash; },
+            enumerable: true,
+            configurable: true
+        });
+        MockPlatformLocation.prototype.parseChanges = function (state, url, baseHref) {
+            if (baseHref === void 0) { baseHref = ''; }
+            // When the `history.state` value is stored, it is always copied.
+            state = JSON.parse(JSON.stringify(state));
+            return __assign({}, parseUrl(url, baseHref), { state: state });
+        };
+        MockPlatformLocation.prototype.replaceState = function (state, title, newUrl) {
+            var _a = this.parseChanges(state, newUrl), pathname = _a.pathname, search = _a.search, parsedState = _a.state, hash = _a.hash;
+            this.urlChanges[0] = __assign({}, this.urlChanges[0], { pathname: pathname, search: search, hash: hash, state: parsedState });
+        };
+        MockPlatformLocation.prototype.pushState = function (state, title, newUrl) {
+            var _a = this.parseChanges(state, newUrl), pathname = _a.pathname, search = _a.search, parsedState = _a.state, hash = _a.hash;
+            this.urlChanges.unshift(__assign({}, this.urlChanges[0], { pathname: pathname, search: search, hash: hash, state: parsedState }));
+        };
+        MockPlatformLocation.prototype.forward = function () { throw new Error('Not implemented'); };
+        MockPlatformLocation.prototype.back = function () {
+            var _this = this;
+            var oldUrl = this.url;
+            var oldHash = this.hash;
+            this.urlChanges.shift();
+            var newHash = this.hash;
+            if (oldHash !== newHash) {
+                scheduleMicroTask(function () { return _this.hashUpdate.next({
+                    type: 'hashchange', state: null, oldUrl: oldUrl, newUrl: _this.url
+                }); });
+            }
+        };
+        MockPlatformLocation.prototype.getState = function () { return this.state; };
+        MockPlatformLocation = __decorate([
+            core.Injectable(),
+            __param(0, core.Inject(MOCK_PLATFORM_LOCATION_CONFIG)), __param(0, core.Optional()),
+            __metadata("design:paramtypes", [Object])
+        ], MockPlatformLocation);
+        return MockPlatformLocation;
+    }());
+    function scheduleMicroTask(cb) {
+        Promise.resolve(null).then(cb);
+    }
 
     /**
      * @license
@@ -269,8 +487,10 @@
 
     exports.SpyLocation = SpyLocation;
     exports.MockLocationStrategy = MockLocationStrategy;
+    exports.MOCK_PLATFORM_LOCATION_CONFIG = MOCK_PLATFORM_LOCATION_CONFIG;
+    exports.MockPlatformLocation = MockPlatformLocation;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=common-testing.umd.js.map

@@ -1,14 +1,14 @@
 /**
- * @license Angular v7.1.1
- * (c) 2010-2018 Google, Inc. https://angular.io/
+ * @license Angular v8.0.0
+ * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/common/testing'), require('@angular/core'), require('@angular/router')) :
     typeof define === 'function' && define.amd ? define('@angular/router/testing', ['exports', '@angular/common', '@angular/common/testing', '@angular/core', '@angular/router'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.router = global.ng.router || {}, global.ng.router.testing = {}),global.ng.common,global.ng.common.testing,global.ng.core,global.ng.router));
-}(this, (function (exports,common,testing,core,router) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.router = global.ng.router || {}, global.ng.router.testing = {}), global.ng.common, global.ng.common.testing, global.ng.core, global.ng.router));
+}(this, function (exports, common, testing, core, router) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -145,26 +145,26 @@
      * @publicApi
      */
     function setupTestingRouter(urlSerializer, contexts, location, loader, compiler, injector, routes, opts, urlHandlingStrategy) {
-        var router$$1 = new router.Router(null, urlSerializer, contexts, location, injector, loader, compiler, router.ɵflatten(routes));
+        var router$1 = new router.Router(null, urlSerializer, contexts, location, injector, loader, compiler, router.ɵflatten(routes));
         if (opts) {
             // Handle deprecated argument ordering.
             if (isUrlHandlingStrategy(opts)) {
-                router$$1.urlHandlingStrategy = opts;
+                router$1.urlHandlingStrategy = opts;
             }
             else {
                 // Handle ExtraOptions
                 if (opts.malformedUriErrorHandler) {
-                    router$$1.malformedUriErrorHandler = opts.malformedUriErrorHandler;
+                    router$1.malformedUriErrorHandler = opts.malformedUriErrorHandler;
                 }
                 if (opts.paramsInheritanceStrategy) {
-                    router$$1.paramsInheritanceStrategy = opts.paramsInheritanceStrategy;
+                    router$1.paramsInheritanceStrategy = opts.paramsInheritanceStrategy;
                 }
             }
         }
         if (urlHandlingStrategy) {
-            router$$1.urlHandlingStrategy = urlHandlingStrategy;
+            router$1.urlHandlingStrategy = urlHandlingStrategy;
         }
-        return router$$1;
+        return router$1;
     }
     /**
      * @description
@@ -262,5 +262,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=router-testing.umd.js.map

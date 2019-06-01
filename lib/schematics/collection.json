@@ -8,11 +8,13 @@
     },
     "externals": {
       "description": "Adds files for compiling with externals",
-      "factory": "./externals/index#addExternalsSupport"
+      "factory": "./externals/index#addExternalsSupport",
+      "schema": "./add-ngx-build-plus/schema.json"
     },
     "wc-polyfill": {
       "description": "Adds files for the webcomponents polyfill",
-      "factory": "./webcomponents-polyfill/index#addWebComponentsPolyfill"
+      "factory": "./webcomponents-polyfill/index#addWebComponentsPolyfill",
+      "schema": "./add-ngx-build-plus/schema.json"
     },
     "executeNodeScript": {
       "private": true,

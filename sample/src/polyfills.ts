@@ -79,8 +79,4 @@
  * APPLICATION IMPORTS
  */
 
- // Shim for Browsers supporting Custom Elements
- // Needed b/c Custom Elements ist defined for ES6+
- // while we are downleveling to ES5.
- //import '@webcomponents/custom-elements/custom-elements.min';
-
+ 
