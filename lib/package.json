@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "8.0.2",
+  "version": "8.0.3",
   "description": "Extends the Angular CLI's build process!",
   "license": "MIT",
   "repository": {
@@ -29,7 +29,6 @@
   },
   "peerDependencies": {
     "@angular-devkit/build-angular": "~0.800.0",
-    "@angular-devkit/core": "~0.800.0",
     "rxjs": ">= 6.0.0"
   },
   "devDependencies": {
