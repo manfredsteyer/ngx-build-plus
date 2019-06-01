@@ -5,6 +5,11 @@
       "schema": "./src/browser/schema.json",
       "description": "Extensible Builder"
     },
+    "build": {
+      "implementation": "./src/browser",
+      "schema": "./src/browser/schema.json",
+      "description": "Extensible Builder (deprecated; use browser builder instead)"
+    },
     "dev-server": {
       "implementation": "./src/plus-dev-server",
       "schema": "./src/plus-dev-server/schema.json",

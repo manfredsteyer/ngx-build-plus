@@ -16,11 +16,13 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 ## Get the right version
 
 - Angular 6-7/ CLI 6-7: ngx-build-plus@^7
-- Angular 8/ CLI 8: ngx-build-plus^8.0.0-rc.3
+- Angular 8/ CLI 8: ngx-build-plus^8.0.0
 
-## Tested with CLI 6.x and CLI 7.0.x
+## Updating to Version 8
 
-This package has been created and tested with Angular CLI 6.x. and CLI 7.0.x. If the CLI's underlying API changes in future, I'll provide an respective update for this version too until the CLI has build-in features for the covered use cases.
+```
+ng update ngx-build-plus --force
+```
 
 ## Breaking Change in Version 7
 
@@ -88,6 +90,10 @@ Please find the example shown here in the sample application in the folder ``pro
     **Hint**: Consider creating a npm script for this command.
 
 6. Make sure that the VERSION provided by your webpack config is displayed.
+
+## ngx-build-plus and Angular Elements
+
+While ``ngx-build-plus`` can be used in every Angular configuration, it also comes with some schematics automating some scenarios for Angular Elements. More information about can be found [here](https://www.softwarearchitekt.at/post/2019/01/27/building-angular-elements-with-the-cli.aspx).
 
 ## Using Plugins
 

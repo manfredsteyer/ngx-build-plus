@@ -6,15 +6,12 @@ import * as path from 'path';
 const spawn = require('cross-spawn');
 
 const scriptsIndexHtml = `
+<!-- Comment this out, *if* using differential loading or es2015 as a target in Angular 8+ -->
+<script src="./assets/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
 `
 
 const scriptsPolyfills = `
-if (window['customElements']) {
-  const script = document.createElement('script');
-  script.src = './assets/webcomponentsjs/custom-elements-es5-adapter.js';
-  document.writeln(script.outerHTML);
-}
-
 if (!window['customElements']) {
   const script = document.createElement('script');
   script.src = './assets/webcomponentsjs/bundles/webcomponents-sd-ce.js';

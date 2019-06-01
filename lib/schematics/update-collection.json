@@ -1,0 +1,11 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "migration-8": {
+      "version": "8.0.0",
+      "description": "Updates references to builders for ngx-build-plus",
+      "factory": "./add-ngx-build-plus/index#addNgxBuildPlus",
+      "schema": "./add-ngx-build-plus/schema.json"
+    }
+  }
+}
