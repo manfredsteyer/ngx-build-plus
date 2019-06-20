@@ -3,16 +3,17 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { ConfigHookFn, Plugin } from '../ext/hook';
 import { loadHook } from '../ext/load-hook';
+import { PlusBuilderSchema } from 'src/plus/schema';
 
-import { DevServerBuilder as DevServerBuilderBase, BrowserBuilderSchema as BrowserBuilderSchemaBase, DevServerBuilderOptions   } from '@angular-devkit/build-angular';
-import { BuildEvent } from '@angular-devkit/architect';
+import { DevServerBuilder as DevServerBuilderBase, DevServerBuilderOptions as DevServerBuilderOptionsBase } from '@angular-devkit/build-angular';
+import { BuilderConfiguration, BuildEvent } from '@angular-devkit/architect';
 
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 const webpackMerge = require('webpack-merge');
 
-export interface BrowserBuilderSchema extends BrowserBuilderSchemaBase {
+export interface DevServerBuilderOptions extends DevServerBuilderOptionsBase {
   extraWebpackConfig: string;
   singleBundle: boolean;
   keepPolyfills: boolean;
@@ -29,12 +30,12 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
     root: Path,
     projectRoot: Path,
     host: virtualFs.Host<fs.Stats>,
-    options: any,
+    options: PlusBuilderSchema,
   ) {
 
-    let plugin: Plugin | null = null;
+    let plugin: Plugin<DevServerBuilderOptions, PlusBuilderSchema> | null = null;
     if (this.localOptions.plugin) {
-      plugin = loadHook<Plugin>(this.localOptions.plugin);
+      plugin = loadHook<Plugin<DevServerBuilderOptions, PlusBuilderSchema>>(this.localOptions.plugin);
     }
 
     if (plugin && plugin.preConfig) {
@@ -46,7 +47,7 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
     if (this.localOptions.singleBundle) {
       if (!this.localOptions.keepPolyfills) {
         delete config.entry.polyfills;
-      } 
+      }
       delete config.optimization.runtimeChunk;
       delete config.optimization.splitChunks;
     }
@@ -77,12 +78,12 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
     return config;
   }
 
-  run(builderConfig: any): Observable<BuildEvent> {
-    
+  run(builderConfig: BuilderConfiguration<DevServerBuilderOptions>): Observable<BuildEvent> {
+
     this.localOptions = builderConfig.options;
-    let plugin: Plugin | null = null;
+    let plugin: Plugin<DevServerBuilderOptions, PlusBuilderSchema> | null = null;
     if (builderConfig.options.plugin) {
-      plugin = loadHook<Plugin>(builderConfig.options.plugin);
+      plugin = loadHook<Plugin<DevServerBuilderOptions, PlusBuilderSchema>>(builderConfig.options.plugin);
     }
 
     if (plugin && plugin.pre) {
@@ -99,7 +100,7 @@ export class PlusDevServerBuilder extends DevServerBuilderBase {
 
   }
 
-  
+
 }
 
 export default PlusDevServerBuilder;

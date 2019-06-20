@@ -1,11 +1,10 @@
 import { BuilderConfiguration } from "@angular-devkit/architect";
-import { BrowserBuilderSchema } from "src/plus-dev-server";
 
 export type ConfigHookFn = (cfg: object) => object;
 
-export type Plugin = {
-    preConfig?(builderConfig: BuilderConfiguration<BrowserBuilderSchema>): void;
+export type Plugin<O, N> = {
+    preConfig?(normalizedBuilderConfig: N): void;
     config?(cfg: object): object;
-    pre?(builderConfig: BuilderConfiguration<BrowserBuilderSchema>): void;
-    post?(builderConfig: BuilderConfiguration<BrowserBuilderSchema>): void
+    pre?(builderConfig: BuilderConfiguration<O>): void;
+    post?(builderConfig: BuilderConfiguration<O>): void
 };

@@ -1,4 +1,4 @@
-import { BrowserBuilder, NormalizedBrowserBuilderSchema, BrowserBuilderSchema } from '@angular-devkit/build-angular';
+import { BrowserBuilder, BrowserBuilderSchema as BrowserBuilderSchemaBase } from '@angular-devkit/build-angular';
 import { Path, virtualFs, getSystemPath } from '@angular-devkit/core';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -13,16 +13,25 @@ import { statsToString, statsWarningsToString, statsErrorsToString } from '../st
 
 const webpackMerge = require('webpack-merge');
 
+export interface BrowserBuilderSchema extends BrowserBuilderSchemaBase {
+  extraWebpackConfig: string;
+  singleBundle: boolean;
+  keepPolyfills: boolean;
+  bundleStyles: boolean;
+  configHook: string;
+  plugin: string;
+}
+
 export class PlusBuilder extends BrowserBuilder  {
 
-  private localOptions: any;
+  private localOptions: BrowserBuilderSchema;
 
   protected createLoggingFactory(): (verbose: boolean) => LoggingCallback  {
-    
+
     return (verbose: boolean): LoggingCallback =>
     (stats, config, logger) => {
       // config.stats contains our own stats settings, added during buildWebpackConfig().
-      
+
       const json = stats.toJson(config.stats);
 
       if (verbose) {
@@ -30,7 +39,7 @@ export class PlusBuilder extends BrowserBuilder  {
       } else {
         logger.info(statsToString(json, config.stats));
       }
-  
+
       if (stats.hasWarnings()) {
         logger.warn(statsWarningsToString(json, config.stats));
       }
@@ -47,9 +56,9 @@ export class PlusBuilder extends BrowserBuilder  {
     options: PlusBuilderSchema,
   ) {
 
-    let plugin: Plugin | null = null;
+    let plugin: Plugin<BrowserBuilderSchema, PlusBuilderSchema> | null = null;
     if (this.localOptions.plugin) {
-      plugin = loadHook<Plugin>(this.localOptions.plugin);
+      plugin = loadHook<Plugin<BrowserBuilderSchema, PlusBuilderSchema>>(this.localOptions.plugin);
     }
 
     if (plugin && plugin.preConfig) {
@@ -59,10 +68,10 @@ export class PlusBuilder extends BrowserBuilder  {
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
     if (this.localOptions.singleBundle) {
-      
+
       if (!this.localOptions.keepPolyfills) {
         delete config.entry.polyfills;
-      } 
+      }
       delete config.optimization.runtimeChunk;
       delete config.optimization.splitChunks;
     }
@@ -89,12 +98,12 @@ export class PlusBuilder extends BrowserBuilder  {
     return config;
   }
 
-  run(builderConfig: BuilderConfiguration<PlusBuilderSchema>): Observable<BuildEvent> {
-    
+  run(builderConfig: BuilderConfiguration<BrowserBuilderSchema>): Observable<BuildEvent> {
+
     this.localOptions = builderConfig.options;
-    let plugin: Plugin | null = null;
+    let plugin: Plugin<BrowserBuilderSchema, PlusBuilderSchema> | null = null;
     if (builderConfig.options.plugin) {
-      plugin = loadHook<Plugin>(builderConfig.options.plugin);
+      plugin = loadHook<Plugin<BrowserBuilderSchema, PlusBuilderSchema>>(builderConfig.options.plugin);
     }
 
     if (plugin && plugin.pre) {
