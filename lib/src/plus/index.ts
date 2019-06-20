@@ -47,6 +47,15 @@ export class PlusBuilder extends BrowserBuilder  {
     options: PlusBuilderSchema,
   ) {
 
+    let plugin: Plugin | null = null;
+    if (this.localOptions.plugin) {
+      plugin = loadHook<Plugin>(this.localOptions.plugin);
+    }
+
+    if (plugin && plugin.preConfig) {
+      plugin.preConfig(options);
+    }
+
     let config = super.buildWebpackConfig(root, projectRoot, host, options);
 
     if (this.localOptions.singleBundle) {
@@ -66,11 +75,6 @@ export class PlusBuilder extends BrowserBuilder  {
       const filePath = path.resolve(getSystemPath(projectRoot), this.localOptions.extraWebpackConfig);
       const additionalConfig = require(filePath);
       config = webpackMerge([config, additionalConfig]);
-    }
-
-    let plugin: Plugin | null = null;
-    if (this.localOptions.plugin) {
-      plugin = loadHook<Plugin>(this.localOptions.plugin);
     }
 
     if (plugin && plugin.config) {
