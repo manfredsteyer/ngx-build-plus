@@ -30,7 +30,7 @@
         "alias": "m"
       },      
       "host":  {
-        "type": "string",
+        "type": "boolean",
         "description": "Is the current project a host which shares dependencies with other clients?",
         "alias": "h",
         "default": false
