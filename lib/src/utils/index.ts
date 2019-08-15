@@ -1,15 +1,13 @@
 import { ExecutionTransformer } from "@angular-devkit/build-angular";
-import { BuilderContext, BuilderOutput, BuilderOutputLike } from "@angular-devkit/architect";
-import { WebpackLoggingCallback } from "@angular-devkit/build-webpack";
-import { Observable, of, from, isObservable } from 'rxjs';
+import { BuilderContext, BuilderOutputLike } from "@angular-devkit/architect";
+import { of, from, isObservable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Plugin, ConfigHookFn } from "../ext/hook";
 import { loadHook } from "../ext/load-hook";
-import { experimental, getSystemPath, normalize } from '@angular-devkit/core';
+import { getSystemPath, normalize } from '@angular-devkit/core';
 import * as webpack from 'webpack';
 import * as path from 'path';
 import * as webpackMerge from 'webpack-merge';
-
 
 export interface Transforms {
   webpackConfiguration?: ExecutionTransformer<webpack.Configuration>;
@@ -19,7 +17,6 @@ export interface Transforms {
 export interface BuilderHandlerPlusFn<A> {
   (input: A, context: BuilderContext, transforms: Transforms): BuilderOutputLike;
 }
-
 
 export function runBuilderHandler(options: any, transforms: Transforms, context: BuilderContext, builderHandler: BuilderHandlerPlusFn<any>, configTransformerName = 'webpackConfiguration') {
   
@@ -54,6 +51,7 @@ function asObservable(result: BuilderOutputLike) {
 }
 
 function setupConfigHook(transforms: Transforms, options: any, context: BuilderContext, plugin: Plugin | null, configTransformerName = 'webpackConfiguration') {
+  
   const originalConfigFn = transforms[configTransformerName];
   transforms[configTransformerName] = (config: webpack.Configuration) => {
 

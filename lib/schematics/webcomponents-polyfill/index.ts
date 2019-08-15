@@ -183,6 +183,11 @@ function loadPackageJson(tree: Tree) {
 }
 
 function updateScripts(path: string, config: any, tree: Tree, _options: any) {
+  
+  if (path) {
+    path += '/';
+  }
+  
   const script = `node ${path}copy-wc-polyfill.js`;
 
   if (!config['scripts']) {
