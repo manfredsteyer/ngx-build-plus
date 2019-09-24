@@ -30,6 +30,7 @@
       "./node_modules/@types"
     ],
     "types": [
+      "jasmine",
       "node"
     ],
   },
