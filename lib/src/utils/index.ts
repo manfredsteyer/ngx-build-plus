@@ -75,7 +75,7 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
       config = webpackMerge([config, additionalConfig]);
     }
     if (plugin && plugin.config) {
-      config = plugin.config(config);
+      config = plugin.config(config, options);
     }
 
     if (options.configHook) {
