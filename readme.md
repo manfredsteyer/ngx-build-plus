@@ -93,7 +93,7 @@ export default {
     pre() {
         console.debug('pre');
     },
-    config(cfg) {
+    config(cfg, options) {
         console.debug('config');
         return cfg;
     },
