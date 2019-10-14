@@ -10,7 +10,7 @@
     },
     "singleBundle": {
       "type": "boolean",
-      "description": "Generate just one bundle",
+      "description": "Puts everything reachable from main.ts (entris vendor, main, and runtime) into one bundle.",
       "default": false
     },
     "keepPolyfills": {
@@ -41,7 +41,7 @@
       "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
       "default": false
     },
-    
+
     "verbose": {
       "type": "boolean",
       "description": "Adds more details to output logging.",
