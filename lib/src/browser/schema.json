@@ -44,8 +44,14 @@
 
     "bundleStyles": {
       "type": "boolean",
-      "description": "Used conjunction with 'singleBundle' to explizitly not bundle styles",
+      "description": "DEPRECATED: Use keepStyles instead",
       "default": true
+    },
+
+    "keepStyles": {
+      "type": "boolean",
+      "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
+      "default": false
     },
 
     "main": {
