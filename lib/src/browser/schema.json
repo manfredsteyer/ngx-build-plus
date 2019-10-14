@@ -21,7 +21,7 @@
     },
     "singleBundle": {
       "type": "boolean",
-      "description": "Generate just one bundle",
+      "description": "Puts everything reachable from main.ts (entries vendor, main, and runtime) into one bundle. All other entry points are removed. To also get polyfills and/or styles, use --keepPolyfills or --keepStyles",
       "default": false
     },
     "keepPolyfills": {

@@ -59,6 +59,9 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
       if (!options.keepPolyfills && config.entry && config.entry['polyfills']) {
         delete config.entry['polyfills'];
       }
+      if (!options.keepPolyfills && config.entry && config.entry['polyfills-es5']) {
+        delete config.entry['polyfills-es5'];
+      }      
       if (config.optimization) {
         delete config.optimization.runtimeChunk;
         delete config.optimization.splitChunks;
