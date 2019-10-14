@@ -101,14 +101,14 @@ Plugins allow you to provide some custom code that modifies your webpack configu
 
 ```typescript
 export default {
-    pre() {
+    pre(options) {
         console.debug('pre');
     },
     config(cfg) {
         console.debug('config');
         return cfg;
     },
-    post() {
+    post(options) {
         console.debug('post');
     }
 }
