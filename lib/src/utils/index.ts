@@ -27,17 +27,10 @@ export function runBuilderHandler(options: any, transforms: Transforms, context:
 
   setupConfigHook(transforms, options, context, plugin, configTransformerName);
 
-  if (plugin && plugin.pre) {
-    plugin.pre(options);
-  }
-
-  const result = asObservable(builderHandler(options, context, transforms));
-
-  return result.pipe(tap(_ => {
-    if (plugin && plugin.post) {
-      plugin.post(options);
-    }
-  }));
+  const pre$ = from(plugin && plugin.pre ? plugin.pre(options) : Promise.resolve(true));
+  const result$ = asObservable(builderHandler(options, context, transforms));
+  const post$ = from(plugin && plugin.post ? plugin.post(options) : Promise.resolve(true)) ;
+  return concat([pre$, result$, post$]);
 }
 
 function asObservable(result: BuilderOutputLike) {
