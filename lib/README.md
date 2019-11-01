@@ -184,8 +184,7 @@ The result of this description can be found in the [repository's](https://github
 1. Create a new Angular CLI based project and install ``@angular/elements`` as well as ``@webcomponents/custom-elements`` which provides needed polyfills:
 
     ```
-    ng add @angular/elements 
-    npm install @webcomponents/custom-elements --save
+    npm i @angular/elements --save
     ```
 
 2. Expose a component as an Custom Element:
@@ -234,13 +233,19 @@ The result of this description can be found in the [repository's](https://github
     ng add ngx-build-plus --project myProject
     ```
 
-4. Execute the externals schematc:
+4. Add polyfills:
+   
+   ```
+   ng g ngx-build-plus:wc-polyfill --project myProject
+   ```
+
+5. Execute the externals schematc:
    
    ```
    ng g ngx-build-plus:externals --project myProject
    ```
 
-5. This creates a partial webpack config in your project's root:
+6. This creates a partial webpack config in your project's root:
 
     ```JavaScript
     module.exports = {
@@ -254,13 +259,13 @@ The result of this description can be found in the [repository's](https://github
     }
     ```
 
-6. Build your application. You can use the npm script created by the above mentioned schematic:
+7. Build your application. You can use the npm script created by the above mentioned schematic:
 
     ```
     npm run build:externals:myProject
     ```
 
-7. Angular will now be compiled into a scripts.js and can be reused amongs several seperately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
+8. Angular will now be compiled into a ``scripts.js`` and can be reused amongs several seperately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
 
 
 Further information about this can be found in my blog [here](https://www.softwarearchitekt.at/post/2019/01/27/building-angular-elements-with-the-cli.aspx).
