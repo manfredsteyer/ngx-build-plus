@@ -204,7 +204,7 @@
       "keepPolyfills": {
         "type": "boolean",
         "description": "Generate polyfills bundle when using single-bundle",
-        "default": false
+        "default": true
       },
       "configHook": {
         "type": "string",

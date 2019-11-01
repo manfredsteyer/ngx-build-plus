@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "8.1.5",
+  "version": "9.0.1",
   "description": "Extends the Angular CLI's build process!",
   "license": "MIT",
   "repository": {

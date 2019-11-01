@@ -24,6 +24,24 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "scripts": [
+              {
+                "bundleName": "polyfill-webcomp-es5",
+                "input": "node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"
+              },
+              {
+                "bundleName": "polyfill-webcomp",
+                "input": "node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js"
+              },
+              "node_modules/rxjs/bundles/rxjs.umd.js",
+              "node_modules/@angular/core/bundles/core.umd.js",
+              "node_modules/@angular/common/bundles/common.umd.js",
+              "node_modules/@angular/common/bundles/common-http.umd.js",
+              "node_modules/@angular/compiler/bundles/compiler.umd.js",
+              "node_modules/@angular/elements/bundles/elements.umd.js",
+              "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js",
+              "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"
             ]
           },
           "configurations": {
@@ -998,6 +1016,185 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/delme2-host-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "externals-demo-new": {
+      "root": "projects/externals-demo-new",
+      "sourceRoot": "projects/externals-demo-new/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/externals-demo-new/tsconfig.lib.json",
+            "project": "projects/externals-demo-new/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/externals-demo-new/src/test.ts",
+            "tsConfig": "projects/externals-demo-new/tsconfig.spec.json",
+            "karmaConfig": "projects/externals-demo-new/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/externals-demo-new/tsconfig.lib.json",
+              "projects/externals-demo-new/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "externals-demo-scripts": {
+      "root": "projects/externals-demo-scripts/",
+      "sourceRoot": "projects/externals-demo-scripts/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/externals-demo-scripts",
+            "index": "projects/externals-demo-scripts/src/index.html",
+            "main": "projects/externals-demo-scripts/src/main.ts",
+            "polyfills": "projects/externals-demo-scripts/src/polyfills.ts",
+            "tsConfig": "projects/externals-demo-scripts/tsconfig.app.json",
+            "assets": [
+              "projects/externals-demo-scripts/src/favicon.ico",
+              "projects/externals-demo-scripts/src/assets"
+            ],
+            "styles": [
+              "projects/externals-demo-scripts/src/styles.css"
+            ],
+            "scripts": [
+              {
+                "bundleName": "polyfill-webcomp-es5",
+                "input": "node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"
+              },
+              {
+                "bundleName": "polyfill-webcomp",
+                "input": "node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js"
+              },
+              "node_modules/rxjs/bundles/rxjs.umd.js",
+              "node_modules/@angular/core/bundles/core.umd.js",
+              "node_modules/@angular/common/bundles/common.umd.js",
+              "node_modules/@angular/common/bundles/common-http.umd.js",
+              "node_modules/@angular/compiler/bundles/compiler.umd.js",
+              "node_modules/@angular/elements/bundles/elements.umd.js",
+              "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js",
+              "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/externals-demo-scripts/src/environments/environment.ts",
+                  "with": "projects/externals-demo-scripts/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "externals-demo-scripts:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "externals-demo-scripts:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "externals-demo-scripts:build"
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "main": "projects/externals-demo-scripts/src/test.ts",
+            "polyfills": "projects/externals-demo-scripts/src/polyfills.ts",
+            "tsConfig": "projects/externals-demo-scripts/tsconfig.spec.json",
+            "karmaConfig": "projects/externals-demo-scripts/karma.conf.js",
+            "styles": [
+              "projects/externals-demo-scripts/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/externals-demo-scripts/src/favicon.ico",
+              "projects/externals-demo-scripts/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/externals-demo-scripts/tsconfig.app.json",
+              "projects/externals-demo-scripts/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "externals-demo-scripts-e2e": {
+      "root": "projects/externals-demo-scripts-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/externals-demo-scripts-e2e/protractor.conf.js",
+            "devServerTarget": "externals-demo-scripts:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "externals-demo-scripts:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/externals-demo-scripts-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]

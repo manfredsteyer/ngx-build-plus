@@ -6,6 +6,7 @@ Extend the Angular CLI's default build behavior without ejecting:
 - 📄 Alternative: Extend the default behavior by providing a custom function
 - 📦 Optional: Build a single bundle (e. g. for Angular Elements)
 - ☑️ Inherits from the default builder, hence you have the same options
+- ☑️ Provides schematics for some advanced use cases like webpack externals
 - 🍰 Simple to use 
 - ⏏️ No eject needed
 
@@ -24,13 +25,27 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 ng update ngx-build-plus --force
 ```
 
-## Breaking Change in Version 7
+## Breaking Changes
+
+## Version 7
 
 - The switch ``single-bundle`` now defaults to ``false`` to align with the CLI's default behavior.
 
-## Example
+## Version 9
 
-https://github.com/manfredsteyer/ngx-build-plus
+- `keepPolyfills` and `keepStyles` default to true to avoid misunderstandings.
+
+## Schematics and Options
+
+### Options
+
+- ``ng build --single-bundle``: Puts everything reachable from the main entry point into one bundle. Polyfills, scripts, and styles stay in their own bundles as the consuming application might have its own versions of these.
+
+### Schamtics
+
+- ``ng add ngx-build-plus``
+- ``ng g ngx-build-plus:wc-polyfill``: Adds webcomponent polyfills to your app 
+- ``ng g ngx-build-plus:externals``: Updates your app to use webpack externals (see example at the end)
 
 ## Getting started
 
@@ -219,26 +234,13 @@ The result of this description can be found in the [repository's](https://github
     ng add ngx-build-plus --project myProject
     ```
 
-4. **Alternative**: *If, and only if,* this does not work for you, e. g. because you use an earlier Angular version, you can install the library manually:
+4. Execute the externals schematc:
+   
+   ```
+   ng g ngx-build-plus:externals --project myProject
+   ```
 
-    ```
-    npm install ngx-build-plus --save-dev
-    ```
-
-    After this, update your angular.json:
-
-    ```json
-    [...]
-    "architect": {
-        "build": {
-            "builder": "ngx-build-plus:build",
-            [...]
-        }
-    }
-    [...]
-    ```
-
-5. Create a file ``webpack.extra.js`` with a partial webpack config that tells webpack to exclude packages like ``@angular/core``:
+5. This creates a partial webpack config in your project's root:
 
     ```JavaScript
     module.exports = {
@@ -252,76 +254,19 @@ The result of this description can be found in the [repository's](https://github
     }
     ```
 
-6. Build your application:
+6. Build your application. You can use the npm script created by the above mentioned schematic:
 
     ```
-    ng build --prod --extraWebpackConfig webpack.extra.js --output-hashing none --single-bundle true
+    npm run build:externals:myProject
     ```
 
-7. You will see that just one bundle (besides the ``script.js`` that could also be shared) is built. The size of the ``main.js`` tells you, that the mentioned packages have been excluded.
-
-    ![Result](result.png)
-
-8. Copy the bundle into a project that references the UMD versions of all external libraries and your ``main.ts``. You can find such a project with all the necessary script files in the ``deploy`` folder of the sample.
-
-    ```html
-    <!doctype html>
-    <html lang="en">
-    <head>
-    <meta charset="utf-8">
-    <title>ElementsLoading</title>
-    <base href="/">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    </head>
-    <body>
-
-    <!-- Consider putting the following UMD (!) bundles -->
-    <!-- into a big one -->
-
-    <!-- core-js for legacy browsers -->
-    <script src="./assets/core-js/core.js"></script>
-
-    <!-- Zone.js -->
-    <!-- 
-        Consider excluding zone.js when creating
-        custom Elements by using the noop zone.
-    -->
-    <script src="./assets/zone.js/zone.js"></script>
+7. Angular will now be compiled into a scripts.js and can be reused amongs several seperately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
 
 
-    <!-- Polyfills for Browsers supporting 
-            Custom Elements. Needed b/c we downlevel
-            to ES5. See: @webcomponents/custom-elements
-    -->
-    <script src="./assets/custom-elements/src/native-shim.js"></script>
+Further information about this can be found in my blog [here](https://www.softwarearchitekt.at/post/2019/01/27/building-angular-elements-with-the-cli.aspx).
 
-    <!-- Polyfills for Browsers not supporting
-            Custom Elements. See: @webcomponents/custom-elements
-    -->
-    <script src="./assets/custom-elements/custom-elements.min.js"></script>
+## Angular Trainings, Consultings, Schulungen
 
+see http://www.softwarearchitekt.at
 
-    <!-- Rx -->
-    <script src="./assets/rxjs/rxjs.umd.js"></script>
-
-    <!-- Angular Packages -->
-    <script src="./assets/core/bundles/core.umd.js"></script>
-    <script src="./assets/common/bundles/common.umd.js"></script>
-    <script src="./assets/platform-browser/bundles/platform-browser.umd.js"></script>
-    <script src="./assets/elements/bundles/elements.umd.js"></script>
-
-    <!-- Calling Custom Element -->
-    <custom-element></custom-element>
-
-    </body>
-    </html>
-    ```
-
-9. Test your solution.
-
-**Hint:** For production, consider using the minified versions of those bundles. They can be found in the ``node_modules`` folder after npm installing them.
-
-**Hint:** The sample project contains a node script ``copy-bundles.js`` that copies the needed UMD bundles from the ``node_modules`` folder into the assets folder.
 

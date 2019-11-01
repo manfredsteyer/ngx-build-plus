@@ -16,6 +16,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "externals-demo-new": [
+        "dist/externals-demo-new"
+      ],
+      "externals-demo-new/*": [
+        "dist/externals-demo-new/*"
+      ]
+    }
   }
 }

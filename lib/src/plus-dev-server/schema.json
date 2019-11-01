@@ -16,7 +16,7 @@
     "keepPolyfills": {
       "type": "boolean",
       "description": "Generate polyfills bundle when using single-bundle",
-      "default": false
+      "default": true
     },
     "configHook": {
       "type": "string",
@@ -39,7 +39,7 @@
     "keepStyles": {
       "type": "boolean",
       "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
-      "default": false
+      "default": true
     },
 
     "verbose": {
