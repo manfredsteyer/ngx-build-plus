@@ -135,10 +135,10 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any, _co
 
   // Heuristic for default project
   if (!project.root) {
-    config.scripts['build:externals'] = `ng build --extra-webpack-config ${path}webpack.externals.js --prod ${additionalFlags}`;
+    config.scripts['build:externals'] = `ng build --extra-webpack-config ${path}/webpack.externals.js --prod ${additionalFlags}`;
   }
 
   if (_options.project) {
-    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config ${path}webpack.externals.js --prod --project ${_options.project} ${additionalFlags}`;
+    config.scripts[`build:${_options.project}:externals`] = `ng build --extra-webpack-config ${path}/webpack.externals.js --prod --project ${_options.project} ${additionalFlags}`;
   }
 }
