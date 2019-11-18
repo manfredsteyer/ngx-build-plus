@@ -11,7 +11,7 @@ import * as webpackMerge from 'webpack-merge';
 
 export interface Transforms {
   webpackConfiguration?: ExecutionTransformer<webpack.Configuration>;
- 
+
 }
 
 export interface BuilderHandlerPlusFn<A> {
@@ -19,7 +19,7 @@ export interface BuilderHandlerPlusFn<A> {
 }
 
 export function runBuilderHandler(options: any, transforms: Transforms, context: BuilderContext, builderHandler: BuilderHandlerPlusFn<any>, configTransformerName = 'webpackConfiguration') {
-  
+
   let plugin: Plugin | null = null;
   if (options.plugin) {
     plugin = loadHook<Plugin>(options.plugin);
@@ -31,12 +31,12 @@ export function runBuilderHandler(options: any, transforms: Transforms, context:
     plugin.pre(options);
   }
 
-  const result = asObservable(builderHandler(options, context, transforms));	
+  const result = asObservable(builderHandler(options, context, transforms));
 
-  return result.pipe(tap(_ => {	
-    if (plugin && plugin.post) {	
-      plugin.post(options);	
-    }	
+  return result.pipe(tap(_ => {
+    if (plugin && plugin.post) {
+      plugin.post(options);
+    }
   }));
 
 }
@@ -52,7 +52,7 @@ function asObservable(result: BuilderOutputLike) {
 }
 
 function setupConfigHook(transforms: Transforms, options: any, context: BuilderContext, plugin: Plugin | null, configTransformerName = 'webpackConfiguration') {
-  
+
   const originalConfigFn = transforms[configTransformerName];
   transforms[configTransformerName] = (config: webpack.Configuration) => {
 
@@ -62,14 +62,14 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
       }
       if (!options.keepPolyfills && config.entry && config.entry['polyfills-es5']) {
         delete config.entry['polyfills-es5'];
-      }      
+      }
       if (config.optimization) {
         delete config.optimization.runtimeChunk;
         delete config.optimization.splitChunks;
       }
     }
 
-    if (options.singleBundle && (options.bundleStyles !== false || options.keepStyles) && config.entry && config.entry['styles']) {
+    if (options.singleBundle && !(options.bundleStyles || options.keepStyles) && config.entry && config.entry['styles']) {
       delete config.entry['styles'];
     }
 
