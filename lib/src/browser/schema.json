@@ -1,6 +1,8 @@
 {
+  "$schema": "http://json-schema.org/schema",
   "title": "Webpack browser schema for Build Facade.",
   "description": "Browser target options",
+  "type": "object",
   "properties": {
     "assets": {
       "type": "array",
@@ -9,11 +11,6 @@
       "items": {
         "$ref": "#/definitions/assetPattern"
       }
-    },
-    "es5BrowserSupport": {
-      "description": "Enables conditionally loaded ES2015 polyfills.",
-      "type": "boolean",
-      "x-deprecated": "This will be determined from the list of supported browsers specified in the 'browserslist' file."
     },
     "extraWebpackConfig": {
       "type": "string",
@@ -41,7 +38,6 @@
       "default": ""
     },
 
-
     "bundleStyles": {
       "type": "boolean",
       "description": "DEPRECATED: Use keepStyles instead",
@@ -56,15 +52,16 @@
 
     "main": {
       "type": "string",
-      "description": "The name of the main entry-point file."
+      "description": "The full path for the main entry point to the app, relative to the current workspace.",
+      "$valueDescription": "fileName"
     },
     "polyfills": {
       "type": "string",
-      "description": "The name of the polyfills file."
+      "description": "The full path for the polyfills file, relative to the current workspace."
     },
     "tsConfig": {
       "type": "string",
-      "description": "The name of the TypeScript configuration file."
+      "description": "The full path for the TypeScript configuration file, relative to the current workspace."
     },
     "scripts": {
       "description": "Global scripts to be included in the build.",
@@ -98,9 +95,29 @@
       "additionalProperties": false
     },
     "optimization": {
-      "type": "boolean",
-      "description": "Defines the optimization level of the build.",
-      "default": false
+      "description": "Enables optimization of the build output.",
+      "x-user-analytics": 16,
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "scripts": {
+              "type": "boolean",
+              "description": "Enables optimization of the scripts output.",
+              "default": true
+            },
+            "styles": {
+              "type": "boolean",
+              "description": "Enables optimization of the styles output.",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "boolean"
+        }
+      ]
     },
     "fileReplacements": {
       "description": "Replace files with other files in the build.",
@@ -112,27 +129,65 @@
     },
     "outputPath": {
       "type": "string",
-      "description": "Path where output will be placed."
+      "description": "The full path for the new output directory, relative to the current workspace.\n\nBy default, writes output to a folder named dist/ in the current project."
+    },
+    "resourcesOutputPath": {
+      "type": "string",
+      "description": "The path where style resources will be placed, relative to outputPath.",
+      "default": ""
     },
     "aot": {
       "type": "boolean",
       "description": "Build using Ahead of Time compilation.",
+      "x-user-analytics": 13,
       "default": false
     },
     "sourceMap": {
-      "type": "boolean",
       "description": "Output sourcemaps.",
-      "default": true
+      "default": true,
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "scripts": {
+              "type": "boolean",
+              "description": "Output sourcemaps for all scripts.",
+              "default": true
+            },
+            "styles": {
+              "type": "boolean",
+              "description": "Output sourcemaps for all styles.",
+              "default": true
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Output sourcemaps used for error reporting tools.",
+              "default": false
+            },
+            "vendor": {
+              "type": "boolean",
+              "description": "Resolve vendor packages sourcemaps.",
+              "default": false
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "boolean"
+        }
+      ]
     },
     "vendorSourceMap": {
       "type": "boolean",
       "description": "Resolve vendor packages sourcemaps.",
+      "x-deprecated": true,
       "default": false
     },
     "evalSourceMap": {
       "type": "boolean",
       "description": "Output in-file eval sourcemaps.",
-      "default": false
+      "default": false,
+      "x-deprecated": true
     },
     "vendorChunk": {
       "type": "boolean",
@@ -159,28 +214,49 @@
     },
     "progress": {
       "type": "boolean",
-      "description": "Log progress to the console while building.",
-      "default": true
+      "description": "Log progress to the console while building."
     },
     "i18nFile": {
       "type": "string",
-      "description": "Localization file to use for i18n."
+      "description": "Localization file to use for i18n.",
+      "x-deprecated": "Use 'locales' object in the project metadata instead."
     },
     "i18nFormat": {
       "type": "string",
-      "description": "Format of the localization file specified with --i18n-file."
+      "description": "Format of the localization file specified with --i18n-file.",
+      "x-deprecated": "No longer needed as the format will be determined automatically."
     },
     "i18nLocale": {
       "type": "string",
-      "description": "Locale to use for i18n."
+      "description": "Locale to use for i18n.",
+      "x-deprecated": "Use 'localize' instead."
     },
     "i18nMissingTranslation": {
       "type": "string",
-      "description": "How to handle missing translations for i18n."
+      "description": "How to handle missing translations for i18n.",
+      "enum": ["warning", "error", "ignore"],
+      "default": "warning"
+    },
+    "localize": {
+      "oneOf": [
+        {
+          "type": "boolean",
+          "description": "Translate all locales."
+        },
+        {
+          "type": "array",
+          "description": "List of locales ID's to translate.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2}(-[a-zA-Z]{2,})?$"
+          }
+        }
+      ]
     },
     "extractCss": {
       "type": "boolean",
-      "description": "Extract css from global styles onto css files instead of js ones.",
+      "description": "Extract css from global styles into css files instead of js ones.",
       "default": false
     },
     "watch": {
@@ -192,12 +268,7 @@
       "type": "string",
       "description": "Define the output filename cache-busting hashing mode.",
       "default": "none",
-      "enum": [
-        "none",
-        "all",
-        "media",
-        "bundles"
-      ]
+      "enum": ["none", "all", "media", "bundles"]
     },
     "poll": {
       "type": "number",
@@ -215,8 +286,8 @@
     },
     "extractLicenses": {
       "type": "boolean",
-      "description": "Extract all licenses in a separate file, in the case of production builds only.",
-      "default": true
+      "description": "Extract all licenses in a separate file.",
+      "default": false
     },
     "showCircularDependencies": {
       "type": "boolean",
@@ -225,7 +296,7 @@
     },
     "buildOptimizer": {
       "type": "boolean",
-      "description": "Enables @angular-devkit/build-optimizer optimizations when using the 'aot' option.",
+      "description": "Enables '@angular-devkit/build-optimizer' optimizations when using the 'aot' option.",
       "default": false
     },
     "namedChunks": {
@@ -250,15 +321,39 @@
     "skipAppShell": {
       "type": "boolean",
       "description": "Flag to prevent building an app shell.",
-      "default": false
+      "default": false,
+      "x-deprecated": true
     },
     "index": {
-      "type": "string",
-      "description": "The name of the index HTML file."
+      "description": "Configures the generation of the application's HTML index.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "The path of a file to use for the application's HTML index. The filename of the specified path will be used for the generated file and will be created in the root of the application's configured output path."
+        },
+        {
+          "type": "object",
+          "description": "",
+          "properties": {
+            "input": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The path of a file to use for the application's generated HTML index."
+            },
+            "output": {
+              "type": "string",
+              "minLength": 1,
+              "default": "index.html",
+              "description": "The output path of the application's generated HTML index file. The full provided path will be used and will be considered relative to the application's configured output path."
+            }
+          },
+          "required": ["input"]
+        }
+      ]
     },
     "statsJson": {
       "type": "boolean",
-      "description": "Generates a 'stats.json' file which can be analyzed using tools such as: #webpack-bundle-analyzer' or https: //webpack.github.io/analyse.",
+      "description": "Generates a 'stats.json' file which can be analyzed using tools such as 'webpack-bundle-analyzer'.",
       "default": false
     },
     "forkTypeChecker": {
@@ -267,11 +362,12 @@
       "default": true
     },
     "lazyModules": {
-      "description": "List of additional NgModule files that will be lazy loaded. Lazy router modules with be discovered automatically.",
+      "description": "List of additional NgModule files that will be lazy loaded. Lazy router modules will be discovered automatically.",
       "type": "array",
       "items": {
         "type": "string"
       },
+      "x-deprecated": "'SystemJsNgModuleLoader' is deprecated, and this is part of its usage. Use 'import()' syntax instead.",
       "default": []
     },
     "budgets": {
@@ -281,15 +377,42 @@
         "$ref": "#/definitions/budget"
       },
       "default": []
+    },
+    "profile": {
+      "type": "boolean",
+      "description": "Output profile events for Chrome profiler.",
+      "default": false,
+      "x-deprecated": "Use \"NG_BUILD_PROFILING\" environment variable instead."
+    },
+    "es5BrowserSupport": {
+      "description": "Enables conditionally loaded ES2015 polyfills.",
+      "type": "boolean",
+      "x-deprecated": "This will be determined from the list of supported browsers specified in the 'browserslist' file."
+    },
+    "rebaseRootRelativeCssUrls": {
+      "description": "Change root relative URLs in stylesheets to include base HREF and deploy URL. Use only for compatibility and transition. The behavior of this option is non-standard and will be removed in the next major release.",
+      "type": "boolean",
+      "default": false,
+      "x-deprecated": true
+    },
+    "webWorkerTsConfig": {
+      "type": "string",
+      "description": "TypeScript configuration for Web Worker modules."
+    },
+    "crossOrigin": {
+      "type": "string",
+      "description": "Define the crossorigin attribute setting of elements that provide CORS support.",
+      "default": "none",
+      "enum": ["none", "anonymous", "use-credentials"]
+    },
+    "experimentalRollupPass": {
+      "type": "boolean",
+      "description": "Concatenate modules with Rollup before bundling them with Webpack.",
+      "default": false
     }
   },
   "additionalProperties": true,
-  "required": [
-    "outputPath",
-    "index",
-    "main",
-    "tsConfig"
-  ],
+  "required": ["outputPath", "index", "main", "tsConfig"],
   "definitions": {
     "assetPattern": {
       "oneOf": [
@@ -302,7 +425,14 @@
             },
             "input": {
               "type": "string",
-              "description": "The input path dir in which to apply 'glob'. Defaults to the project root."
+              "description": "The input directory path in which to apply 'glob'. Defaults to the project root."
+            },
+            "ignore": {
+              "description": "An array of globs to ignore.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "output": {
               "type": "string",
@@ -310,11 +440,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "glob",
-            "input",
-            "output"
-          ]
+          "required": ["glob", "input", "output"]
         },
         {
           "type": "string"
@@ -334,10 +460,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "src",
-            "replaceWith"
-          ]
+          "required": ["src", "replaceWith"]
         },
         {
           "type": "object",
@@ -350,10 +473,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "replace",
-            "with"
-          ]
+          "required": ["replace", "with"]
         }
       ]
     },
@@ -373,13 +493,17 @@
             "lazy": {
               "type": "boolean",
               "description": "If the bundle will be lazy loaded.",
-              "default": false
+              "default": false,
+              "x-deprecated": "Use 'inject' option with 'false' value instead."
+            },
+            "inject": {
+              "type": "boolean",
+              "description": "If the bundle will be referenced in the HTML file.",
+              "default": true
             }
           },
           "additionalProperties": false,
-          "required": [
-            "input"
-          ]
+          "required": ["input"]
         },
         {
           "type": "string",
@@ -398,6 +522,7 @@
             "allScript",
             "any",
             "anyScript",
+            "anyComponentStyle",
             "bundle",
             "initial"
           ]
@@ -436,9 +561,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     }
   }
 }
