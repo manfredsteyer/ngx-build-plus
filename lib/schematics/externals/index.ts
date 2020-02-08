@@ -113,6 +113,8 @@ function loadPackageJson(tree: Tree) {
 function updateScripts(path: string, config: any, tree: Tree, _options: any, _context: SchematicContext) {
   const project = getProject(tree, _options);
   
+  if (path) path += '/';
+
   if (!config['scripts']) {
     config.scripts = {};
   }
@@ -121,12 +123,12 @@ function updateScripts(path: string, config: any, tree: Tree, _options: any, _co
 
   // Ivy support
   const postInstall: string = config.scripts['postinstall'] || '';
-  if (postInstall.startsWith('ngcc')) {
+  //if (postInstall.startsWith('ngcc')) {
     config.scripts['postinstall:bak'] = postInstall;
     config.scripts['postinstall'] = 'ngcc';
 
     _context.addTask(new RunSchematicTask('npmRun', {script: 'postinstall'}));
-  } 
+  //} 
 
   if (!_options.host) {
     // external web components need single bundle 

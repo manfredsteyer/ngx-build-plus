@@ -1023,41 +1023,6 @@
         }
       }
     },
-    "externals-demo-new": {
-      "root": "projects/externals-demo-new",
-      "sourceRoot": "projects/externals-demo-new/src",
-      "projectType": "library",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/externals-demo-new/tsconfig.lib.json",
-            "project": "projects/externals-demo-new/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/externals-demo-new/src/test.ts",
-            "tsConfig": "projects/externals-demo-new/tsconfig.spec.json",
-            "karmaConfig": "projects/externals-demo-new/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/externals-demo-new/tsconfig.lib.json",
-              "projects/externals-demo-new/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "externals-demo-scripts": {
       "root": "projects/externals-demo-scripts/",
       "sourceRoot": "projects/externals-demo-scripts/src",

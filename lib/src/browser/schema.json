@@ -54,6 +54,15 @@
       "default": true
     },
 
+    "budgets": {
+      "description": "Budget thresholds to ensure parts of your application stay within boundaries which you set.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/budget"
+      },
+      "default": []
+    },
+
     "main": {
       "type": "string",
       "description": "The name of the main entry-point file."
@@ -178,6 +187,24 @@
       "type": "string",
       "description": "How to handle missing translations for i18n."
     },
+
+    "localize": {
+      "oneOf": [
+        {
+          "type": "boolean",
+          "description": "Translate all locales."
+        },
+        {
+          "type": "array",
+          "description": "List of locales ID's to translate.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2}(-[a-zA-Z]{2,})?$"
+          }
+        }
+      ]
+    },    
     "extractCss": {
       "type": "boolean",
       "description": "Extract css from global styles onto css files instead of js ones.",
@@ -398,6 +425,7 @@
             "allScript",
             "any",
             "anyScript",
+            "anyComponentStyle",
             "bundle",
             "initial"
           ]

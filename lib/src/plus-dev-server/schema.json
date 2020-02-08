@@ -42,12 +42,13 @@
       "default": true
     },
 
+
+
     "verbose": {
       "type": "boolean",
       "description": "Adds more details to output logging.",
       "default": false
     },
-
 
     "browserTarget": {
       "type": "string",
