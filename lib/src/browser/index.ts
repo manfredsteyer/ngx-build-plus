@@ -3,7 +3,7 @@ import { BuilderContext, BuilderOutput, createBuilder } from "@angular-devkit/ar
 import { Observable } from 'rxjs';
 import { Transforms, runBuilderHandler } from "../utils";
 
-function buildWebpackBrowserPlus(
+export function buildWebpackBrowserPlus(
   options: any,
   context: BuilderContext,
   transforms: Transforms = {}
