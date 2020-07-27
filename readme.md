@@ -18,6 +18,7 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 
 - Angular 6-7/ CLI 6-7: ngx-build-plus@^7
 - Angular 8/ CLI 8: ngx-build-plus^8.0.0
+- Angular 9/ CLI 9: ngx-build-plus^9.0.0
 
 ## Updating to Version 8
 
@@ -41,7 +42,7 @@ ng update ngx-build-plus --force
 
 - ``ng build --single-bundle``: Puts everything reachable from the main entry point into one bundle. Polyfills, scripts, and styles stay in their own bundles as the consuming application might have its own versions of these.
 
-### Schamtics
+### Schematics
 
 - ``ng add ngx-build-plus``
 - ``ng g ngx-build-plus:wc-polyfill``: Adds webcomponent polyfills to your app 
