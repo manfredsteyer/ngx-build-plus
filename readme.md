@@ -262,7 +262,7 @@ The result of this description can be found in the [repository's](https://github
 7. Build your application. You can use the npm script created by the above mentioned schematic:
 
     ```
-    npm run build:externals:myProject
+    npm run build:myProject:externals
     ```
 
 8. Angular will now be compiled into a ``scripts.js`` and can be reused amongs several seperately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
