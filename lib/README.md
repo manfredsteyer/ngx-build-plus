@@ -18,6 +18,7 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 
 - Angular 6-7/ CLI 6-7: ngx-build-plus@^7
 - Angular 8/ CLI 8: ngx-build-plus^8.0.0
+- Angular 9/ CLI 9: ngx-build-plus^9.0.0
 
 ## Updating to Version 8
 
@@ -81,12 +82,12 @@ Please find the example shown here in the sample application in the folder ``pro
     declare const VERSION: string;
 
     @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+        selector: 'app-root',
+        templateUrl: './app.component.html',
+        styleUrls: ['./app.component.css']
     })
     export class AppComponent {
-    title = 'Version: ' + VERSION;
+        title = 'Version: ' + VERSION;
     }
     ```
 
@@ -239,7 +240,7 @@ The result of this description can be found in the [repository's](https://github
    ng g ngx-build-plus:wc-polyfill --project myProject
    ```
 
-5. Execute the externals schematc:
+5. Execute the externals schematic:
    
    ```
    ng g ngx-build-plus:externals --project myProject
@@ -262,7 +263,7 @@ The result of this description can be found in the [repository's](https://github
 7. Build your application. You can use the npm script created by the above mentioned schematic:
 
     ```
-    npm run build:externals:myProject
+    npm run build:myProject:externals
     ```
 
 8. Angular will now be compiled into a ``scripts.js`` and can be reused amongs several seperately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
