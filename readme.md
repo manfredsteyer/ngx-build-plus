@@ -82,12 +82,12 @@ Please find the example shown here in the sample application in the folder ``pro
     declare const VERSION: string;
 
     @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+        selector: 'app-root',
+        templateUrl: './app.component.html',
+        styleUrls: ['./app.component.css']
     })
     export class AppComponent {
-    title = 'Version: ' + VERSION;
+        title = 'Version: ' + VERSION;
     }
     ```
 
