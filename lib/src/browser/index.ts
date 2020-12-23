@@ -11,5 +11,6 @@ export function buildWebpackBrowserPlus(
     return runBuilderHandler(options, transforms, context, executeBrowserBuilder);
 }
 
+export { buildWebpackBrowserPlus as executeBrowserBuilderPlus };
 //export default createBuilder<JsonObject & BrowserBuilderSchemaPlus>(buildWebpackBrowserPlus);
 export default createBuilder<any>(buildWebpackBrowserPlus);
