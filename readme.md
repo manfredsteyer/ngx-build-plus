@@ -240,7 +240,7 @@ The result of this description can be found in the [repository's](https://github
    ng g ngx-build-plus:wc-polyfill --project myProject
    ```
 
-5. Execute the externals schematc:
+5. Execute the externals schematic:
    
    ```
    ng g ngx-build-plus:externals --project myProject
