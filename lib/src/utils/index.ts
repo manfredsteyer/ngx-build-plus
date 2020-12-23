@@ -69,7 +69,7 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
       }
     }
 
-    const keepStyles = options.bundleStyles || options.keepStyles;
+    const keepStyles = !options.bundleStyles || options.keepStyles;
 
     if (options.singleBundle && !keepStyles && config.entry && config.entry['styles']) {
       delete config.entry['styles'];

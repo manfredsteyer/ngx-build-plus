@@ -1,0 +1,26 @@
+{
+    "extraWebpackConfig": {
+        "type": "string",
+        "description": "Additional Webpack Config that gets merged with the default config."
+      },
+      "singleBundle": {
+        "type": "boolean",
+        "description": "Generate just one bundle",
+        "default": false
+      },
+      "keepPolyfills": {
+        "type": "boolean",
+        "description": "Generate polyfills bundle when using single-bundle",
+        "default": true
+      },
+      "configHook": {
+        "type": "string",
+        "description": "es module exporting a configHook function (default export).",
+        "default": ""
+      },
+      "plugin": {
+        "type": "string",
+        "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
+        "default": ""
+      }
+}

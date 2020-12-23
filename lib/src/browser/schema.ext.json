@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/schema",
+
+    "extraWebpackConfig": {
+      "type": "string",
+      "description": "Additional Webpack Config that gets merged with the default config."
+    },
+    "singleBundle": {
+      "type": "boolean",
+      "description": "Puts everything reachable from main.ts (entries vendor, main, and runtime) into one bundle. All other entry points are removed. To also get polyfills and/or styles, use --keepPolyfills or --keepStyles",
+      "default": false
+    },
+    "keepPolyfills": {
+      "type": "boolean",
+      "description": "Generate polyfills bundle when using single-bundle",
+      "default": true
+    },
+    "configHook": {
+      "type": "string",
+      "description": "es module exporting a configHook function (default export).",
+      "default": ""
+    },
+
+    "plugin": {
+      "type": "string",
+      "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
+      "default": ""
+    },
+    "bundleStyles": {
+      "type": "boolean",
+      "description": "DEPRECATED: Use keepStyles instead",
+      "default": true
+    },
+    "keepStyles": {
+      "type": "boolean",
+      "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
+      "default": true
+    }
+
+
+}

@@ -5,7 +5,7 @@ import { Transforms, runBuilderHandler } from "../utils";
 import { JsonObject } from "@angular-devkit/core";
 
 
-function serveWebpackBrowserPlus(
+export function serveWebpackBrowserPlus(
   options: any,
   context: BuilderContext,
   transforms: Transforms = {}
