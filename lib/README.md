@@ -41,7 +41,7 @@ ng update ngx-build-plus --force
 
 - ``ng build --single-bundle``: Puts everything reachable from the main entry point into one bundle. Polyfills, scripts, and styles stay in their own bundles as the consuming application might have its own versions of these.
 
-### Schamtics
+### Schematics
 
 - ``ng add ngx-build-plus``
 - ``ng g ngx-build-plus:wc-polyfill``: Adds webcomponent polyfills to your app 
