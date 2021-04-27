@@ -21,7 +21,7 @@
     "build": "npm run tsc && npm run copy:sample && npm run copy:readme"
   },
   "dependencies": {
-    "@schematics/angular": "8.0.0",
+    "@schematics/angular": "8.3.29",
     "cross-spawn": "^6.0.5",
     "rxjs": "6.4.0",
     "webpack-dev-server": "^3.1.14",
