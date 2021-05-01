@@ -1,9 +1,7 @@
 import { Rule, SchematicContext, Tree, apply, url, template, move, branchAndMerge, mergeWith, chain, noop } from '@angular-devkit/schematics';
-import { getWorkspace, updateWorkspace } from '@schematics/angular/utility/config';
+import { getWorkspace, updateWorkspace } from '../utils/workspace';
 import * as path from 'path';
 import { BrowserBuilderBaseOptions } from '@schematics/angular/utility/workspace-models';
-import { AdvancedScriptConf } from '../utils/types';
-import { spawn } from 'cross-spawn';
 import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 
 
@@ -73,8 +71,9 @@ function addScriptsToProject(tree: Tree, options: any): Rule {
       scripts.push(script);
     });
 
-  return updateWorkspace(workspace);
+  updateWorkspace(tree, workspace);
 
+  return noop();
 }
 
 function getProject(tree: Tree, options: any) {

@@ -1,5 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { getWorkspace, updateWorkspace } from '@schematics/angular/utility/config';
+import { getWorkspace, updateWorkspace } from '../utils/workspace';
 
 export function addNgxBuildPlus(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -24,7 +24,7 @@ export function addNgxBuildPlus(_options: any): Rule {
     const test = architect.test;
     if (test) test.builder = <any>'ngx-build-plus:karma';
 
-    return updateWorkspace(workspace);
+    return updateWorkspace(tree, workspace);
   };
 }
 

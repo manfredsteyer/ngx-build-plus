@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "id": "SchemanticsForMenu",
+    "$id": "AddNgxBuildPlus",
     "title": "Menu Schema",
     "type": "object",
     "properties": {

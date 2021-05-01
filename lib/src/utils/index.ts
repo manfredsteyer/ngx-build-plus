@@ -7,7 +7,7 @@ import { loadHook } from "../ext/load-hook";
 import { getSystemPath, normalize } from '@angular-devkit/core';
 import * as webpack from 'webpack';
 import * as path from 'path';
-import * as webpackMerge from 'webpack-merge';
+import { merge as webpackMerge } from 'webpack-merge';
 
 export interface Transforms {
   webpackConfiguration?: ExecutionTransformer<webpack.Configuration>;
@@ -71,7 +71,7 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
 
     const keepStyles = !options.bundleStyles || options.keepStyles;
 
-    if (options.singleBundle && !keepStyles && config.entry && config.entry['styles']) {
+    if (options.singleBundle && ! keepStyles && config.entry && config.entry['styles']) {
       delete config.entry['styles'];
     }
 

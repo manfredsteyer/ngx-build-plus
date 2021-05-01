@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "id": "SchemanticsForMenu",
+    "$id": "Externals",
     "title": "Menu Schema",
     "type": "object",
     "properties": {
