@@ -5,8 +5,6 @@
   "type": "object",
   "properties": {
 
-
-
     "extraWebpackConfig": {
       "type": "string",
       "description": "Additional Webpack Config that gets merged with the default config."
@@ -31,10 +29,7 @@
       "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
       "default": ""
     },
-
-
-
-
+    
     "main": {
       "type": "string",
       "description": "The name of the main entry-point file."
@@ -74,6 +69,12 @@
       "items": {
         "$ref": "#/definitions/extraEntryPoint"
       }
+    },
+    "inlineStyleLanguage": {
+      "description": "The stylesheet language to use for the application's inline component styles.",
+      "type": "string",
+      "default": "css",
+      "enum": ["css", "less", "sass", "scss"]
     },
     "stylePreprocessorOptions": {
       "description": "Options to pass to style preprocessors",
@@ -134,8 +135,7 @@
     },
     "watch": {
       "type": "boolean",
-      "description": "Run build when files change.",
-      "default": true
+      "description": "Run build when files change."
     },
     "poll": {
       "type": "number",
@@ -178,10 +178,7 @@
               }
             },
             "additionalProperties": false,
-            "required": [
-              "src",
-              "replaceWith"
-            ]
+            "required": ["src", "replaceWith"]
           },
           {
             "type": "object",
@@ -194,10 +191,7 @@
               }
             },
             "additionalProperties": false,
-            "required": [
-              "replace",
-              "with"
-            ]
+            "required": ["replace", "with"]
           }
         ]
       },
@@ -216,11 +210,7 @@
     }
   },
   "additionalProperties": false,
-  "required": [
-    "main",
-    "tsConfig",
-    "karmaConfig"
-  ],
+  "required": ["main", "tsConfig", "karmaConfig"],
   "definitions": {
     "assetPattern": {
       "oneOf": [
@@ -248,11 +238,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "glob",
-            "input",
-            "output"
-          ]
+          "required": ["glob", "input", "output"]
         },
         {
           "type": "string"
@@ -270,6 +256,7 @@
             },
             "bundleName": {
               "type": "string",
+              "pattern": "^[\\w\\-.]*$",
               "description": "The bundle name for this extra entry point."
             },
             "inject": {
@@ -279,9 +266,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "input"
-          ]
+          "required": ["input"]
         },
         {
           "type": "string",

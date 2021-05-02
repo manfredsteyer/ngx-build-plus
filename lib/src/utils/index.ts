@@ -1,6 +1,6 @@
 import { ExecutionTransformer } from "@angular-devkit/build-angular";
 import { BuilderContext, BuilderOutputLike } from "@angular-devkit/architect";
-import { of, from, isObservable } from 'rxjs';
+import { of, from, isObservable, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Plugin, ConfigHookFn } from "../ext/hook";
 import { loadHook } from "../ext/load-hook";
@@ -11,7 +11,6 @@ import { merge as webpackMerge } from 'webpack-merge';
 
 export interface Transforms {
   webpackConfiguration?: ExecutionTransformer<webpack.Configuration>;
- 
 }
 
 export interface BuilderHandlerPlusFn<A> {
@@ -37,13 +36,13 @@ export function runBuilderHandler(options: any, transforms: Transforms, context:
     if (plugin && plugin.post) {	
       plugin.post(options);	
     }	
-  }));
+  }) as any) as Observable<any>;
 
 }
 
 function asObservable(result: BuilderOutputLike) {
   if (isObservable(result)) {
-      return result;
+      return result as Observable<any>;
   }
   if (result instanceof Promise) {
     return from(result);

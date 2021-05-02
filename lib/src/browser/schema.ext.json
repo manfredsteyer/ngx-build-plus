@@ -1,6 +1,4 @@
 {
-    "$schema": "http://json-schema.org/schema",
-
     "extraWebpackConfig": {
       "type": "string",
       "description": "Additional Webpack Config that gets merged with the default config."
