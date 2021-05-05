@@ -5,5 +5,5 @@ export function getWorkspace(tree: Tree) {
 }
 
 export function updateWorkspace(tree: Tree, workspace: any) {
-    tree.overwrite('angular.json', JSON.stringify(workspace));
+    tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
 }
