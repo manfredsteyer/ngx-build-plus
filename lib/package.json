@@ -1,6 +1,6 @@
 {
   "name": "ngx-build-plus",
-  "version": "12.0.0-rc.1",
+  "version": "12.0.1",
   "description": "Extends the Angular CLI's build process!",
   "license": "MIT",
   "repository": {
@@ -21,11 +21,11 @@
     "build": "npm run tsc && npm run copy:sample && npm run copy:readme"
   },
   "dependencies": {
-    "@schematics/angular": "^12.0.0-rc.0",
+    "@schematics/angular": "^12.0.0",
     "webpack-merge": "^5.0.0"
   },
   "peerDependencies": {
-    "@angular-devkit/build-angular": ">=12.0.0-rc.0",
+    "@angular-devkit/build-angular": ">=12.0.0",
     "rxjs": ">= 6.0.0"
   },
   "devDependencies": {
