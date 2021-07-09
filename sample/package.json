@@ -69,7 +69,7 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "live-server": "^1.2.1",
-    "ng-packagr": "^4.2.0",
+    "ng-packagr": "^10.1.1",
     "ngx-build-plus": "",
     "protractor": "^5.4.2",
     "ts-node": "~7.0.1",
