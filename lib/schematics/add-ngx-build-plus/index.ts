@@ -21,6 +21,21 @@ export function addNgxBuildPlus(_options: any): Rule {
 
     serve.builder = <any>'ngx-build-plus:dev-server';
 
+    const extractI18n = architect['extract-i18n'];
+    if (extractI18n) {
+      extractI18n.builder = <any>'ngx-build-plus:extract-i18n';
+    }
+
+    // We decided to not add our server builder by default, 
+    // b/c the new jsdom-based Universal API only compiles
+    // the server code (that is using the browser bundles) 
+    // with this builder.
+    //
+    // const server = architect.server;
+    // if (server) {
+    //   server.builder = <any>'ngx-build-plus:server';
+    // }
+
     const test = architect.test;
     if (test) test.builder = <any>'ngx-build-plus:karma';
 

@@ -15,6 +15,16 @@
       "schema": "./src/plus-dev-server/schema.json",
       "description": "Extensible Builder using dev-server"
     },
+    "server": {
+      "implementation": "./src/server",
+      "schema": "./src/server/schema.json",
+      "description": "Extensible Builder using server"
+    },    
+    "extract-i18n": {
+      "implementation": "./src/extract-i18n",
+      "schema": "./src/extract-i18n/schema.json",
+      "description": "Extensible Builder using server"
+    },    
     "karma": {
       "implementation": "./src/karma",
       "schema": "./src/karma/schema.json",
