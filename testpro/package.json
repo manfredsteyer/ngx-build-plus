@@ -14,7 +14,7 @@
     "@angular/animations": "~8.1.1",
     "@angular/common": "~8.1.1",
     "@angular/compiler": "~8.1.1",
-    "@angular/core": "~8.1.1",
+    "@angular/core": "~11.0.5",
     "@angular/forms": "~8.1.1",
     "@angular/platform-browser": "~8.1.1",
     "@angular/platform-browser-dynamic": "~8.1.1",
