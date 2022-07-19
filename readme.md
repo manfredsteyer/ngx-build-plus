@@ -113,7 +113,7 @@ While ``ngx-build-plus`` can be used in every Angular configuration, it also com
 
 ## Using Plugins
 
-Plugins allow you to provide some custom code that modifies your webpack configuration. In addition to that, they also provide a pre- and a post-hook for tasks that need to take happen before and after bundling. This is an example for an plugin:
+Plugins allow you to provide some custom code that modifies your webpack configuration. In addition to that, they also provide a pre- and a post-hook for tasks that need to take happen before and after bundling. This is an example of a plugin:
 
 ```typescript
 export default {
@@ -134,7 +134,7 @@ As this plugin is written with TypeScript you need to compile it.
 
 The ``config`` method works like a ``configHook`` (see above).
 
-To use a plugin, point to it's JavaScript representation (not the TypeScript file) using the ``--plugin`` switch:
+To use a plugin, point to its JavaScript representation (not the TypeScript file) using the ``--plugin`` switch:
 
 ```
 ng build --plugin ~dist\out-tsc\hook\plugin
@@ -188,7 +188,7 @@ The result of this description can be found in the [repository's](https://github
     npm i @angular/elements --save
     ```
 
-2. Expose a component as an Custom Element:
+2. Expose a component as a Custom Element:
 
     ```TypeScript
     import { BrowserModule } from '@angular/platform-browser';
@@ -266,7 +266,7 @@ The result of this description can be found in the [repository's](https://github
     npm run build:myProject:externals
     ```
 
-8. Angular will now be compiled into a ``scripts.js`` and can be reused amongs several seperately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
+8. Angular will now be compiled into a ``scripts.js`` and can be reused among several separately compiled bundles. Your code is in the main bundle which is quite tiny b/c it does not contain Angular.
 
 
 Further information about this can be found in my blog [here](https://www.softwarearchitekt.at/post/2019/01/27/building-angular-elements-with-the-cli.aspx).
