@@ -59,7 +59,35 @@
       "type": "array",
       "default": [],
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "string",
+                "description": "The file to include.",
+                "pattern": "\\.[cm]?jsx?$"
+              },
+              "bundleName": {
+                "type": "string",
+                "pattern": "^[\\w\\-.]*$",
+                "description": "The bundle name for this extra entry point."
+              },
+              "inject": {
+                "type": "boolean",
+                "description": "If the bundle will be referenced in the HTML file.",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "required": ["input"]
+          },
+          {
+            "type": "string",
+            "description": "The file to include.",
+            "pattern": "\\.[cm]?jsx?$"
+          }
+        ]
       }
     },
     "styles": {
@@ -67,7 +95,35 @@
       "type": "array",
       "default": [],
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "string",
+                "description": "The file to include.",
+                "pattern": "\\.(?:css|scss|sass|less|styl)$"
+              },
+              "bundleName": {
+                "type": "string",
+                "pattern": "^[\\w\\-.]*$",
+                "description": "The bundle name for this extra entry point."
+              },
+              "inject": {
+                "type": "boolean",
+                "description": "If the bundle will be referenced in the HTML file.",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "required": ["input"]
+          },
+          {
+            "type": "string",
+            "description": "The file to include.",
+            "pattern": "\\.(?:css|scss|sass|less|styl)$"
+          }
+        ]
       }
     },
     "inlineStyleLanguage": {
@@ -81,7 +137,7 @@
       "type": "object",
       "properties": {
         "includePaths": {
-          "description": "Paths to include. Paths will be resolved to project root.",
+          "description": "Paths to include. Paths will be resolved to workspace root.",
           "type": "array",
           "items": {
             "type": "string"
@@ -96,7 +152,7 @@
       "items": {
         "type": "string"
       },
-      "description": "Globs of files to include, relative to workspace or project root. \nThere are 2 special cases:\n - when a path to directory is provided, all spec files ending \".spec.@(ts|tsx)\" will be included\n - when a path to a file is provided, and a matching spec file exists it will be included instead"
+      "description": "Globs of files to include, relative to workspace or project root. \nThere are 2 special cases:\n - when a path to directory is provided, all spec files ending \".spec.@(ts|tsx)\" will be included\n - when a path to a file is provided, and a matching spec file exists it will be included instead."
     },
     "sourceMap": {
       "description": "Output source maps for scripts and styles. For more information, see https://angular.io/guide/workspace-config#source-map-configuration.",
@@ -242,35 +298,6 @@
         },
         {
           "type": "string"
-        }
-      ]
-    },
-    "extraEntryPoint": {
-      "oneOf": [
-        {
-          "type": "object",
-          "properties": {
-            "input": {
-              "type": "string",
-              "description": "The file to include."
-            },
-            "bundleName": {
-              "type": "string",
-              "pattern": "^[\\w\\-.]*$",
-              "description": "The bundle name for this extra entry point."
-            },
-            "inject": {
-              "type": "boolean",
-              "description": "If the bundle will be referenced in the HTML file.",
-              "default": true
-            }
-          },
-          "additionalProperties": false,
-          "required": ["input"]
-        },
-        {
-          "type": "string",
-          "description": "The file to include."
         }
       ]
     }

@@ -40,7 +40,6 @@
       "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
       "default": true
     },
-
     "assets": {
       "type": "array",
       "description": "List of static application assets.",
@@ -66,7 +65,35 @@
       "type": "array",
       "default": [],
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "string",
+                "description": "The file to include.",
+                "pattern": "\\.[cm]?jsx?$"
+              },
+              "bundleName": {
+                "type": "string",
+                "pattern": "^[\\w\\-.]*$",
+                "description": "The bundle name for this extra entry point."
+              },
+              "inject": {
+                "type": "boolean",
+                "description": "If the bundle will be referenced in the HTML file.",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "required": ["input"]
+          },
+          {
+            "type": "string",
+            "description": "The file to include.",
+            "pattern": "\\.[cm]?jsx?$"
+          }
+        ]
       }
     },
     "styles": {
@@ -74,7 +101,35 @@
       "type": "array",
       "default": [],
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "string",
+                "description": "The file to include.",
+                "pattern": "\\.(?:css|scss|sass|less|styl)$"
+              },
+              "bundleName": {
+                "type": "string",
+                "pattern": "^[\\w\\-.]*$",
+                "description": "The bundle name for this extra entry point."
+              },
+              "inject": {
+                "type": "boolean",
+                "description": "If the bundle will be referenced in the HTML file.",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "required": ["input"]
+          },
+          {
+            "type": "string",
+            "description": "The file to include.",
+            "pattern": "\\.(?:css|scss|sass|less|styl)$"
+          }
+        ]
       }
     },
     "inlineStyleLanguage": {
@@ -88,7 +143,7 @@
       "type": "object",
       "properties": {
         "includePaths": {
-          "description": "Paths to include. Paths will be resolved to project root.",
+          "description": "Paths to include. Paths will be resolved to workspace root.",
           "type": "array",
           "items": {
             "type": "string"
@@ -145,7 +200,7 @@
                   "properties": {
                     "inline": {
                       "type": "boolean",
-                      "description": "Reduce render blocking requests by inlining external Google fonts and icons CSS definitions in the application's HTML index file. This option requires internet access. `HTTPS_PROXY` environment variable can be used to specify a proxy server.",
+                      "description": "Reduce render blocking requests by inlining external Google Fonts and Adobe Fonts CSS definitions in the application's HTML index file. This option requires internet access. `HTTPS_PROXY` environment variable can be used to specify a proxy server.",
                       "default": true
                     }
                   },
@@ -174,12 +229,11 @@
     },
     "outputPath": {
       "type": "string",
-      "description": "The full path for the new output directory, relative to the current workspace.\n\nBy default, writes output to a folder named dist/ in the current project."
+      "description": "The full path for the new output directory, relative to the current workspace.\nBy default, writes output to a folder named dist/ in the current project."
     },
     "resourcesOutputPath": {
       "type": "string",
-      "description": "The path where style resources will be placed, relative to outputPath.",
-      "default": ""
+      "description": "The path where style resources will be placed, relative to outputPath."
     },
     "aot": {
       "type": "boolean",
@@ -238,7 +292,8 @@
     },
     "deployUrl": {
       "type": "string",
-      "description": "URL where files will be deployed."
+      "description": "URL where files will be deployed.",
+      "x-deprecated": "Use \"baseHref\" option, \"APP_BASE_HREF\" DI token or a combination of both instead. For more information, see https://angular.io/guide/deployment#the-deploy-url."
     },
     "verbose": {
       "type": "boolean",
@@ -253,6 +308,12 @@
     "i18nMissingTranslation": {
       "type": "string",
       "description": "How to handle missing translations for i18n.",
+      "enum": ["warning", "error", "ignore"],
+      "default": "warning"
+    },
+    "i18nDuplicateTranslation": {
+      "type": "string",
+      "description": "How to handle duplicate translations for i18n.",
       "enum": ["warning", "error", "ignore"],
       "default": "warning"
     },
@@ -273,12 +334,6 @@
           }
         }
       ]
-    },
-    "extractCss": {
-      "type": "boolean",
-      "description": "Extract CSS from global styles into '.css' files instead of '.js'.",
-      "default": true,
-      "x-deprecated": "Deprecated since version 11.0. No longer required to disable CSS extraction for HMR."
     },
     "watch": {
       "type": "boolean",
@@ -309,15 +364,9 @@
       "description": "Extract all licenses in a separate file.",
       "default": true
     },
-    "showCircularDependencies": {
-      "type": "boolean",
-      "description": "Show circular dependency warnings on builds.",
-      "default": false,
-      "x-deprecated": "The recommended method to detect circular dependencies in project code is to use a either a lint rule or other external tooling."
-    },
     "buildOptimizer": {
       "type": "boolean",
-      "description": "Enables '@angular-devkit/build-optimizer' optimizations when using the 'aot' option.",
+      "description": "Enables advanced build optimizations when using the 'aot' option.",
       "default": true
     },
     "namedChunks": {
@@ -470,35 +519,6 @@
           },
           "additionalProperties": false,
           "required": ["replace", "with"]
-        }
-      ]
-    },
-    "extraEntryPoint": {
-      "oneOf": [
-        {
-          "type": "object",
-          "properties": {
-            "input": {
-              "type": "string",
-              "description": "The file to include."
-            },
-            "bundleName": {
-              "type": "string",
-              "pattern": "^[\\w\\-.]*$",
-              "description": "The bundle name for this extra entry point."
-            },
-            "inject": {
-              "type": "boolean",
-              "description": "If the bundle will be referenced in the HTML file.",
-              "default": true
-            }
-          },
-          "additionalProperties": false,
-          "required": ["input"]
-        },
-        {
-          "type": "string",
-          "description": "The file to include."
         }
       ]
     },

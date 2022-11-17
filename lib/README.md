@@ -19,6 +19,11 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 - Angular 6-7/ CLI 6-7: ngx-build-plus@^7
 - Angular 8/ CLI 8: ngx-build-plus^8.0.0
 - Angular 9/ CLI 9: ngx-build-plus^9.0.0
+- Angular 10/ CLI 10: ngx-build-plus^10.0.0
+- Angular 11/ CLI 11: ngx-build-plus^11.0.0
+- Angular 12/ CLI 12: ngx-build-plus^12.0.0
+- Angular 13/ CLI 13: ngx-build-plus^13.0.0
+- Angular 14/ CLI 14: ngx-build-plus^14.0.0
 
 ## Updating to Version 8
 
@@ -42,11 +47,9 @@ ng update ngx-build-plus --force
 
 - ``ng build --single-bundle``: Puts everything reachable from the main entry point into one bundle. Polyfills, scripts, and styles stay in their own bundles as the consuming application might have its own versions of these.
 
-### Schematics
+### Adding ngx-build-plus
 
-- ``ng add ngx-build-plus``
-- ``ng g ngx-build-plus:wc-polyfill``: Adds webcomponent polyfills to your app 
-- ``ng g ngx-build-plus:externals``: Updates your app to use webpack externals (see example at the end)
+``ng add ngx-build-plus``
 
 ## Getting started
 
@@ -175,6 +178,8 @@ ng build --plugin ~my-plugin.js
 One more time, the ``~`` tells ngx-build-plus that the plugin is not an installed node_module but a local file.
 
 ## Advanced example: Externals and Angular Elements
+
+> Please note, that we don't recomment webpack externals anymore for several reasons (better alternatives, Angular now ships without UMD bundles, etc.). Instead we recomment [Webpack Module Federation](https://www.npmjs.com/package/@angular-architects/module-federation).
 
 This shows another example for using ``ngx-build-plus``. It uses a custom webpack configuration to define some dependencies of an Angular Element as external which can be loaded separately into the browser and shared among several bundles.
 
