@@ -23,21 +23,25 @@
       "description": "es module exporting a configHook function (default export).",
       "default": ""
     },
+
     "plugin": {
       "type": "string",
       "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
       "default": ""
     },
+
     "bundleStyles": {
       "type": "boolean",
       "description": "DEPRECATED: Use keepStyles instead",
       "default": true
     },
+
     "keepStyles": {
       "type": "boolean",
       "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
       "default": true
     },
+    
     "browserTarget": {
       "type": "string",
       "description": "A browser builder target to serve in the format of `project:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",

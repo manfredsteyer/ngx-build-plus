@@ -17,13 +17,14 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 ## Get the right version
 
 - Angular 6-7/ CLI 6-7: ngx-build-plus@^7
-- Angular 8/ CLI 8: ngx-build-plus^8.0.0
-- Angular 9/ CLI 9: ngx-build-plus^9.0.0
-- Angular 10/ CLI 10: ngx-build-plus^10.0.0
-- Angular 11/ CLI 11: ngx-build-plus^11.0.0
-- Angular 12/ CLI 12: ngx-build-plus^12.0.0
-- Angular 13/ CLI 13: ngx-build-plus^13.0.0
-- Angular 14/ CLI 14: ngx-build-plus^14.0.0
+- Angular 8/ CLI 8: ngx-build-plus@^8.0.0
+- Angular 9/ CLI 9: ngx-build-plus@^9.0.0
+- Angular 10/ CLI 10: ngx-build-plus@^10.0.0
+- Angular 11/ CLI 11: ngx-build-plus@^11.0.0
+- Angular 12/ CLI 12: ngx-build-plus@^12.0.0
+- Angular 13/ CLI 13: ngx-build-plus@^13.0.0
+- Angular 14/ CLI 14: ngx-build-plus@^14.0.0
+- Angular 15/ CLI 15: ngx-build-plus@^15.0.0
 
 ## Updating to Version 8
 
