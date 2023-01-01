@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@schematics/angular": "^13.0.0",
-    "@angular-devkit/build-angular": "^13.0.0",
+    "@angular-devkit/build-angular": "^15.0.4",
     "webpack-merge": "^5.0.0"
   },
   "peerDependencies": {
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.900.0",
-    "@angular-devkit/build-angular": "~0.900.0",
+    "@angular-devkit/build-angular": "~15.0.4",
     "@angular-devkit/core": "^9.0.0",
     "@angular-devkit/schematics": "^9.0.0",
     "@types/node": "^10.12.18",
@@ -40,7 +40,7 @@
     "cpr": "^3.0.1",
     "rxjs": "^7.0.0",
     "typescript": "^3.4.5",
-    "webpack": "^4.28.4",
+    "webpack": "^5.75.0",
     "webpack-merge": "^4.2.1"
   }
 }
