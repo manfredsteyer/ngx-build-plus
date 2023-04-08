@@ -2,6 +2,7 @@
 
 # compiled output
 *.js
+!update-schemas.js
 *.d.ts
 /dist
 /tmp
