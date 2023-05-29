@@ -180,7 +180,7 @@ One more time, the ``~`` tells ngx-build-plus that the plugin is not an installe
 
 ## Advanced example: Externals and Angular Elements
 
-> Please note, that we don't recomment webpack externals anymore for several reasons (better alternatives, Angular now ships without UMD bundles, etc.). Instead we recomment [Webpack Module Federation](https://www.npmjs.com/package/@angular-architects/module-federation).
+> Please note, that we don't recommend webpack externals anymore for several reasons (better alternatives, Angular now ships without UMD bundles, etc.). Instead we recommend [Webpack Module Federation](https://www.npmjs.com/package/@angular-architects/module-federation).
 
 This shows another example for using ``ngx-build-plus``. It uses a custom webpack configuration to define some dependencies of an Angular Element as external which can be loaded separately into the browser and shared among several bundles.
 
