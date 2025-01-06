@@ -4,44 +4,14 @@
   "title": "Universal Target",
   "type": "object",
   "properties": {
-    "extraWebpackConfig": {
-      "type": "string",
-      "description": "Additional Webpack Config that gets merged with the default config."
+    "assets": {
+      "type": "array",
+      "description": "List of static application assets.",
+      "default": [],
+      "items": {
+        "$ref": "#/definitions/assetPattern"
+      }
     },
-    "singleBundle": {
-      "type": "boolean",
-      "description": "Puts everything reachable from main.ts (entries vendor, main, and runtime) into one bundle. All other entry points are removed. To also get polyfills and/or styles, use --keepPolyfills or --keepStyles",
-      "default": false
-    },
-    "keepPolyfills": {
-      "type": "boolean",
-      "description": "Generate polyfills bundle when using single-bundle",
-      "default": true
-    },
-    "configHook": {
-      "type": "string",
-      "description": "es module exporting a configHook function (default export).",
-      "default": ""
-    },
-
-    "plugin": {
-      "type": "string",
-      "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
-      "default": ""
-    },
-
-    "bundleStyles": {
-      "type": "boolean",
-      "description": "DEPRECATED: Use keepStyles instead",
-      "default": true
-    },
-
-    "keepStyles": {
-      "type": "boolean",
-      "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
-      "default": true
-    },
-    
     "main": {
       "type": "string",
       "description": "The name of the main entry-point file."
@@ -55,7 +25,12 @@
       "description": "The stylesheet language to use for the application's inline component styles.",
       "type": "string",
       "default": "css",
-      "enum": ["css", "less", "sass", "scss"]
+      "enum": [
+        "css",
+        "less",
+        "sass",
+        "scss"
+      ]
     },
     "stylePreprocessorOptions": {
       "description": "Options to pass to style preprocessors",
@@ -73,7 +48,7 @@
       "additionalProperties": false
     },
     "optimization": {
-      "description": "Enables optimization of the build output. Including minification of scripts and styles, tree-shaking and dead-code elimination. For more information, see https://angular.io/guide/workspace-config#optimization-configuration.",
+      "description": "Enables optimization of the build output. Including minification of scripts and styles, tree-shaking and dead-code elimination. For more information, see https://angular.dev/reference/configs/workspace-config#optimization-configuration.",
       "default": true,
       "x-user-analytics": "ep.ng_optimization",
       "oneOf": [
@@ -115,7 +90,7 @@
       "description": "The path where style resources will be placed, relative to outputPath."
     },
     "sourceMap": {
-      "description": "Output source maps for scripts and styles. For more information, see https://angular.io/guide/workspace-config#source-map-configuration.",
+      "description": "Output source maps for scripts and styles. For more information, see https://angular.dev/reference/configs/workspace-config#source-map-configuration.",
       "default": false,
       "oneOf": [
         {
@@ -151,8 +126,7 @@
     },
     "deployUrl": {
       "type": "string",
-      "description": "URL where files will be deployed.",
-      "x-deprecated": "Use \"baseHref\" browser builder option, \"APP_BASE_HREF\" DI token or a combination of both instead. For more information, see https://angular.io/guide/deployment#the-deploy-url."
+      "description": "Customize the base path for the URLs of resources in 'index.html' and component stylesheets. This option is only necessary for specific deployment scenarios, such as with Angular Elements or when utilizing different CDN locations."
     },
     "vendorChunk": {
       "type": "boolean",
@@ -172,13 +146,21 @@
     "i18nMissingTranslation": {
       "type": "string",
       "description": "How to handle missing translations for i18n.",
-      "enum": ["warning", "error", "ignore"],
+      "enum": [
+        "warning",
+        "error",
+        "ignore"
+      ],
       "default": "warning"
     },
     "i18nDuplicateTranslation": {
       "type": "string",
       "description": "How to handle duplicate translations for i18n.",
-      "enum": ["warning", "error", "ignore"],
+      "enum": [
+        "warning",
+        "error",
+        "ignore"
+      ],
       "default": "warning"
     },
     "localize": {
@@ -203,7 +185,12 @@
       "type": "string",
       "description": "Define the output filename cache-busting hashing mode.",
       "default": "none",
-      "enum": ["none", "all", "media", "bundles"]
+      "enum": [
+        "none",
+        "all",
+        "media",
+        "bundles"
+      ]
     },
     "deleteOutputPath": {
       "type": "boolean",
@@ -217,6 +204,11 @@
     "extractLicenses": {
       "type": "boolean",
       "description": "Extract all licenses in a separate file, in the case of production builds only.",
+      "default": true
+    },
+    "buildOptimizer": {
+      "type": "boolean",
+      "description": "Enables advanced build optimizations.",
       "default": true
     },
     "namedChunks": {
@@ -245,11 +237,91 @@
     "poll": {
       "type": "number",
       "description": "Enable and define the file watching poll time period in milliseconds."
+    },
+    "extraWebpackConfig": {
+      "type": "string",
+      "description": "Additional Webpack Config that gets merged with the default config."
+    },
+    "singleBundle": {
+      "type": "boolean",
+      "description": "Puts everything reachable from main.ts (entries vendor, main, and runtime) into one bundle. All other entry points are removed. To also get polyfills and/or styles, use --keepPolyfills or --keepStyles",
+      "default": false
+    },
+    "keepPolyfills": {
+      "type": "boolean",
+      "description": "Generate polyfills bundle when using single-bundle",
+      "default": true
+    },
+    "configHook": {
+      "type": "string",
+      "description": "es module exporting a configHook function (default export).",
+      "default": ""
+    },
+    "plugin": {
+      "type": "string",
+      "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
+      "default": ""
+    },
+    "bundleStyles": {
+      "type": "boolean",
+      "description": "DEPRECATED: Use keepStyles instead",
+      "default": true
+    },
+    "keepStyles": {
+      "type": "boolean",
+      "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
+      "default": true
     }
   },
   "additionalProperties": false,
-  "required": ["outputPath", "main", "tsConfig"],
+  "required": [
+    "outputPath",
+    "main",
+    "tsConfig"
+  ],
   "definitions": {
+    "assetPattern": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "followSymlinks": {
+              "type": "boolean",
+              "default": false,
+              "description": "Allow glob patterns to follow symlink directories. This allows subdirectories of the symlink to be searched."
+            },
+            "glob": {
+              "type": "string",
+              "description": "The pattern to match."
+            },
+            "input": {
+              "type": "string",
+              "description": "The input directory path in which to apply 'glob'. Defaults to the project root."
+            },
+            "ignore": {
+              "description": "An array of globs to ignore.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "output": {
+              "type": "string",
+              "default": "",
+              "description": "Absolute path within the output."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "glob",
+            "input"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
     "fileReplacement": {
       "oneOf": [
         {
@@ -257,30 +329,36 @@
           "properties": {
             "src": {
               "type": "string",
-              "pattern": "\\.(([cm]?j|t)sx?|json)$"
+              "pattern": "\\.(([cm]?[jt])sx?|json)$"
             },
             "replaceWith": {
               "type": "string",
-              "pattern": "\\.(([cm]?j|t)sx?|json)$"
+              "pattern": "\\.(([cm]?[jt])sx?|json)$"
             }
           },
           "additionalProperties": false,
-          "required": ["src", "replaceWith"]
+          "required": [
+            "src",
+            "replaceWith"
+          ]
         },
         {
           "type": "object",
           "properties": {
             "replace": {
               "type": "string",
-              "pattern": "\\.(([cm]?j|t)sx?|json)$"
+              "pattern": "\\.(([cm]?[jt])sx?|json)$"
             },
             "with": {
               "type": "string",
-              "pattern": "\\.(([cm]?j|t)sx?|json)$"
+              "pattern": "\\.(([cm]?[jt])sx?|json)$"
             }
           },
           "additionalProperties": false,
-          "required": ["replace", "with"]
+          "required": [
+            "replace",
+            "with"
+          ]
         }
       ]
     }

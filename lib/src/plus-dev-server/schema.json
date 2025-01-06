@@ -4,48 +4,10 @@
   "description": "Dev Server target options for Build Facade.",
   "type": "object",
   "properties": {
-    "extraWebpackConfig": {
+    "buildTarget": {
       "type": "string",
-      "description": "Additional Webpack Config that gets merged with the default config."
-    },
-    "singleBundle": {
-      "type": "boolean",
-      "description": "Puts everything reachable from main.ts (entries vendor, main, and runtime) into one bundle. All other entry points are removed. To also get polyfills and/or styles, use --keepPolyfills or --keepStyles",
-      "default": false
-    },
-    "keepPolyfills": {
-      "type": "boolean",
-      "description": "Generate polyfills bundle when using single-bundle",
-      "default": true
-    },
-    "configHook": {
-      "type": "string",
-      "description": "es module exporting a configHook function (default export).",
-      "default": ""
-    },
-
-    "plugin": {
-      "type": "string",
-      "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
-      "default": ""
-    },
-
-    "bundleStyles": {
-      "type": "boolean",
-      "description": "DEPRECATED: Use keepStyles instead",
-      "default": true
-    },
-
-    "keepStyles": {
-      "type": "boolean",
-      "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
-      "default": true
-    },
-    
-    "browserTarget": {
-      "type": "string",
-      "description": "A browser builder target to serve in the format of `project:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
-      "pattern": "^[^:\\s]+:[^:\\s]+(:[^\\s]+)?$"
+      "description": "A build builder target to serve in the format of `project:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
+      "pattern": "^[^:\\s]*:[^:\\s]*(:[^\\s]+)?$"
     },
     "port": {
       "type": "number",
@@ -59,7 +21,7 @@
     },
     "proxyConfig": {
       "type": "string",
-      "description": "Proxy configuration file. For more information, see https://angular.io/guide/build#proxying-to-a-backend-server."
+      "description": "Proxy configuration file. For more information, see https://angular.dev/tools/cli/serve#proxying-to-a-backend-server."
     },
     "ssl": {
       "type": "boolean",
@@ -101,11 +63,11 @@
     },
     "publicHost": {
       "type": "string",
-      "description": "The URL that the browser client (or live-reload client, if enabled) should use to connect to the development server. Use for a complex dev server setup, such as one with reverse proxies."
+      "description": "The URL that the browser client (or live-reload client, if enabled) should use to connect to the development server. Use for a complex dev server setup, such as one with reverse proxies. This option has no effect when using the 'application' or other esbuild-based builders."
     },
     "allowedHosts": {
       "type": "array",
-      "description": "List of hosts that are allowed to access the dev server.",
+      "description": "List of hosts that are allowed to access the dev server. This option has no effect when using the 'application' or other esbuild-based builders.",
       "default": [],
       "items": {
         "type": "string"
@@ -117,13 +79,12 @@
     },
     "disableHostCheck": {
       "type": "boolean",
-      "description": "Don't verify connected clients are part of allowed hosts.",
+      "description": "Don't verify connected clients are part of allowed hosts. This option has no effect when using the 'application' or other esbuild-based builders.",
       "default": false
     },
     "hmr": {
       "type": "boolean",
-      "description": "Enable hot module replacement.",
-      "default": false
+      "description": "Enable hot module replacement."
     },
     "watch": {
       "type": "boolean",
@@ -133,8 +94,86 @@
     "poll": {
       "type": "number",
       "description": "Enable and define the file watching poll time period in milliseconds."
+    },
+    "inspect": {
+      "default": false,
+      "description": "Activate debugging inspector. This option only has an effect when 'SSR' or 'SSG' are enabled.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Activate the inspector on host and port in the format of `[[host:]port]`. See the security warning in https://nodejs.org/docs/latest-v22.x/api/cli.html#warning-binding-inspector-to-a-public-ipport-combination-is-insecure regarding the host parameter usage."
+        },
+        {
+          "type": "boolean"
+        }
+      ]
+    },
+    "forceEsbuild": {
+      "type": "boolean",
+      "description": "Force the development server to use the 'browser-esbuild' builder when building. This is a developer preview option for the esbuild-based build system.",
+      "default": false
+    },
+    "prebundle": {
+      "description": "Enable and control the Vite-based development server's prebundling capabilities. To enable prebundling, the Angular CLI cache must also be enabled. This option has no effect when using the 'browser' or other Webpack-based builders.",
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exclude": {
+              "description": "List of package imports that should not be prebundled by the development server. The packages will be bundled into the application code itself.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "exclude"
+          ]
+        }
+      ]
+    },
+    "extraWebpackConfig": {
+      "type": "string",
+      "description": "Additional Webpack Config that gets merged with the default config."
+    },
+    "singleBundle": {
+      "type": "boolean",
+      "description": "Puts everything reachable from main.ts (entries vendor, main, and runtime) into one bundle. All other entry points are removed. To also get polyfills and/or styles, use --keepPolyfills or --keepStyles",
+      "default": false
+    },
+    "keepPolyfills": {
+      "type": "boolean",
+      "description": "Generate polyfills bundle when using single-bundle",
+      "default": true
+    },
+    "configHook": {
+      "type": "string",
+      "description": "es module exporting a configHook function (default export).",
+      "default": ""
+    },
+    "plugin": {
+      "type": "string",
+      "description": "es module exporting a Plugin object (default export). Just used for ng build; not for ng serve",
+      "default": ""
+    },
+    "bundleStyles": {
+      "type": "boolean",
+      "description": "DEPRECATED: Use keepStyles instead",
+      "default": true
+    },
+    "keepStyles": {
+      "type": "boolean",
+      "description": "Used conjunction with 'singleBundle' to explizitly bundle styles",
+      "default": true
     }
   },
   "additionalProperties": false,
-  "required": ["browserTarget"]
+  "required": [
+    "buildTarget"
+  ]
 }

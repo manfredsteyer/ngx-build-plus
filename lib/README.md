@@ -25,6 +25,9 @@ Big thanks to [Rob Wormald](https://twitter.com/robwormald) and [David Herges](h
 - Angular 13/ CLI 13: ngx-build-plus@^13.0.0
 - Angular 14/ CLI 14: ngx-build-plus@^14.0.0
 - Angular 15/ CLI 15: ngx-build-plus@^15.0.0
+- Angular 16/ CLI 16: ngx-build-plus@^16.0.0
+- Angular 17/ CLI 17: ngx-build-plus@^17.0.0
+- Angular 18/ CLI 18: ngx-build-plus@^18.0.0
 
 ## Updating to Version 8
 
