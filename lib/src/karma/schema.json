@@ -298,6 +298,11 @@
       "type": "string",
       "description": "TypeScript configuration for Web Worker modules."
     },
+    "aot": {
+      "type": "boolean",
+      "description": "Run tests using Ahead of Time compilation.",
+      "default": false
+    },
     "extraWebpackConfig": {
       "type": "string",
       "description": "Additional Webpack Config that gets merged with the default config."

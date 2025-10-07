@@ -38,6 +38,15 @@
       "type": "string",
       "description": "Name of the file to output."
     },
+    "i18nDuplicateTranslation": {
+      "type": "string",
+      "description": "How to handle duplicate translations.",
+      "enum": [
+        "error",
+        "warning",
+        "ignore"
+      ]
+    },
     "extraWebpackConfig": {
       "type": "string",
       "description": "Additional Webpack Config that gets merged with the default config."
