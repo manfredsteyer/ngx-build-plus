@@ -56,6 +56,8 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
   transforms[configTransformerName] = (config: webpack.Configuration) => {
 
     if (options.singleBundle) {
+      config.output = {...config.output, asyncChunks: false };
+
       if (!options.keepPolyfills && config.entry && config.entry['polyfills']) {
         delete config.entry['polyfills'];
       }
@@ -70,7 +72,7 @@ function setupConfigHook(transforms: Transforms, options: any, context: BuilderC
 
     const keepStyles = !options.bundleStyles || options.keepStyles;
 
-    if (options.singleBundle && ! keepStyles && config.entry && config.entry['styles']) {
+    if (options.singleBundle && !keepStyles && config.entry && config.entry['styles']) {
       delete config.entry['styles'];
     }
 
